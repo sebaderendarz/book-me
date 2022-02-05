@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  api:
+    build: 
+      context: ./api
+      target: production
+    restart: always
+    links: 
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
+    command: sh -c "daphne --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
+    volumes:
+      - ./persistent_data/media:/var/lib/media
+      - ./persistent_data/static:/var/lib/static
+      - ./persistent_data/log/api/django:/var/log/api/django
+      - ./persistent_data/log/api/gunicorn:/var/log/api/gunicorn
+    environment:
+      - CELERY_BROKER_URL
+      - CELERY_RESULT_BACKEND
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_CORS_ALLOW_CREDENTIALS
+      - DJANGO_CORS_ORIGIN_WHITELIST
+      - DJANGO_CSRF_TRUSTED_ORIGINS
+      - DJANGO_DEBUG
+      - DJANGO_LOG_LEVEL
+      - DJANGO_MEDIA_URL
+      - DJANGO_SECRET_KEY
+      - DJANGO_SETTINGS_MODULE
+      - DJANGO_STATIC_URL
+      - POSTGRES_DB
+      - POSTGRES_HOST
+      - POSTGRES_PASSWORD
+      - POSTGRES_PORT
+      - POSTGRES_USER
+
+  # frontend:
+  #   image: barbershop_frontend
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   restart: always
+  #   volumes:
+  #     - ./persistent_data/log/nginx:/var/log/nginx/
+  #   ports:
+  #     - 1337:80
+  #   links:
+  #     - api
+  #   depends_on:
+  #     - api
+  #   environment: 
+  #     - REACT_APP_API_BASE_URL
+  #     - REACT_APP_WS_BASE_URL
+
+  db:
+    image: postgres:14.1
+    restart: always
+    volumes:
+      - ./persistent_data/pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+
+  redis:
+    image: redis:6.2-buster
+    restart: always

@@ -9,6 +9,7 @@ build
 _build
 .cache
 *.so
+*__pycache__*
 
 # Installer logs
 pip-log.txt
@@ -43,5 +44,4 @@ api_rest/poetry.lock
 .env
 persistent_data
 */tmp/*
-poetry.lock
 node_modules

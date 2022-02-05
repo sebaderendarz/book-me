@@ -12,6 +12,7 @@ services:
     depends_on:
       - db
       - redis
+    #TODO Doesn't work with Dockerfile production version. Error: 'sh: 1: daphne: not found'
     command: sh -c "daphne --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
     volumes:
       - ./persistent_data/media:/var/lib/media

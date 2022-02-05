@@ -9,8 +9,8 @@ ENV PIP_NO_CACHE_DIR=off \
     PIP_DEFAULT_TIMEOUT=100
 
 ENV POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    POETRY_VIRTUALENVS_CREATE=true \
+    POETRY_VIRTUALENVS_IN_PROJECT=false \
+    POETRY_VIRTUALENVS_CREATE=false \
     POETRY_NO_INTERACTION=1
 
 ENV PYSETUP_PATH="/opt/pysetup" \
@@ -31,7 +31,7 @@ WORKDIR $PYSETUP_PATH
 # change in pyproject.toml. It makes a build process significantly faster and we are sure that
 # the exactly same versions of dependencies are installed as specified in poetry.lock file.
 COPY pyproject.toml poetry.lock ./
-RUN poetry install --no-dev
+
 
 # development version
 FROM base as development
@@ -52,5 +52,7 @@ FROM base as production
 ENV RUN_ENV=production
 
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+RUN poetry install --no-dev
 COPY . /app/
+
 WORKDIR /app

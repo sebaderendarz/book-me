@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = ""
+authors = ["Sebastian Derendarz <Derendarz99@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^4.0"
+daphne = "^3.0"
+djangorestframework = "^3.13.1"
+shortuuid = "^1.0.8"
+channels = "^3.0.4"
+django-cors-headers = "^3.11.0"
+psycopg2-binary = "^2.9.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

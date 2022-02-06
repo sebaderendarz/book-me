@@ -12,14 +12,14 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 
-from .utils import get_env_value
+from api.core import utils
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = get_env_value('DJANGO_SECRET_KEY')
-DEBUG = get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
-ALLOWED_HOSTS = get_env_value('DJANGO_ALLOWED_HOSTS').split()
+SECRET_KEY = utils.get_env_value('DJANGO_SECRET_KEY')
+DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
+ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
 # NOTE psycopg2-binary dependency must be installed to make django app working with postgres.
 # TODO not sure if needed | install -> add to installed apps
@@ -73,11 +73,11 @@ ASGI_APPLICATION = 'core.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_env_value('POSTGRES_DB'),
-        'HOST': get_env_value('POSTGRES_HOST', 'db'),
-        'USER': get_env_value('POSTGRES_USER'),
-        'PASSWORD': get_env_value('POSTGRES_PASSWORD'),
-        'PORT': int(get_env_value('POSTGRES_PORT', '5432')),
+        'NAME': utils.get_env_value('POSTGRES_DB'),
+        'HOST': utils.get_env_value('POSTGRES_HOST', 'db'),
+        'USER': utils.get_env_value('POSTGRES_USER'),
+        'PASSWORD': utils.get_env_value('POSTGRES_PASSWORD'),
+        'PORT': int(utils.get_env_value('POSTGRES_PORT', '5432')),
     }
 }
 
@@ -106,7 +106,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [get_env_value("CELERY_BROKER_URL")],
+            "hosts": [utils.get_env_value("CELERY_BROKER_URL")],
         },
     },
 }
@@ -124,22 +124,22 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-MEDIA_URL = get_env_value('DJANGO_MEDIA_URL')
+MEDIA_URL = utils.get_env_value('DJANGO_MEDIA_URL')
 MEDIA_ROOT = '/var/lib/media'
 
-STATIC_URL = get_env_value('DJANGO_STATIC_URL')
+STATIC_URL = utils.get_env_value('DJANGO_STATIC_URL')
 STATIC_ROOT = '/var/lib/static'
 
-DJANGO_LOG_LEVEL = get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
+DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
 
-CELERY_BROKER_URL = get_env_value('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = get_env_value('CELERY_RESULT_BACKEND')
+CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = get_env_value('DJANGO_CORS_ORIGIN_WHITELIST').split()
-CSRF_TRUSTED_ORIGINS = get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split()
-CORS_ALLOW_CREDENTIALS = get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
+CORS_ORIGIN_WHITELIST = utils.get_env_value('DJANGO_CORS_ORIGIN_WHITELIST').split()
+CSRF_TRUSTED_ORIGINS = utils.get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split()
+CORS_ALLOW_CREDENTIALS = utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
 
-#TODO THIS ONE IS PROBABLY PRETTY IMPORTANT. GOOGLE IT TO MAKE SURE
+#TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
 ROOT_URL = 'http://172.104.240.119:3000'
 
 

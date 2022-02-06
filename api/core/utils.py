@@ -8,7 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def get_env_value(env_variable, default=None):
-    """Get environment variable by name.
+    '''Get environment variable by name.
 
     Raise error when environment variable is missing and default value is not set.
 
@@ -17,7 +17,7 @@ def get_env_value(env_variable, default=None):
         default: default value
     Returns:
         Value taken from environment variable or default value
-    """
+    '''
 
     try:
         return os.environ[env_variable]
@@ -25,4 +25,4 @@ def get_env_value(env_variable, default=None):
         if default is not None:
             return default
         else:
-            raise ImproperlyConfigured(f"Set the {env_variable} environment variable")
+            raise ImproperlyConfigured(f'Set the {env_variable} environment variable')

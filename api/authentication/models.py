@@ -1,12 +1,12 @@
 import uuid
 
-from django.contrib import auth as auth_models
+from django.contrib.auth import models as auth_models
 from django.contrib.auth import password_validation
 from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as __
 
-from api.auth import utils, value_objects
+from authentication import utils, value_objects
 
 
 class UserManager(auth_models.BaseUserManager):

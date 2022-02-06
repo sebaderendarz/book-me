@@ -3,7 +3,7 @@ import typing
 from django.core import exceptions
 from django.utils import timezone
 
-from api.core import utils
+from core import utils
 
 
 def get_email_confirmation_token_expiration_time() -> timezone.datetime:

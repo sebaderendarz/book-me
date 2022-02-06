@@ -8,6 +8,7 @@ ENV PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100
 
+# envs set to 'false' because we don't need to create virtualenvs inside a container
 ENV POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=false \
     POETRY_VIRTUALENVS_CREATE=false \
@@ -33,14 +34,16 @@ WORKDIR $PYSETUP_PATH
 COPY pyproject.toml poetry.lock ./
 
 
+# NOTE: Not 100% sure that thanks to this configuration docker image will be fully optimized.
 # development version
 FROM base as development
 
 ENV RUN_ENV=development
 
-WORKDIR $PYSETUP_PATH
+# we must copy from builder-base because we install poetry in this stage
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+WORKDIR $PYSETUP_PATH
 RUN poetry install
 
 WORKDIR /app
@@ -51,8 +54,10 @@ FROM base as production
 
 ENV RUN_ENV=production
 
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+WORKDIR $PYSETUP_PATH
 RUN poetry install --no-dev
-COPY . /app/
+COPY . /app
 
 WORKDIR /app

@@ -6,13 +6,9 @@ services:
       context: ./api
       target: production
     restart: always
-    links: 
-      - db
-      - redis
     depends_on:
       - db
       - redis
-    #TODO Doesn't work with Dockerfile production version. Error: 'sh: 1: daphne: not found'
     command: sh -c "daphne --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
     volumes:
       - ./persistent_data/media:/var/lib/media
@@ -38,23 +34,20 @@ services:
       - POSTGRES_PORT
       - POSTGRES_USER
 
-  # frontend:
-  #   image: barbershop_frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.prod
-  #   restart: always
-  #   volumes:
-  #     - ./persistent_data/log/nginx:/var/log/nginx/
-  #   ports:
-  #     - 1337:80
-  #   links:
-  #     - api
-  #   depends_on:
-  #     - api
-  #   environment: 
-  #     - REACT_APP_API_BASE_URL
-  #     - REACT_APP_WS_BASE_URL
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    restart: always
+    volumes:
+      - ./persistent_data/log/nginx:/var/log/nginx/
+    ports:
+      - 1337:80
+    depends_on:
+      - api
+    environment: 
+      - REACT_APP_API_BASE_URL
+      - REACT_APP_WS_BASE_URL
 
   db:
     image: postgres:14.1

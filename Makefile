@@ -24,7 +24,7 @@ pause-dev: ## pause development services (useful to save CPU)
 	docker-compose $(DEV_COMPOSE) pause $(containers)
 
 start-dev: ## start development services
-	docker-compose $(DEV_COMPOSE) stop $(containers)
+	docker-compose $(DEV_COMPOSE) start $(containers)
 
 stop-dev: ## stop development services
 	docker-compose $(DEV_COMPOSE) stop $(containers)
@@ -53,7 +53,7 @@ pause-stg: ## pause staging/QA services (useful to save CPU)
 	docker-compose $(STG_COMPOSE) pause $(containers)
 
 start-stg: ## start staging/QA services
-	docker-compose $(STG_COMPOSE) stop $(containers)
+	docker-compose $(STG_COMPOSE) start $(containers)
 
 stop-stg: ## stop staging/QA services
 	docker-compose $(STG_COMPOSE) stop $(containers)

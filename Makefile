@@ -65,4 +65,18 @@ build-stg: ## build staging/QA services
 	docker-compose $(STG_COMPOSE) build --no-cache $(containers)
 
 restart-service-stg: ## restart staging/QA service, usage: `make service=api restart-service-stg`
-	docker-compose $(DEV_COMPOSE) restart $(service)
+	docker-compose $(STG_COMPOSE) restart $(service)
+
+
+# ==========================================================================================================
+# django commands
+# ==========================================================================================================
+
+django-makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
+	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(apps)
+
+django-migrate-dev: ## apply migration for django app, usage: `make app='barber' django-migrate-dev`
+	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(app)
+
+django-migrate-stg: ## apply migration for django app, usage: `make app='barber' django-migrate-stg`
+	docker-compose $(STG_COMPOSE) exec -T api python manage.py migrate $(app)

@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as __
 
 from authentication import utils, value_objects
 
-
+# TODO Command `python manage.py createsuperuser` doesn't work.
 class UserManager(auth_models.BaseUserManager):
     '''Form for creating all types of users.'''
 

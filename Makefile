@@ -73,7 +73,7 @@ restart-service-stg: ## restart staging/QA service, usage: `make service=api res
 # ==========================================================================================================
 
 django-makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
-	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(apps)
+	docker-compose $(DEV_COMPOSE) exec -T api python manage.py makemigrations $(apps)
 
 django-migrate-dev: ## apply migration for django app, usage: `make app='barber' django-migrate-dev`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(app)

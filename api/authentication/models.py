@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as __
 
 from authentication import utils, value_objects
 
-# TODO Command `python manage.py createsuperuser` doesn't work.
+
 class UserManager(auth_models.BaseUserManager):
     '''Form for creating all types of users.'''
 
@@ -21,9 +21,12 @@ class UserManager(auth_models.BaseUserManager):
     def create_customer(self, email: str, name: str, password: str, surname: str) -> 'User':
         return self._create_user(account_type=value_objects.AccountType.CUSTOMER, email=email, name=name, password=password, surname=surname)
 
+    def create_superuser(self, email: str, name: str, password: str, surname: str) -> 'User':
+        return self._create_user(account_type=value_objects.AccountType.ADMIN, email=email, name=name, password=password, surname=surname)
+
     def _create_user(self, account_type: value_objects.AccountType, email: str, name: str, password: str, surname: str) -> 'User':
         user = self.model(
-            account_type=account_type,
+            account_type=account_type.name,
             email=self.normalize_email(email),
             name=name,
             surname=surname,
@@ -62,7 +65,7 @@ class User(auth_models.AbstractBaseUser):
     account_type = models.CharField(__('Account Type'), **utils.enum_to_char_field_args(value_objects.AccountType))
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email', 'name', 'surname']
+    REQUIRED_FIELDS = ['name', 'surname']
 
     objects = UserManager()
 

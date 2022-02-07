@@ -13,6 +13,7 @@ shortuuid = "^1.0.8"
 channels = "^3.0.4"
 django-cors-headers = "^3.11.0"
 psycopg2-binary = "^2.9.3"
+Pillow = "^9.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

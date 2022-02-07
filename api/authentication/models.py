@@ -6,7 +6,8 @@ from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as __
 
-from authentication import utils, value_objects
+from authentication import utils as auth_utils, value_objects
+from core import utils as core_utils
 
 
 class UserManager(auth_models.BaseUserManager):
@@ -43,26 +44,23 @@ class User(auth_models.AbstractBaseUser):
         __('Email'),
         max_length=150,
         unique=True,
-        help_text=__('Valid email address is required'),
     )
     name = models.CharField(
         __('Name'),
         max_length=100,
         validators=[validators.MinLengthValidator(2)],
-        help_text=__('Valid name is required'),
     )
     surname = models.CharField(
         __('Surname'),
         max_length=150,
         validators=[validators.MinLengthValidator(2)],
-        help_text=__('Valid surname is required'),
     )
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     email_confirmation_token = models.UUIDField(default=uuid.uuid4)
-    email_confirmation_token_ttl = models.DateTimeField(default=utils.get_email_confirmation_token_expiration_time)
-    account_status = models.CharField(__('Account Status'), default=value_objects.AccountStatus.UNDER_VERIFICATION.name, **utils.enum_to_char_field_args(value_objects.AccountStatus))
-    account_type = models.CharField(__('Account Type'), **utils.enum_to_char_field_args(value_objects.AccountType))
+    email_confirmation_token_ttl = models.DateTimeField(default=auth_utils.get_email_confirmation_token_expiration_time)
+    account_status = models.CharField(__('Account Status'), default=value_objects.AccountStatus.UNDER_VERIFICATION.name, **core_utils.enum_to_char_field_args(value_objects.AccountStatus))
+    account_type = models.CharField(__('Account Type'), **core_utils.enum_to_char_field_args(value_objects.AccountType))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname']

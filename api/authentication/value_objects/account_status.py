@@ -2,7 +2,7 @@ import enum
 
 
 class AccountStatus(enum.Enum):
-    ACTIVE = 'ACTIVE'
-    CLOSED = 'CLOSED'  # Personal data is not deleted
-    DELETED = 'DELETED'
-    UNDER_VERIFICATION = 'UNDER_VERIFICATION'
+    ACTIVE = 'Active'
+    CLOSED = 'Closed'  # Personal data is not deleted
+    DELETED = 'Deleted'
+    UNDER_VERIFICATION = 'Under Verification'

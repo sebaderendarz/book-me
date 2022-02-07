@@ -1,4 +1,4 @@
-.PHONY: help up-dev pause-dev start-dev clean-dev build-dev restart-service-dev reload-service-dev up-stg pause-stg start-stg stop-stg clean-stg build-stg restart-service-stg
+.PHONY: help up-dev pause-dev start-dev stop-dev clean-dev build-dev restart-service-dev reload-service-dev up-stg pause-stg start-stg stop-stg clean-stg build-stg restart-service-stg django-makemigrations django-migrate-dev django-migrate-stg django
 
 # docker-compose stacks
 DEV_COMPOSE=--file docker-compose.yml --file docker-compose_dev.yml
@@ -69,14 +69,26 @@ restart-service-stg: ## restart staging/QA service, usage: `make service=api res
 
 
 # ==========================================================================================================
-# django commands
+# Django commands
 # ==========================================================================================================
 
 django-makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py makemigrations $(apps)
 
+django-dev: ## run django management commands via make in development environment, usage: `make django-dev cmd='makemigrations barber'`
+	docker-compose $(DEV_COMPOSE) exec api python manage.py $(cmd)
+
 django-migrate-dev: ## apply migration for django app, usage: `make app='barber' django-migrate-dev`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(app)
 
+django-superuser-dev: ## create admin account in development environment
+	docker-compose $(DEV_COMPOSE) exec api python manage.py createsuperuser
+
+django-stg: ## run django management commands via make in staging/QA environment, usage: `make django-stg cmd='migrate barber'`
+	docker-compose $(STG_COMPOSE) exec api python manage.py $(cmd)
+
 django-migrate-stg: ## apply migration for django app, usage: `make app='barber' django-migrate-stg`
 	docker-compose $(STG_COMPOSE) exec -T api python manage.py migrate $(app)
+
+django-superuser-stg: ## create admin account in staging/QA environment
+	docker-compose $(STG_COMPOSE) exec api python manage.py createsuperuser

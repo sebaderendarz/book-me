@@ -9,6 +9,8 @@ from barber import value_objects
 
 
 class ServiceOffer(models.Model):
+    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     barber_name = models.CharField(
         __('Barber Name'),
         max_length=100,
@@ -29,11 +31,9 @@ class ServiceOffer(models.Model):
         max_length=400,
     )
     price = models.DecimalField(
-        __('Price'), max_digits=9, decimal_places=2, validators=[validators.MinValueValidator(decimal.Decimal("0.01"))]
+        __('Price'), max_digits=9, decimal_places=2, validators=[validators.MinValueValidator(decimal.Decimal('0.01'))]
     )
-    image = models.ImageField(__('Barber Image'), upload_to="barber/service_offer", blank=True)
-    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
+    image = models.ImageField(__('Barber Image'), upload_to='barber/service_offer', blank=True)
     specialization = models.CharField(__('Specialization'), **utils.enum_to_char_field_args(value_objects.BarberSpecialization))
     status = models.CharField(__('Status'), **utils.enum_to_char_field_args(value_objects.OfferStatus))
     open_hours = models.CharField(__('Open Hours'), **utils.enum_to_char_field_args(value_objects.OpenHours))
@@ -41,12 +41,12 @@ class ServiceOffer(models.Model):
 
 
 class ServiceUnavailability(models.Model):
+    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
+    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     start_date = models.DateField(__('Start Date'))
     end_date = models.DateField(__('End Date'))
     reason = models.CharField(
         __('Reason'),
         max_length=400,
     )
-    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     service_offer = models.ForeignKey(ServiceOffer, on_delete=models.PROTECT)

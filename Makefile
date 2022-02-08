@@ -44,7 +44,7 @@ reload-service-dev: ## reload development service, usage: `make service=api relo
 format-api: ## format code in api
 	@docker-compose $(DEV_COMPOSE) exec -T api ./scripts/run_code_formatters.sh .
 
-lint-api: ## ## run linters for api
+lint-api: ## run linters for api
 	@docker-compose $(DEV_COMPOSE) exec -T api ./scripts/run_linters.sh .
 
 

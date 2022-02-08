@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from django.core.exceptions import ImproperlyConfigured
 
@@ -6,7 +7,7 @@ from django.core.exceptions import ImproperlyConfigured
 # from modules specified in INSTALLED_APPS in this file
 
 
-def get_env_value(env_variable, default=None):
+def get_env_value(env_variable: str, default: Any = None) -> Any:
     '''Get environment variable by name.
 
     Raise error when environment variable is missing and default value is not set.

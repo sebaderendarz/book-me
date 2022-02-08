@@ -110,7 +110,7 @@ class User(auth_models.AbstractBaseUser):
 
         return f'{self.name} {self.surname}'
 
-    def delete(self) -> None:
+    def delete(self) -> None:  # type: ignore
         '''Override model delete method to soft delete User.'''
 
         if self.account_status not in (

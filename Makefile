@@ -41,8 +41,11 @@ restart-service-dev: ## restart development service, usage: `make service=api re
 reload-service-dev: ## reload development service, usage: `make service=api reload-service-dev`
 	docker-compose $(DEV_COMPOSE) up -d --build --no-deps $(service)
 
-format-api: ## format code in api (black, isort)
+format-api: ## format code in api
 	@docker-compose $(DEV_COMPOSE) exec -T api ./scripts/run_code_formatters.sh .
+
+lint-api: ## ## run linters for api
+	@docker-compose $(DEV_COMPOSE) exec -T api ./scripts/run_linters.sh .
 
 
 # ==========================================================================================================

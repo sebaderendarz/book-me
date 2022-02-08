@@ -2,7 +2,6 @@ import os
 
 from django.core.exceptions import ImproperlyConfigured
 
-
 # because get_env_value is called in setttings.py we cannot import
 # from modules specified in INSTALLED_APPS in this file
 

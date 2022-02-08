@@ -7,9 +7,11 @@ from django.core import exceptions
 class PasswordLengthValidator:
     '''Validate whether password is between 8 and 30 characters length.'''
 
-    def validate(self, password: str, user: Optional[models.AbstractUser] = None) -> str:
+    def validate(
+        self, password: str, user: Optional[models.AbstractUser] = None  # pylint: disable=W0613
+    ) -> str:
         error_message = 'Provide password that is between 8 and 30 characters length.'
-        if password != None:
+        if password is not None:
             if len(password) < 8 or len(password) > 30:
                 raise exceptions.ValidationError(error_message)
 

@@ -23,6 +23,8 @@ mypy = "0.931"
 flake8 = "^4.0.1"
 pylint = "^2.12.2"
 django-stubs = "^1.9.0"
+pyproject-flake8 = "0.0.1a2"
+pylint-django = "^2.5.0"
 
 [tool.black]
 line_length = 100
@@ -30,6 +32,11 @@ skip_string_normalization = true
 skip_numeric_underscore_normalization = true
 target_version = ["py39"]
 exclude = "migrations/"
+
+[tool.flake8]
+max-line-length = 100
+max-complexity = 10
+exclude = "migrations"
 
 [tool.isort]
 combine_as_imports = true
@@ -58,6 +65,35 @@ ignore_errors = true
 
 [tool.django-stubs]
 django_settings_module = "core.config.settings"
+
+[tool.pylint.master]
+load-plugins = "pylint_django"
+argument-rgx = "[a-z_][a-z0-9_]{2,45}$"
+function-rgx = "[a-z_][a-z0-9_]{2,98}$"
+method-rgx = "[a-z_][a-z0-9_]{2,45}$"
+extension-pkg-whitelist = "lxml"
+django-settings-module = "core.config.settings"
+ignore = "scripts"
+
+[tool.pylint.format]
+max-line-length = 100
+
+[tool.pylint.messages_control]
+# 'line-too-long' is handled by black
+# 'bad-continuation' is incompatible with black
+disable = "bad-continuation,fixme,line-too-long,missing-docstring,no-member,no-self-use,raise-missing-from,redefined-outer-name,too-few-public-methods"
+
+[tool.pylint.design]
+max-parents = 16
+
+[tool.pylint.typecheck]
+generated-members = 'REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete'
+
+[tool.pylint.similarities]
+ignore-imports = "yes"
+ignore-comments = "yes"
+ignore-docstrings = "yes"
+min-similarity-lines = 7
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

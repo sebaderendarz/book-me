@@ -26,8 +26,8 @@ urlpatterns = [
 ]
 
 # TODO Fix static files loading. Missing CSS in Django Admin.
-# For production may be needed nginx config like in the best answer: https://stackoverflow.com/questions/7241688/django-admin-css-missing/11299269.
+# For production may be needed nginx config like in the best answer:
+# https://stackoverflow.com/questions/7241688/django-admin-css-missing/11299269.
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static( # type: ignore
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # type: ignore
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # type: ignore

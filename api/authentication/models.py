@@ -48,7 +48,7 @@ class UserManager(auth_models.BaseUserManager):
             surname=surname,
         )
 
-    def _create_user(
+    def _create_user(  # pylint: disable=too-many-arguments
         self,
         account_type: value_objects.AccountType,
         email: str,
@@ -110,9 +110,8 @@ class User(auth_models.AbstractBaseUser):
 
         return f'{self.name} {self.surname}'
 
-    def delete(self) -> None:  # type: ignore
+    def delete(self) -> None:  # type: ignore # pylint: disable=arguments-differ
         '''Override model delete method to soft delete User.'''
-
         if self.account_status not in (
             value_objects.AccountStatus.CLOSED.name,
             value_objects.AccountStatus.DELETED.name,

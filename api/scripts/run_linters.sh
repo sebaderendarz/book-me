@@ -18,7 +18,7 @@ mypy $PATHS_TO_LINT;
 echo '----------------------------------------------------------------------'
 
 echo 'Running flake8' $FLAKE8_VERSION;
-flake8 -j6 $PATHS_TO_LINT;
+pflake8 -j6 $PATHS_TO_LINT;
 echo '----------------------------------------------------------------------'
 
 echo 'Running' $BLACK_VERSION;
@@ -30,7 +30,7 @@ isort --settings-path pyproject.toml --check-only --diff $PATHS_TO_LINT;
 echo '----------------------------------------------------------------------'
 
 echo 'Running' $PYLINT_VERSION;
-pylint -j $(nproc) bitsuisse;
+pylint --jobs 8 authentication barber core customer;
 echo '----------------------------------------------------------------------'
 
 echo 'All linters ok!';

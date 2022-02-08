@@ -11,7 +11,13 @@ class ServiceOrder(models.Model):
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     service_time = models.DateTimeField(__('Service Time'))
-    token = models.CharField(__('Token'), max_length=8, unique=True, default=customer_utils.generate_short_uuid)
-    status = models.CharField(__('Status'), default=value_objects.OrderStatus.BOOKED.name, **core_utils.enum_to_char_field_args(value_objects.OrderStatus))
+    token = models.CharField(
+        __('Token'), max_length=8, unique=True, default=customer_utils.generate_short_uuid
+    )
+    status = models.CharField(
+        __('Status'),
+        default=value_objects.OrderStatus.BOOKED.name,
+        **core_utils.enum_to_char_field_args(value_objects.OrderStatus),
+    )
     customer = models.ForeignKey(auth_models.User, on_delete=models.PROTECT)
     offer = models.ForeignKey(barber_models.ServiceOffer, on_delete=models.PROTECT)

@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 
-from core.configuration import utils
-
+from core.config import utils
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,7 +39,7 @@ INSTALLED_APPS = [
     'customer',
 ]
 
-#TODO corsheaders may me a cause of issue if you will be stuck
+# TODO corsheaders may me a cause of issue if you will be stuck
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -137,9 +136,11 @@ CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = utils.get_env_value('DJANGO_CORS_ORIGIN_WHITELIST').split()
 CSRF_TRUSTED_ORIGINS = utils.get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split()
-CORS_ALLOW_CREDENTIALS = utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
+CORS_ALLOW_CREDENTIALS = (
+    utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
+)
 
-#TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
+# TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
 ROOT_URL = 'http://172.104.240.119:3000'
 
 

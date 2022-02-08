@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 
-from core.configuration import utils
+from core.config import utils
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -1,7 +1,7 @@
 from django.core import exceptions
 from django.utils import timezone
 
-from core.configuration import utils
+from core.config import utils
 
 
 def get_email_confirmation_token_expiration_time() -> timezone.datetime:

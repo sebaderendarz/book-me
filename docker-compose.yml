@@ -9,12 +9,12 @@ services:
     depends_on:
       - db
       - redis
-    command: sh -c "daphne --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
+    command: sh -c "daphne --access-log /var/log/api/daphne/access.log --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
     volumes:
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static
       - ./persistent_data/log/api/django:/var/log/api/django
-      - ./persistent_data/log/api/gunicorn:/var/log/api/gunicorn
+      - ./persistent_data/log/api/daphne:/var/log/api/daphne
     environment:
       - CELERY_BROKER_URL
       - CELERY_RESULT_BACKEND
@@ -62,3 +62,19 @@ services:
   redis:
     image: redis:6.2-buster
     restart: always
+
+  grafana:
+    image: grafana/grafana:8.3.6
+    volumes: 
+      - ./persistent_data/grafana:/var/lib/grafana
+    depends_on: 
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus:v2.33.1
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./persistent_data/prometheus:/data
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/data'

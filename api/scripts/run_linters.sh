@@ -14,7 +14,7 @@ echo 'Running linters on path(s): ' $PATHS_TO_LINT
 echo '----------------------------------------------------------------------'
 
 echo 'Running' $MYPY_VERSION;
-mypy $PATHS_TO_LINT;
+mypy --show-error-codes $PATHS_TO_LINT;
 echo '----------------------------------------------------------------------'
 
 echo 'Running flake8' $FLAKE8_VERSION;

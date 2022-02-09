@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as __
+from django_prometheus import models as prom_models  # type: ignore
 
 from authentication import models as auth_models
 from barber import models as barber_models
@@ -7,7 +8,7 @@ from core import utils as core_utils
 from customer import utils as customer_utils, value_objects
 
 
-class ServiceOrder(models.Model):
+class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_order'), models.Model):  # type: ignore[misc]
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     service_time = models.DateTimeField(__('Service Time'))

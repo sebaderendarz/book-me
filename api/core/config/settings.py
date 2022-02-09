@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_prometheus',
     'rest_framework',
     'channels',
     'corsheaders',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
 
 # TODO corsheaders may me a cause of issue if you will be stuck
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,9 +51,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
-ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +76,7 @@ ASGI_APPLICATION = 'core.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': utils.get_env_value('POSTGRES_DB'),
         'HOST': utils.get_env_value('POSTGRES_HOST', 'db'),
         'USER': utils.get_env_value('POSTGRES_USER'),
@@ -123,6 +125,11 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+ROOT_URLCONF = 'core.urls'
+
+# TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
+ROOT_URL = 'http://172.104.240.119:3000'
+
 MEDIA_URL = utils.get_env_value('DJANGO_MEDIA_URL')
 MEDIA_ROOT = '/var/lib/media'
 
@@ -139,9 +146,6 @@ CSRF_TRUSTED_ORIGINS = utils.get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split(
 CORS_ALLOW_CREDENTIALS = (
     utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
 )
-
-# TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
-ROOT_URL = 'http://172.104.240.119:3000'
 
 
 LOGGING = {

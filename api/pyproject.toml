@@ -14,6 +14,7 @@ channels = "^3.0.4"
 django-cors-headers = "^3.11.0"
 psycopg2-binary = "^2.9.3"
 Pillow = "^9.0.1"
+django-prometheus = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -37,6 +38,9 @@ exclude = "migrations/"
 max-line-length = 100
 max-complexity = 10
 exclude = "migrations"
+# E501 is handled by black
+# W503 is incompatible with black
+ignore = "E501,W503"
 
 [tool.isort]
 combine_as_imports = true

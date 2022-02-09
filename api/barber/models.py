@@ -3,12 +3,13 @@ import decimal
 from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as __
+from django_prometheus import models as prom_models  # type: ignore
 
 from barber import value_objects
 from core import utils
 
 
-class ServiceOffer(models.Model):
+class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), models.Model):  # type: ignore[misc]
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     barber_name = models.CharField(
@@ -51,7 +52,9 @@ class ServiceOffer(models.Model):
     )
 
 
-class ServiceUnavailability(models.Model):
+class ServiceUnavailability(
+    prom_models.ExportModelOperationsMixin('barber.service_unavailability'), models.Model  # type: ignore[misc]
+):
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     start_date = models.DateField(__('Start Date'))

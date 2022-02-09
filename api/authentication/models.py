@@ -4,6 +4,7 @@ from django.contrib.auth import models as auth_models, password_validation
 from django.core import validators
 from django.db import models
 from django.utils.translation import gettext_lazy as __
+from django_prometheus import models as prom_models  # type: ignore
 
 from authentication import utils as auth_utils, value_objects
 from core import utils as core_utils
@@ -68,7 +69,9 @@ class UserManager(auth_models.BaseUserManager):
         return user
 
 
-class User(auth_models.AbstractBaseUser):
+class User(
+    prom_models.ExportModelOperationsMixin('authentication.user'), auth_models.AbstractBaseUser  # type: ignore[misc]
+):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(
         __('Email'),

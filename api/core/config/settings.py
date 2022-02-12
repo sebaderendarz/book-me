@@ -20,6 +20,10 @@ SECRET_KEY = utils.get_env_value('DJANGO_SECRET_KEY')
 DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
 ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
+# NOTE I tried to use custom django admin frameworks, but in each case there was a problem with css.
+# 1. https://github.com/farridav/django-jazzmin
+# 2. https://github.com/fabiocaccamo/django-admin-interface
+
 # NOTE psycopg2-binary dependency must be installed to make django app working with postgres.
 # TODO not sure if needed | install -> add to installed apps
 # djangochannelsrestframework -> djangochannelsrestframework
@@ -126,9 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 ROOT_URLCONF = 'core.urls'
-
-# TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
-ROOT_URL = 'http://172.104.240.119:3000'
 
 MEDIA_URL = utils.get_env_value('DJANGO_MEDIA_URL')
 MEDIA_ROOT = '/var/lib/media'

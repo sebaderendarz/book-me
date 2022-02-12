@@ -8,7 +8,7 @@ from core import utils as core_utils
 from customer import utils as customer_utils, value_objects
 
 
-class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_order'), models.Model):  # type: ignore[misc]
+class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_order'), models.Model):  # type: ignore
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     service_time = models.DateTimeField(__('Service Time'))

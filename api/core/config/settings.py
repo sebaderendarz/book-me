@@ -29,6 +29,7 @@ ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 # djangochannelsrestframework -> djangochannelsrestframework
 # django-extensions -> django_extensions
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

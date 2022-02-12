@@ -9,7 +9,7 @@ from barber import value_objects
 from core import utils
 
 
-class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), models.Model):  # type: ignore[misc]
+class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), models.Model):  # type: ignore
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     barber_name = models.CharField(
@@ -53,7 +53,7 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
 
 
 class ServiceUnavailability(
-    prom_models.ExportModelOperationsMixin('barber.service_unavailability'), models.Model  # type: ignore[misc]
+    prom_models.ExportModelOperationsMixin('barber.service_unavailability'), models.Model  # type: ignore
 ):
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)

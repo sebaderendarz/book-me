@@ -70,7 +70,7 @@ class UserManager(auth_models.BaseUserManager):
 
 
 class User(
-    prom_models.ExportModelOperationsMixin('authentication.user'), auth_models.AbstractBaseUser  # type: ignore[misc]
+    prom_models.ExportModelOperationsMixin('authentication.user'), auth_models.AbstractBaseUser, auth_models.PermissionsMixin  # type: ignore[misc]
 ):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(
@@ -112,6 +112,25 @@ class User(
         '''Human readable representation of object.'''
 
         return f'{self.name} {self.surname}'
+
+    @property
+    def is_active(self) -> bool:
+        return value_objects.AccountStatus(self.account_status) == value_objects.AccountStatus.ACTIVE
+
+    @property
+    def is_staff(self) -> bool:
+        print(self.account_type)
+        return value_objects.AccountType.can_login_to_admin_panel(value_objects.AccountType(self.account_type))
+
+    @property
+    def is_superuser(self) -> bool:
+        return value_objects.AccountType(self.account_type) == value_objects.AccountType.ADMIN
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
 
     def delete(self) -> None:  # type: ignore # pylint: disable=arguments-differ
         '''Override model delete method to soft delete User.'''

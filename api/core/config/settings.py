@@ -20,15 +20,13 @@ SECRET_KEY = utils.get_env_value('DJANGO_SECRET_KEY')
 DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
 ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
-# NOTE I tried to use custom django admin frameworks, but in each case there was a problem with css.
-# 1. https://github.com/farridav/django-jazzmin
-# 2. https://github.com/fabiocaccamo/django-admin-interface
-
 # NOTE psycopg2-binary dependency must be installed to make django app working with postgres.
 # TODO not sure if needed | install -> add to installed apps
 # djangochannelsrestframework -> djangochannelsrestframework
 # django-extensions -> django_extensions
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +41,7 @@ INSTALLED_APPS = [
     'barber',
     'customer',
 ]
+
 
 # TODO corsheaders may me a cause of issue if you will be stuck
 MIDDLEWARE = [
@@ -127,6 +126,11 @@ USE_TZ = True
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# needed only when using django-admin-interface extension with django version >= 3.0
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SILENCED_SYSTEM_CHECKS = ['security.W019']
 
 
 ROOT_URLCONF = 'core.urls'

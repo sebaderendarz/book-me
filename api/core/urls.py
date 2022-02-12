@@ -26,9 +26,12 @@ urlpatterns = [
     path('', include('django_prometheus.urls')),
 ]
 
-# TODO Fix static files loading. Missing CSS in Django Admin.
-# For production may be needed nginx config like in the best answer:
-# https://stackoverflow.com/questions/7241688/django-admin-css-missing/11299269.
+# Future reference, serving static files via web server:
+# # https://stackoverflow.com/questions/7241688/django-admin-css-missing/11299269.
+
+# from django.conf.urls.static import static -> This helper function works only in debug mode
+# and only if the given prefix is local (e.g. /static/) and not a URL (e.g. http://static.example.com/).
+# You got stucked for a few hours because of this one time...
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # type: ignore
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # type: ignore

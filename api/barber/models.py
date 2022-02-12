@@ -67,3 +67,6 @@ class ServiceUnavailability(
         max_length=400,
     )
     service_offer = models.ForeignKey(ServiceOffer, on_delete=models.PROTECT)
+
+    def __str__(self) -> str:
+        return f'{self.start_date}-{self.end_date}'

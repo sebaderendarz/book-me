@@ -1,8 +1,21 @@
 # type:ignore
+from datetime import date
+
 from django.contrib import admin
 from django.utils import safestring
 
 from barber import models, utils, value_objects
+
+
+class ServiceUnavailabilityInline(admin.TabularInline):
+    model = models.ServiceUnavailability
+    extra = 0
+    verbose_name = 'Service Unavailability'
+    verbose_name_plural = 'Service Unavailabilities'
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(end_date__gte=date.today()).order_by('start_date')
 
 
 @admin.action(description='Activate selected service offers')
@@ -26,6 +39,7 @@ def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argume
 @admin.register(models.ServiceOffer)
 class ServiceOfferAdmin(admin.ModelAdmin):
 
+    inlines = [ServiceUnavailabilityInline]
     list_display = (
         'barber_name',
         'city',
@@ -43,10 +57,10 @@ class ServiceOfferAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
-            return self.readonly_fields + ('view',)
+            return self.readonly_fields + ('image_view',)
         return self.readonly_fields
 
-    def view(self, obj):
+    def image_view(self, obj):
         return safestring.mark_safe(
             '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
                 url=obj.image.url,

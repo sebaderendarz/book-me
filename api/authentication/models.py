@@ -118,6 +118,10 @@ class User(
         return value_objects.AccountStatus(self.account_status) == value_objects.AccountStatus.ACTIVE
 
     @property
+    def is_admin(self) -> bool:
+        return value_objects.AccountType(self.account_type) == value_objects.AccountType.ADMIN
+
+    @property
     def is_staff(self) -> bool:
         print(self.account_type)
         return value_objects.AccountType.can_login_to_admin_panel(value_objects.AccountType(self.account_type))

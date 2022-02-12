@@ -123,7 +123,6 @@ class User(
 
     @property
     def is_staff(self) -> bool:
-        print(self.account_type)
         return value_objects.AccountType.can_login_to_admin_panel(value_objects.AccountType(self.account_type))
 
     @property

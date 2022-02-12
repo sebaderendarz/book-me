@@ -51,6 +51,9 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
         __('Working Days'), **utils.enum_to_char_field_args(value_objects.WorkingDays)
     )
 
+    def __str__(self) -> str:
+        return f'{self.barber_name}, {self.address} {self.city}'
+
 
 class ServiceUnavailability(
     prom_models.ExportModelOperationsMixin('barber.service_unavailability'), models.Model  # type: ignore

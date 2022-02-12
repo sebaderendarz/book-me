@@ -127,8 +127,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ROOT_URLCONF = 'core.urls'
 
-# TODO THIS ONE CAN BE IMPORTANT. GOOGLE IT TO MAKE SURE. Hmm why it is hardcoded in settings?
-ROOT_URL = 'http://172.104.240.119:3000'
+# Hmm why it is hardcoded in settings?
+# Probably static files did not work one time... I think it was a quick workaround.
+# path to media -> ROOT_URL + MEDIA_URL, the same for STATIC.
+# ROOT_URL = 'http://172.104.240.119:3000'
 
 MEDIA_URL = utils.get_env_value('DJANGO_MEDIA_URL')
 MEDIA_ROOT = '/var/lib/media'

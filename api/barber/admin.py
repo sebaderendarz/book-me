@@ -1,15 +1,46 @@
 # type:ignore
-from datetime import date
+from datetime import date, datetime, timedelta
 
 from django.contrib import admin
+from django.forms import models
 from django.utils import safestring
 from django.utils.translation import gettext_lazy as __
 
-from barber import models, utils, value_objects
+from barber import models as barber_models, utils, value_objects as barber_value_objects
+from customer import models as customer_models, value_objects as customer_value_objects
+
+
+class PendingServiceOrderFormSet(models.BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.can_delete = False
+
+
+class PendingServiceOrderInline(admin.TabularInline):
+    model = customer_models.ServiceOrder
+    formset = PendingServiceOrderFormSet
+    max_num = 0
+    raw_id_fields = ('customer',)
+    readonly_fields = (
+        'token',
+        'service_time',
+        'customer',
+    )
+    verbose_name = __('Pending Service Order')
+    verbose_name_plural = __('Pending Service Orders')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        now_minus_30_min = datetime.now() - timedelta(minutes=30)
+        return (
+            qs.filter(service_time__gt=now_minus_30_min)
+            .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+            .order_by('service_time')
+        )
 
 
 class ServiceUnavailabilityInline(admin.TabularInline):
-    model = models.ServiceUnavailability
+    model = barber_models.ServiceUnavailability
     extra = 0
     verbose_name = __('Service Unavailability')
     verbose_name_plural = __('Service Unavailabilities')
@@ -22,25 +53,25 @@ class ServiceUnavailabilityInline(admin.TabularInline):
 @admin.action(description=__('Activate selected service offers'))
 def make_active(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to ACTIVE.'''
-    queryset.update(status=value_objects.OfferStatus.ACTIVE.name)
+    queryset.update(status=barber_value_objects.OfferStatus.ACTIVE.name)
 
 
 @admin.action(description=__('Close selected service offers'))
 def make_closed(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to CLSOED.'''
-    queryset.update(status=value_objects.OfferStatus.CLOSED.name)
+    queryset.update(status=barber_value_objects.OfferStatus.CLOSED.name)
 
 
 @admin.action(description=__('Hide selected service offers'))
 def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to HIDDEN.'''
-    queryset.update(status=value_objects.OfferStatus.HIDDEN.name)
+    queryset.update(status=barber_value_objects.OfferStatus.HIDDEN.name)
 
 
-@admin.register(models.ServiceOffer)
+@admin.register(barber_models.ServiceOffer)
 class ServiceOfferAdmin(admin.ModelAdmin):
 
-    inlines = (ServiceUnavailabilityInline,)
+    inlines = (ServiceUnavailabilityInline, PendingServiceOrderInline)
     list_display = (
         'barber_name',
         'city',

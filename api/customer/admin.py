@@ -31,6 +31,7 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'customer',
         'offer',
     )
+    raw_id_fields = ('customer', 'offer')
     list_filter = (utils.OrderStatusFilter, utils.OrderServiceTimeFilter)
     actions = (make_new, make_confirmed, make_closed)
     search_fields = ('token',)

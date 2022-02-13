@@ -40,7 +40,7 @@ def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argume
 @admin.register(models.ServiceOffer)
 class ServiceOfferAdmin(admin.ModelAdmin):
 
-    inlines = [ServiceUnavailabilityInline]
+    inlines = (ServiceUnavailabilityInline,)
     list_display = (
         'barber_name',
         'city',

@@ -31,7 +31,18 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'customer',
         'offer',
     )
-    raw_id_fields = ('customer', 'offer')
+    readonly_fields = (
+        'token',
+        'service_time',
+        'customer',
+        'offer',
+    )
     list_filter = (utils.OrderStatusFilter, utils.OrderServiceTimeFilter)
     actions = (make_new, make_confirmed, make_closed)
     search_fields = ('token',)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False

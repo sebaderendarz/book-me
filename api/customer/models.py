@@ -11,7 +11,7 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     # Service can be booked only in regular, 30 minutes periods (2PM, 2:30PM, 3PM...)
-    # and for the day and time when barber is available.
+    # for the day and time when barber is available and only when this hour is not booked already.
     service_time = models.DateTimeField(
         __('Service Time'), validators=[core_validators.FullOrHalfHourValidator()]
     )

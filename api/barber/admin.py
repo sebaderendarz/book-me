@@ -92,6 +92,9 @@ class ServiceOfferAdmin(admin.ModelAdmin):
             return self.readonly_fields + ('image_view',)
         return self.readonly_fields
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
     def image_view(self, obj):
         return safestring.mark_safe(
             '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(

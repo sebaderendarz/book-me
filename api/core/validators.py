@@ -1,8 +1,9 @@
-from typing import Optional
 import datetime
+from typing import Optional
 
 from django.contrib.auth import models
 from django.core import exceptions
+from django.utils import deconstruct
 from django.utils.translation import gettext_lazy as __
 
 
@@ -21,24 +22,48 @@ class PasswordLengthValidator:
     def get_help_text(self) -> str:
         return __('Password must be between 8 and 30 characters length.')
 
-class FullOrHalfHourValidator:
-    '''Validate if datetime is full or half hour.'''
 
-    def __call__(
-        self, datetime: datetime.datetime) -> str:
+@deconstruct.deconstructible
+class FullOrHalfHourValidator:
+    '''Validate if datetime is full or half hour.
+
+    Methods __init__ and __eq__ needed only to make validator serializable.
+    Migration generator was not able to serialize it. Another solution
+    would be to create validator functions instead of classes, but it
+    breaks the flow of django field validators.
+    '''
+
+    def __init__(self) -> None:
+        self.dummy = 1
+
+    def __call__(self, datetime: datetime.datetime) -> None:
         error_message = __('Provide datetime that is full or half hour.')
         if datetime is not None:
             minute = datetime.minute
             if minute not in (0, 30):
                 raise exceptions.ValidationError(error_message)
-        return datetime
 
+    def __eq__(self, other: object) -> bool:
+        return self.dummy == other.dummy  # type:ignore
+
+
+@deconstruct.deconstructible
 class DateNotInThePastValidator:
-    '''Validate if date is today or in the future.'''
+    '''Validate if date is today or in the future.
 
-    def __call__(
-        self, date: datetime.date) -> str:
+    Methods __init__ and __eq__ needed only to make validator serializable.
+    Migration generator was not able to serialize it. Another solution
+    would be to create validator functions instead of classes, but it
+    breaks the flow of django field validators.
+    '''
+
+    def __init__(self) -> None:
+        self.dummy = 1
+
+    def __call__(self, date: datetime.date) -> None:
         error_message = __('Provide date that is today or in the future.')
         if date is not None and date.today() > date:
-                raise exceptions.ValidationError(error_message)
-        return date
+            raise exceptions.ValidationError(error_message)
+
+    def __eq__(self, other: object) -> bool:
+        return self.dummy == other.dummy  # type:ignore

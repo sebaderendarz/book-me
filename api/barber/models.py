@@ -1,54 +1,59 @@
+from datetime import datetime
 import decimal
 
-from django.core import validators
-from django.db import models
+from django.core import exceptions, validators as django_validators
+from django.db import models as django_models
 from django.utils.translation import gettext_lazy as __
 from django_prometheus import models as prom_models  # type: ignore
 
-from barber import value_objects
-from core import utils
+from barber import value_objects as barber_value_objects
+from core import utils, validators as core_validators
+from customer import models as customer_models, value_objects as customer_value_objects
 
 
-class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), models.Model):  # type: ignore
-    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
-    barber_name = models.CharField(
+class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), django_models.Model):  # type: ignore
+    created_at = django_models.DateTimeField(__('Created at'), auto_now_add=True)
+    updated_at = django_models.DateTimeField(__('Updated at'), auto_now=True)
+    barber_name = django_models.CharField(
         __('Barber Name'),
         max_length=100,
-        validators=[validators.MinLengthValidator(2)],
+        validators=[django_validators.MinLengthValidator(2)],
     )
-    city = models.CharField(
+    city = django_models.CharField(
         __('City'),
         max_length=100,
-        validators=[validators.MinLengthValidator(2)],
+        validators=[django_validators.MinLengthValidator(2)],
     )
-    address = models.CharField(
+    address = django_models.CharField(
         __('Address'),
         max_length=100,
-        validators=[validators.MinLengthValidator(2)],
+        validators=[django_validators.MinLengthValidator(2)],
     )
-    description = models.CharField(
+    description = django_models.CharField(
         __('Description'),
         max_length=400,
     )
-    price = models.DecimalField(
+    price = django_models.DecimalField(
         __('Price'),
         max_digits=9,
         decimal_places=2,
-        validators=[validators.MinValueValidator(decimal.Decimal('0.01'))],
+        validators=[django_validators.MinValueValidator(decimal.Decimal('0.01'))],
     )
-    image = models.ImageField(__('Barber Image'), upload_to='barber/service_offer', blank=True)
-    specialization = models.CharField(
-        __('Specialization'), **utils.enum_to_char_field_args(value_objects.BarberSpecialization)
+    image = django_models.ImageField(
+        __('Barber Image'), upload_to='barber/service_offer', blank=True
     )
-    status = models.CharField(
-        __('Status'), **utils.enum_to_char_field_args(value_objects.OfferStatus)
+    specialization = django_models.CharField(
+        __('Specialization'),
+        **utils.enum_to_char_field_args(barber_value_objects.BarberSpecialization),
     )
-    open_hours = models.CharField(
-        __('Open Hours'), **utils.enum_to_char_field_args(value_objects.OpenHours)
+    status = django_models.CharField(
+        __('Status'), **utils.enum_to_char_field_args(barber_value_objects.OfferStatus)
     )
-    working_days = models.CharField(
-        __('Working Days'), **utils.enum_to_char_field_args(value_objects.WorkingDays)
+    open_hours = django_models.CharField(
+        __('Open Hours'), **utils.enum_to_char_field_args(barber_value_objects.OpenHours)
+    )
+    working_days = django_models.CharField(
+        __('Working Days'), **utils.enum_to_char_field_args(barber_value_objects.WorkingDays)
     )
 
     def __str__(self) -> str:
@@ -56,17 +61,45 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
 
 
 class ServiceUnavailability(
-    prom_models.ExportModelOperationsMixin('barber.service_unavailability'), models.Model  # type: ignore
+    prom_models.ExportModelOperationsMixin('barber.service_unavailability'), django_models.Model  # type: ignore
 ):
-    created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
-    start_date = models.DateField(__('Start Date'))
-    end_date = models.DateField(__('End Date'))
-    reason = models.CharField(
+    created_at = django_models.DateTimeField(__('Created at'), auto_now_add=True)
+    updated_at = django_models.DateTimeField(__('Updated at'), auto_now=True)
+    start_date = django_models.DateField(
+        __('Start Date'), validators=[core_validators.DateNotInThePastValidator()]
+    )
+    end_date = django_models.DateField(__('End Date'))
+    reason = django_models.CharField(
         __('Reason'),
         max_length=400,
     )
-    service_offer = models.ForeignKey(ServiceOffer, on_delete=models.PROTECT)
+    service_offer = django_models.ForeignKey('barber.ServiceOffer', on_delete=django_models.PROTECT)
 
     def __str__(self) -> str:
         return f'{self.start_date}-{self.end_date}'
+
+    def clean(self) -> None:
+        self._check_end_is_higher_or_equal_to_start()
+        self._check_if_service_ordered_in_absence_period()
+
+    def _check_end_is_higher_or_equal_to_start(self) -> None:
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise exceptions.ValidationError(__('End date must be higher or equal to start date.'))
+
+    def _check_if_service_ordered_in_absence_period(self) -> None:
+        if self.start_date and self.end_date and self.service_offer:
+            time_range = (
+                datetime(self.start_date.year, self.start_date.month, self.start_date.day),
+                datetime(self.end_date.year, self.end_date.month, self.end_date.day, 23),
+            )
+            service_orders = (
+                customer_models.ServiceOrder.objects.filter(
+                    offer=self.service_offer, service_time__range=time_range
+                )
+                .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+                .first()
+            )
+            if service_orders is not None:
+                raise exceptions.ValidationError(
+                    __('Service ordered in unavailability period. Cancel it first.')
+                )

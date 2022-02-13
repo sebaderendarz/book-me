@@ -21,19 +21,19 @@ class ServiceUnavailabilityInline(admin.TabularInline):
 
 @admin.action(description=__('Activate selected service offers'))
 def make_active(modeladmin, request, queryset):  # pylint: disable=unused-argument
-    '''Change status of selected offers to active.'''
+    '''Change status of selected offers to ACTIVE.'''
     queryset.update(status=value_objects.OfferStatus.ACTIVE.name)
 
 
 @admin.action(description=__('Close selected service offers'))
 def make_closed(modeladmin, request, queryset):  # pylint: disable=unused-argument
-    '''Change status of selected offers to closed.'''
+    '''Change status of selected offers to CLSOED.'''
     queryset.update(status=value_objects.OfferStatus.CLOSED.name)
 
 
 @admin.action(description=__('Hide selected service offers'))
 def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argument
-    '''Change status of selected offers to hidden.'''
+    '''Change status of selected offers to HIDDEN.'''
     queryset.update(status=value_objects.OfferStatus.HIDDEN.name)
 
 

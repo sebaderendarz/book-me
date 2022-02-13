@@ -1,6 +1,6 @@
 # type:ignore
 from django.contrib import admin
-from django.utils import translation
+from django.utils.translation import gettext_lazy as __
 
 from barber import value_objects
 from core import utils
@@ -9,7 +9,7 @@ from core import utils
 class OfferStatusFilter(admin.SimpleListFilter):
     '''Custom filter on status field in ServiceOffer model.'''
 
-    title = translation.gettext_lazy('Offer Status')
+    title = __('Offer Status')
     parameter_name = 'status'
 
     def lookups(self, request, model_admin):
@@ -27,7 +27,7 @@ class OfferStatusFilter(admin.SimpleListFilter):
 class OpenHoursFilter(admin.SimpleListFilter):
     '''Custom filter on open_hours field in ServiceOffer model.'''
 
-    title = translation.gettext_lazy('Open Hours')
+    title = __('Open Hours')
     parameter_name = 'open_hours'
 
     def lookups(self, request, model_admin):
@@ -45,7 +45,7 @@ class OpenHoursFilter(admin.SimpleListFilter):
 class WorkingDaysFilter(admin.SimpleListFilter):
     '''Custom filter on working_days field in ServiceOffer model.'''
 
-    title = translation.gettext_lazy('Working Days')
+    title = __('Working Days')
     parameter_name = 'working_days'
 
     def lookups(self, request, model_admin):

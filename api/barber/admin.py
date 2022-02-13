@@ -3,6 +3,7 @@ from datetime import date
 
 from django.contrib import admin
 from django.utils import safestring
+from django.utils.translation import gettext_lazy as __
 
 from barber import models, utils, value_objects
 
@@ -10,27 +11,27 @@ from barber import models, utils, value_objects
 class ServiceUnavailabilityInline(admin.TabularInline):
     model = models.ServiceUnavailability
     extra = 0
-    verbose_name = 'Service Unavailability'
-    verbose_name_plural = 'Service Unavailabilities'
+    verbose_name = __('Service Unavailability')
+    verbose_name_plural = __('Service Unavailabilities')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(end_date__gte=date.today()).order_by('start_date')
 
 
-@admin.action(description='Activate selected service offers')
+@admin.action(description=__('Activate selected service offers'))
 def make_active(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to active.'''
     queryset.update(status=value_objects.OfferStatus.ACTIVE.name)
 
 
-@admin.action(description='Close selected service offers')
+@admin.action(description=__('Close selected service offers'))
 def make_closed(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to closed.'''
     queryset.update(status=value_objects.OfferStatus.CLOSED.name)
 
 
-@admin.action(description='Hide selected service offers')
+@admin.action(description=__('Hide selected service offers'))
 def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to hidden.'''
     queryset.update(status=value_objects.OfferStatus.HIDDEN.name)

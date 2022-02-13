@@ -2,6 +2,6 @@ import enum
 
 
 class OrderStatus(enum.Enum):
-    BOOKED = 'Booked'
+    NEW = 'New'
     CONFIRMED = 'Confirmed'
     CLOSED = 'Closed'

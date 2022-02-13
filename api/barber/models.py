@@ -81,6 +81,7 @@ class ServiceUnavailability(
     def clean(self) -> None:
         self._check_end_is_higher_or_equal_to_start()
         self._check_if_service_ordered_in_absence_period()
+        self._check_if_not_overlapping_absence()
 
     def _check_end_is_higher_or_equal_to_start(self) -> None:
         if self.start_date and self.end_date and self.start_date > self.end_date:
@@ -103,3 +104,21 @@ class ServiceUnavailability(
                 raise exceptions.ValidationError(
                     __('Service ordered in unavailability period. Cancel it first.')
                 )
+
+    def _check_if_not_overlapping_absence(self) -> None:
+        if self.start_date and self.end_date:
+            existing_absences = (
+                ServiceUnavailability.objects.filter(
+                    service_offer=self.service_offer, end_date__gte=self.start_date
+                )
+                .exclude(id=self.id)
+                .all()
+            )
+            for absence in existing_absences:
+                start_date_overlaps = self.start_date <= absence.start_date <= self.end_date
+                end_date_overlaps = self.start_date <= absence.end_date <= self.end_date
+                both_dates_overlap = (
+                    absence.start_date < self.start_date and absence.end_date > self.end_date
+                )
+                if start_date_overlaps or end_date_overlaps or both_dates_overlap:
+                    raise exceptions.ValidationError(__('Overlapping unavailability found.'))

@@ -11,6 +11,7 @@ from customer import utils as customer_utils, value_objects
 class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_order'), models.Model):  # type: ignore
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
+    # TODO add constraint that will allow to book a service every 30 minutes. 2PM, 2:30PM...
     service_time = models.DateTimeField(__('Service Time'))
     token = models.CharField(
         __('Token'), max_length=8, unique=True, default=customer_utils.generate_short_uuid
@@ -22,3 +23,7 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
     )
     customer = models.ForeignKey(auth_models.User, on_delete=models.PROTECT)
     offer = models.ForeignKey(barber_models.ServiceOffer, on_delete=models.PROTECT)
+
+    def __str__(self) -> str:
+        '''Example: "XY2M76PO 2022-02-13 07:39AM".'''
+        return f'{self.token} {self.service_time.strftime("%Y-%m-%d %I:%M%p")}'

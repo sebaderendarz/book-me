@@ -1,11 +1,11 @@
-from django.core import validators
+from django.core import validators as django_validators
 from django.db import models
 from django.utils.translation import gettext_lazy as __
 from django_prometheus import models as prom_models  # type: ignore
 
 from authentication import models as auth_models
 from barber import models as barber_models
-from core import utils as core_utils
+from core import utils as core_utils, validators as core_validators
 from customer import utils as customer_utils, value_objects
 
 
@@ -13,12 +13,12 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
     # Service can be booked only in regular, 30 minutes periods (2PM, 2:30PM, 3PM...)
-    # and for the time of a day when barber is available.
-    service_time = models.DateTimeField(__('Service Time'))
+    # and for the day and time when barber is available.
+    service_time = models.DateTimeField(__('Service Time'), validators=[core_validators.FullOrHalfHourValidator()])
     token = models.CharField(
         __('Token'),
         max_length=8,
-        validators=[validators.MinLengthValidator(8)],
+        validators=[django_validators.MinLengthValidator(8)],
         unique=True,
         default=customer_utils.generate_short_uuid,  # type:ignore
     )

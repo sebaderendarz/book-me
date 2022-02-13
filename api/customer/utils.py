@@ -22,7 +22,7 @@ class OrderStatusFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         '''List of available options in proper format.'''
-        return utils.enum_to_char_field_args(value_objects.OrderStatus)['choices']
+        return utils.enum_to_char_field_args_translated(value_objects.OrderStatus)['choices']
 
     def queryset(self, request, queryset):
         '''Filter queryset according to the specified option.'''
@@ -54,6 +54,6 @@ class OrderServiceTimeFilter(admin.SimpleListFilter):
         now_minus_30_min = datetime.now() - timedelta(minutes=30)
         if selected_option == self.PAST:
             return queryset.filter(service_time__lte=now_minus_30_min)
-        elif selected_option == self.PENDING:
+        if selected_option == self.PENDING:
             return queryset.filter(service_time__gt=now_minus_30_min)
         return queryset

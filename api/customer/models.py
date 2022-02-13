@@ -20,7 +20,7 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
         max_length=8,
         validators=[validators.MinLengthValidator(8)],
         unique=True,
-        default=customer_utils.generate_short_uuid,
+        default=customer_utils.generate_short_uuid,  # type:ignore
     )
     status = models.CharField(
         __('Status'),

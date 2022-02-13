@@ -14,7 +14,7 @@ class OfferStatusFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         '''List of available options in proper format.'''
-        return utils.enum_to_char_field_args(value_objects.OfferStatus)['choices']
+        return utils.enum_to_char_field_args_translated(value_objects.OfferStatus)['choices']
 
     def queryset(self, request, queryset):
         '''Filter queryset according to the specified option.'''
@@ -32,7 +32,7 @@ class OpenHoursFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         '''List of available options in proper format.'''
-        return utils.enum_to_char_field_args(value_objects.OpenHours)['choices']
+        return utils.enum_to_char_field_args_translated(value_objects.OpenHours)['choices']
 
     def queryset(self, request, queryset):
         '''Filter queryset according to the specified option.'''
@@ -50,7 +50,7 @@ class WorkingDaysFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         '''List of available options in proper format.'''
-        return utils.enum_to_char_field_args(value_objects.WorkingDays)['choices']
+        return utils.enum_to_char_field_args_translated(value_objects.WorkingDays)['choices']
 
     def queryset(self, request, queryset):
         '''Filter queryset according to the specified option.'''

@@ -48,3 +48,9 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         if obj and not is_user_admin:
             return self.readonly_fields + only_admin_editable_fields
         return self.readonly_fields
+
+    # def queryset(self, request):
+    #     qs = super(self).queryset(request)
+    #     if request.user.is_superuser:
+    #         return qs
+    #     return qs.filter(offer__author=request.user)

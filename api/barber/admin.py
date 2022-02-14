@@ -2,7 +2,6 @@
 from datetime import date, datetime, timedelta
 
 from django.contrib import admin
-from django.forms import models
 from django.utils import safestring
 from django.utils.translation import gettext_lazy as __
 
@@ -10,15 +9,8 @@ from barber import models as barber_models, utils, value_objects as barber_value
 from customer import models as customer_models, value_objects as customer_value_objects
 
 
-class PendingServiceOrderFormSet(models.BaseInlineFormSet):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.can_delete = False
-
-
 class PendingServiceOrderInline(admin.TabularInline):
     model = customer_models.ServiceOrder
-    formset = PendingServiceOrderFormSet
     max_num = 0
     raw_id_fields = ('customer',)
     readonly_fields = (

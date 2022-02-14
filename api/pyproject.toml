@@ -65,7 +65,8 @@ module = [
     "config.*",
     "authentication.migrations.*",
     "barber.migrations.*",
-    "customer.migrations.*"
+    "customer.migrations.*",
+    "management.migrations.*"
 ]
 ignore_errors = true
 

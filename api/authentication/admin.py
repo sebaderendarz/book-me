@@ -1,11 +1,21 @@
 from django.contrib import admin, auth
 
+from authentication import utils
+
 User = auth.get_user_model()
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
 
+    list_display = (
+        'name',
+        'surname',
+        'email',
+        'account_status',
+        'account_type',
+    )
+    list_filter = (utils.AccountStatusFilter, utils.AccountTypeFilter)
     search_fields = ('name', 'surname', 'email')
     exclude = ('password',)
 

@@ -27,6 +27,13 @@ services:
       # It isn't the optimal solution. There is a significant delay for hot reloading and higher CPU usage.
       # False is default. If app works fine there is no need to set this env to true.
 
+  celery:
+    build: 
+      target: development
+    restart: "no"
+    volumes:
+      - ./api:/app
+
   db:
     ports:
       - 5400:5432

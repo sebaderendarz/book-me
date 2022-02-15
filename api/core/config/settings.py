@@ -143,6 +143,7 @@ STATIC_URL = utils.get_env_value('DJANGO_STATIC_URL')
 STATIC_ROOT = '/var/lib/static'
 
 DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
+CELERY_LOG_LEVEL = utils.get_env_value('CELERY_LOG_LEVEL', 'WARNING')
 
 CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
@@ -197,6 +198,12 @@ LOGGING = {
             'formatter': 'verbose',
             'filename': '/var/log/api/django/root.log',
         },
+        'file_celery': {
+            'level': CELERY_LOG_LEVEL,
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': '/var/log/api/celery/celery.log',
+        },
     },
     'root': {
         'handlers': ['console', 'file_root'],
@@ -211,6 +218,11 @@ LOGGING = {
         'django.request': {
             'handlers': ['console', 'file_error'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['console', 'file_celery'],
+            'level': CELERY_LOG_LEVEL,
             'propagate': True,
         },
     },

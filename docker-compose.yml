@@ -60,6 +60,20 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
 
+  celery:
+    build: 
+      context: ./api
+      target: production
+    restart: always
+    depends_on:
+      - db
+      - redis
+    command: bash -c "while true; do sleep 1000; done"
+    volumes:
+      - ./persistent_data/media:/var/lib/media
+      - ./persistent_data/static:/var/lib/static
+      - ./persistent_data/log/api/celery:/var/log/api/celery
+
   redis:
     image: redis:6.2-buster
     restart: always

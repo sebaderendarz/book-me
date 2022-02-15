@@ -84,6 +84,9 @@ makemigrations: ## generate migrations for django apps, usage: `make apps='barbe
 django-dev: ## run django management commands via make in development environment, usage: `make django-dev cmd='makemigrations barber'`
 	docker-compose $(DEV_COMPOSE) exec api python manage.py $(cmd)
 
+shell-dev: ## get into django shell in development environment
+	docker-compose $(DEV_COMPOSE) exec api python manage.py shell
+
 migrate-dev: ## apply migration for django app in development environment, usage: `make app='barber' django-migrate-dev`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(app)
 
@@ -100,6 +103,9 @@ collectstatic-dev: ## collect static files needed to make django admin work prop
 
 django-stg: ## run django management commands via make in staging/QA environment, usage: `make django-stg cmd='migrate barber'`
 	docker-compose $(STG_COMPOSE) exec api python manage.py $(cmd)
+
+shell-stg: ## get into django shell in staging/QA environment
+	docker-compose $(STG_COMPOSE) exec api python manage.py shell
 
 migrate-stg: ## apply migration for django app in staging/QA environment, usage: `make app='barber' django-migrate-stg`
 	docker-compose $(STG_COMPOSE) exec -T api python manage.py migrate $(app)

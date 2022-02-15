@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'barber',
     'customer',
     'management',
+    'tasks',
 ]
 
 
@@ -142,17 +143,24 @@ MEDIA_ROOT = '/var/lib/media'
 STATIC_URL = utils.get_env_value('DJANGO_STATIC_URL')
 STATIC_ROOT = '/var/lib/static'
 
-DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
-CELERY_LOG_LEVEL = utils.get_env_value('CELERY_LOG_LEVEL', 'WARNING')
 
-CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = utils.get_env_value('DJANGO_CORS_ORIGIN_WHITELIST').split()
 CSRF_TRUSTED_ORIGINS = utils.get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split()
 CORS_ALLOW_CREDENTIALS = (
     utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
 )
+
+
+CELERY_LOG_LEVEL = utils.get_env_value('CELERY_LOG_LEVEL', 'WARNING')
+CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
+CELERY_TIMEZONE = 'Europe/Warsaw'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
 
 
 LOGGING = {

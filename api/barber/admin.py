@@ -96,7 +96,7 @@ class ServiceOfferAdmin(admin.ModelAdmin):
             return qs.filter(author=request.user)
         return qs
 
-    def image_view(self, obj):
+    def image_view(self, obj):  # pylint: disable=R1710
         if obj is not None and obj.thumbnail:
             return safestring.mark_safe(
                 '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
@@ -106,7 +106,7 @@ class ServiceOfferAdmin(admin.ModelAdmin):
                 )
             )
 
-    def barber_image(self, obj):
+    def barber_image(self, obj):  # pylint: disable=R1710
         if obj is not None and obj.thumbnail:
             return safestring.mark_safe(
                 '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(

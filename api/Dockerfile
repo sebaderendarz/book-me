@@ -45,6 +45,7 @@ COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 WORKDIR $PYSETUP_PATH
 RUN poetry install
+RUN mkdir /var/log/api/django -p && mkdir /var/log/api/celery -p && touch /var/log/api/celery/celery.log
 
 WORKDIR /app
 
@@ -58,6 +59,7 @@ COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 WORKDIR $PYSETUP_PATH
 RUN poetry install --no-dev
+RUN mkdir /var/log/api/django -p && mkdir /var/log/api/celery -p && touch /var/log/api/celery/celery.log
 COPY . /app
 
 WORKDIR /app

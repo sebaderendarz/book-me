@@ -55,6 +55,7 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
     working_days = django_models.CharField(
         __('Working Days'), **utils.enum_to_char_field_args(barber_value_objects.WorkingDays)
     )
+    author = django_models.ForeignKey('authentication.User', on_delete=django_models.PROTECT)
 
     def __str__(self) -> str:
         return f'{self.barber_name}, {self.address} {self.city}'

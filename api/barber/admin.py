@@ -77,12 +77,24 @@ class ServiceOfferAdmin(admin.ModelAdmin):
     )
     list_filter = (utils.OfferStatusFilter, utils.OpenHoursFilter, utils.WorkingDaysFilter)
     actions = (make_active, make_closed, make_hidden)
+    raw_id_fields = ('author',)
     search_fields = ('barber_name', 'city', 'address')
+
+    def get_exclude(self, request, obj=None):
+        if not request.user.is_admin:
+            return self.exclude + ('author',) if self.exclude is not None else ('author',)
+        return self.exclude
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
             return self.readonly_fields + ('image_view',)
         return self.readonly_fields
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_admin:
+            return qs.filter(author=request.user)
+        return qs
 
     def image_view(self, obj):
         return safestring.mark_safe(

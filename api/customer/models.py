@@ -33,3 +33,9 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
     def __str__(self) -> str:
         '''Example: "XY2M76PO 2022-02-13 07:39AM".'''
         return f'{self.token} {self.service_time.strftime("%Y-%m-%d %I:%M%p")}'
+
+
+# TODO Add validation when object is saved. I did not implemented it here yet
+# due to circular import because of pre_save validators in other models that use this models.
+# 1. can create only when barber is avail. Check unavailabilities too.
+# 2. only one not CLOSED order per service time.

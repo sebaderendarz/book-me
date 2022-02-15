@@ -1,7 +1,6 @@
 # type:ignore
 from django.contrib import admin
 
-from authentication import value_objects as auth_value_objects
 from customer import models, utils, value_objects as customer_value_objects
 
 
@@ -38,19 +37,18 @@ class ServiceOrderAdmin(admin.ModelAdmin):
     raw_id_fields = ('customer', 'offer')
 
     def get_readonly_fields(self, request, obj=None):
-        is_user_admin = request.user.account_type == auth_value_objects.AccountType.ADMIN.name
         only_admin_editable_fields = (
             'token',
             'service_time',
             'customer',
             'offer',
         )
-        if obj and not is_user_admin:
+        if obj and not request.user.is_admin:
             return self.readonly_fields + only_admin_editable_fields
         return self.readonly_fields
 
-    # def queryset(self, request):
-    #     qs = super(self).queryset(request)
-    #     if request.user.is_superuser:
-    #         return qs
-    #     return qs.filter(offer__author=request.user)
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_admin:
+            return qs.filter(offer__author=request.user)
+        return qs

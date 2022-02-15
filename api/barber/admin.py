@@ -62,8 +62,6 @@ def make_hidden(modeladmin, request, queryset):  # pylint: disable=unused-argume
 
 @admin.register(barber_models.ServiceOffer)
 class ServiceOfferAdmin(admin.ModelAdmin):
-
-    inlines = (ServiceUnavailabilityInline, PendingServiceOrderInline)
     list_display = (
         'barber_name',
         'city',
@@ -75,6 +73,7 @@ class ServiceOfferAdmin(admin.ModelAdmin):
         'status',
         'barber_image',
     )
+    inlines = (ServiceUnavailabilityInline, PendingServiceOrderInline)
     list_filter = (utils.OfferStatusFilter, utils.OpenHoursFilter, utils.WorkingDaysFilter)
     actions = (make_active, make_closed, make_hidden)
     raw_id_fields = ('author',)
@@ -86,7 +85,7 @@ class ServiceOfferAdmin(admin.ModelAdmin):
         return self.exclude
 
     def get_readonly_fields(self, request, obj=None):
-        if obj:
+        if obj is not None:
             return self.readonly_fields + ('image_view',)
         return self.readonly_fields
 
@@ -97,19 +96,21 @@ class ServiceOfferAdmin(admin.ModelAdmin):
         return qs
 
     def image_view(self, obj):
-        return safestring.mark_safe(
-            '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
-                url=obj.image.url,
-                width=obj.image.width,
-                height=obj.image.height,
+        if obj is not None and obj.image:
+            return safestring.mark_safe(
+                '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
+                    url=obj.image.url,
+                    width=obj.image.width,
+                    height=obj.image.height,
+                )
             )
-        )
 
     def barber_image(self, obj):
-        return safestring.mark_safe(
-            '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
-                url=obj.image.url,
-                width=obj.image.width / 2.5,
-                height=obj.image.height / 2.5,
+        if obj is not None and obj.image:
+            return safestring.mark_safe(
+                '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
+                    url=obj.image.url,
+                    width=obj.image.width / 2.5,
+                    height=obj.image.height / 2.5,
+                )
             )
-        )

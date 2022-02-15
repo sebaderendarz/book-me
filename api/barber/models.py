@@ -40,7 +40,10 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
         validators=[django_validators.MinValueValidator(decimal.Decimal('0.01'))],
     )
     image = django_models.ImageField(
-        __('Barber Image'), upload_to='barber/service_offer', blank=True
+        __('Barber Image'), upload_to='barber/service_offers/image', blank=True
+    )
+    thumbnail = django_models.ImageField(
+        __('Barber Thumbnail'), upload_to='barber/service_offers/thumbnail', blank=True
     )
     specialization = django_models.CharField(
         __('Specialization'),

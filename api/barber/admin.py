@@ -73,6 +73,7 @@ class ServiceOfferAdmin(admin.ModelAdmin):
         'status',
         'barber_image',
     )
+    exclude = ('thumbnail',)
     inlines = (ServiceUnavailabilityInline, PendingServiceOrderInline)
     list_filter = (utils.OfferStatusFilter, utils.OpenHoursFilter, utils.WorkingDaysFilter)
     actions = (make_active, make_closed, make_hidden)
@@ -96,21 +97,21 @@ class ServiceOfferAdmin(admin.ModelAdmin):
         return qs
 
     def image_view(self, obj):
-        if obj is not None and obj.image:
+        if obj is not None and obj.thumbnail:
             return safestring.mark_safe(
                 '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
-                    url=obj.image.url,
-                    width=obj.image.width,
-                    height=obj.image.height,
+                    url=obj.thumbnail.url,
+                    width=obj.thumbnail.width,
+                    height=obj.thumbnail.height,
                 )
             )
 
     def barber_image(self, obj):
-        if obj is not None and obj.image:
+        if obj is not None and obj.thumbnail:
             return safestring.mark_safe(
                 '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
-                    url=obj.image.url,
-                    width=obj.image.width / 2.5,
-                    height=obj.image.height / 2.5,
+                    url=obj.thumbnail.url,
+                    width=obj.thumbnail.width / 2.5,
+                    height=obj.thumbnail.height / 2.5,
                 )
             )

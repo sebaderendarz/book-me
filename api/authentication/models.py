@@ -111,7 +111,7 @@ class User(
     def __str__(self) -> str:
         '''Human readable representation of object.'''
 
-        return f'{self.name} {self.surname}'
+        return f'{self.name} {self.surname} {self.email}'
 
     @property
     def is_active(self) -> bool:  # type:ignore

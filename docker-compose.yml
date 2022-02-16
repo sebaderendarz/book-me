@@ -7,8 +7,7 @@ services:
       target: production
     restart: always
     depends_on:
-      - db
-      - redis
+      - celery
     command: sh -c "daphne --access-log /var/log/api/daphne/access.log --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
     volumes:
       - ./persistent_data/media:/var/lib/media
@@ -16,6 +15,7 @@ services:
       - ./persistent_data/log/api/django:/var/log/api/django
       - ./persistent_data/log/api/daphne:/var/log/api/daphne
     environment:
+      - CELERY_LOG_LEVEL
       - CELERY_BROKER_URL
       - CELERY_RESULT_BACKEND
       - DJANGO_ALLOWED_HOSTS
@@ -59,6 +59,38 @@ services:
       - POSTGRES_DB
       - POSTGRES_USER
       - POSTGRES_PASSWORD
+
+  celery:
+    build: 
+      context: ./api
+      target: production
+    restart: always
+    depends_on:
+      - db
+      - redis
+    command: celery --app tasks worker --loglevel ${CELERY_LOG_LEVEL}
+    volumes:
+      - ./persistent_data/media:/var/lib/media
+      - ./persistent_data/static:/var/lib/static
+      - ./persistent_data/log/api/celery:/var/log/api/celery
+    environment:
+      - CELERY_LOG_LEVEL
+      - CELERY_BROKER_URL
+      - CELERY_RESULT_BACKEND
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_CORS_ALLOW_CREDENTIALS
+      - DJANGO_CORS_ORIGIN_WHITELIST
+      - DJANGO_CSRF_TRUSTED_ORIGINS
+      - DJANGO_DEBUG
+      - DJANGO_LOG_LEVEL
+      - DJANGO_MEDIA_URL
+      - DJANGO_SECRET_KEY
+      - DJANGO_STATIC_URL
+      - POSTGRES_DB
+      - POSTGRES_HOST
+      - POSTGRES_PASSWORD
+      - POSTGRES_PORT
+      - POSTGRES_USER
 
   redis:
     image: redis:6.2-buster

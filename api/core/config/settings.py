@@ -20,15 +20,13 @@ SECRET_KEY = utils.get_env_value('DJANGO_SECRET_KEY')
 DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
 ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
-# NOTE I tried to use custom django admin frameworks, but in each case there was a problem with css.
-# 1. https://github.com/farridav/django-jazzmin
-# 2. https://github.com/fabiocaccamo/django-admin-interface
-
-# NOTE psycopg2-binary dependency must be installed to make django app working with postgres.
+# NOTE: psycopg2-binary dependency must be installed to make django app working with postgres.
 # TODO not sure if needed | install -> add to installed apps
 # djangochannelsrestframework -> djangochannelsrestframework
 # django-extensions -> django_extensions
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,9 +40,12 @@ INSTALLED_APPS = [
     'authentication',
     'barber',
     'customer',
+    'management',
+    'tasks',
 ]
 
-# TODO corsheaders may me a cause of issue if you will be stuck
+
+# NOTE: Corsheaders may be a cause of an issue. Info in case you will be stuck.
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -119,7 +120,7 @@ CHANNEL_LAYERS = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -127,6 +128,11 @@ USE_TZ = True
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# needed only when using django-admin-interface extension with django version >= 3.0
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SILENCED_SYSTEM_CHECKS = ['security.W019']
 
 
 ROOT_URLCONF = 'core.urls'
@@ -137,16 +143,24 @@ MEDIA_ROOT = '/var/lib/media'
 STATIC_URL = utils.get_env_value('DJANGO_STATIC_URL')
 STATIC_ROOT = '/var/lib/static'
 
-DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
 
-CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = utils.get_env_value('DJANGO_CORS_ORIGIN_WHITELIST').split()
 CSRF_TRUSTED_ORIGINS = utils.get_env_value('DJANGO_CSRF_TRUSTED_ORIGINS').split()
 CORS_ALLOW_CREDENTIALS = (
     utils.get_env_value('DJANGO_CORS_ALLOW_CREDENTIALS', 'false').lower() == 'true'
 )
+
+
+CELERY_LOG_LEVEL = utils.get_env_value('CELERY_LOG_LEVEL', 'WARNING')
+CELERY_BROKER_URL = utils.get_env_value('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = utils.get_env_value('CELERY_RESULT_BACKEND')
+CELERY_TIMEZONE = 'Europe/Warsaw'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+DJANGO_LOG_LEVEL = utils.get_env_value('DJANGO_LOG_LEVEL', 'WARNING')
 
 
 LOGGING = {
@@ -192,6 +206,12 @@ LOGGING = {
             'formatter': 'verbose',
             'filename': '/var/log/api/django/root.log',
         },
+        'file_celery': {
+            'level': CELERY_LOG_LEVEL,
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': '/var/log/api/celery/celery.log',
+        },
     },
     'root': {
         'handlers': ['console', 'file_root'],
@@ -206,6 +226,11 @@ LOGGING = {
         'django.request': {
             'handlers': ['console', 'file_error'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'celery': {
+            'handlers': ['console', 'file_celery'],
+            'level': CELERY_LOG_LEVEL,
             'propagate': True,
         },
     },

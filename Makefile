@@ -75,26 +75,43 @@ restart-service-stg: ## restart staging/QA service, usage: `make service=api res
 
 
 # ==========================================================================================================
-# Django commands
+# Django dev commands
 # ==========================================================================================================
 
-django-makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
+makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py makemigrations $(apps)
 
 django-dev: ## run django management commands via make in development environment, usage: `make django-dev cmd='makemigrations barber'`
 	docker-compose $(DEV_COMPOSE) exec api python manage.py $(cmd)
 
-django-migrate-dev: ## apply migration for django app, usage: `make app='barber' django-migrate-dev`
+shell-dev: ## get into django shell in development environment
+	docker-compose $(DEV_COMPOSE) exec api python manage.py shell
+
+migrate-dev: ## apply migration for django app in development environment, usage: `make app='barber' django-migrate-dev`
 	docker-compose $(DEV_COMPOSE) exec -T api python manage.py migrate $(app)
 
-django-superuser-dev: ## create admin account in development environment
+superuser-dev: ## create admin account in development environment
 	docker-compose $(DEV_COMPOSE) exec api python manage.py createsuperuser
+
+collectstatic-dev: ## collect static files needed to make django admin work properly in development environment
+	docker-compose $(DEV_COMPOSE) exec api python manage.py collectstatic
+
+
+# ==========================================================================================================
+# Django staging/QA commands
+# ==========================================================================================================
 
 django-stg: ## run django management commands via make in staging/QA environment, usage: `make django-stg cmd='migrate barber'`
 	docker-compose $(STG_COMPOSE) exec api python manage.py $(cmd)
 
-django-migrate-stg: ## apply migration for django app, usage: `make app='barber' django-migrate-stg`
+shell-stg: ## get into django shell in staging/QA environment
+	docker-compose $(STG_COMPOSE) exec api python manage.py shell
+
+migrate-stg: ## apply migration for django app in staging/QA environment, usage: `make app='barber' django-migrate-stg`
 	docker-compose $(STG_COMPOSE) exec -T api python manage.py migrate $(app)
 
-django-superuser-stg: ## create admin account in staging/QA environment
+superuser-stg: ## create admin account in staging/QA environment
 	docker-compose $(STG_COMPOSE) exec api python manage.py createsuperuser
+
+collectstatic-stg: ## collect static files needed to make django admin work properly in staging/QA environment
+	docker-compose $(STG_COMPOSE) exec api python manage.py collectstatic

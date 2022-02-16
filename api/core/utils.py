@@ -1,12 +1,22 @@
 import enum
 import typing
 
+from django.utils.translation import gettext_lazy as __
+
 
 def enum_to_char_field_args(enum_object: typing.Type[enum.Enum]) -> typing.Dict:  # type: ignore
     '''Convert enum to char field when defining a model.'''
     return {
         'max_length': max(len(constant.name) for constant in enum_object),
         'choices': [(constant.name, constant.value) for constant in enum_object],
+    }
+
+
+def enum_to_char_field_args_translated(enum_object: typing.Type[enum.Enum]) -> typing.Dict:  # type: ignore
+    '''Convert enum to char field and translate field value.'''
+    return {
+        'max_length': max(len(constant.name) for constant in enum_object),
+        'choices': [(constant.name, __(constant.value)) for constant in enum_object],
     }
 
 

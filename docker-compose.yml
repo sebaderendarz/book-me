@@ -7,8 +7,7 @@ services:
       target: production
     restart: always
     depends_on:
-      - db
-      - redis
+      - celery
     command: sh -c "daphne --access-log /var/log/api/daphne/access.log --bind 0.0.0.0 core.asgi:application && python manage.py runworker -v2"
     volumes:
       - ./persistent_data/media:/var/lib/media

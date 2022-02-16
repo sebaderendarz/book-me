@@ -10,6 +10,11 @@ from barber import value_objects as barber_value_objects
 from core import utils, validators as core_validators
 from customer import models as customer_models, value_objects as customer_value_objects
 
+SERVICE_OFFER_IMAGE_PATH = 'barber/service_offers/image'
+SERVICE_OFFER_THUMBNAIL_PATH = 'barber/service_offers/thumbnail'
+MAX_THUMBNAIL_WIDTH = 250
+MAX_THUMBNAIL_HEIGHT = 250
+
 
 class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'), django_models.Model):  # type: ignore
     created_at = django_models.DateTimeField(__('Created at'), auto_now_add=True)
@@ -40,10 +45,10 @@ class ServiceOffer(prom_models.ExportModelOperationsMixin('barber.service_offer'
         validators=[django_validators.MinValueValidator(decimal.Decimal('0.01'))],
     )
     image = django_models.ImageField(
-        __('Barber Image'), upload_to='barber/service_offers/image', blank=True
+        __('Barber Image'), upload_to=SERVICE_OFFER_IMAGE_PATH, blank=True
     )
     thumbnail = django_models.ImageField(
-        __('Barber Thumbnail'), upload_to='barber/service_offers/thumbnail', blank=True
+        __('Barber Thumbnail'), upload_to=SERVICE_OFFER_THUMBNAIL_PATH, blank=True
     )
     specialization = django_models.CharField(
         __('Specialization'),

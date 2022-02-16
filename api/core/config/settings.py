@@ -20,7 +20,7 @@ SECRET_KEY = utils.get_env_value('DJANGO_SECRET_KEY')
 DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
 ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
-# NOTE psycopg2-binary dependency must be installed to make django app working with postgres.
+# NOTE: psycopg2-binary dependency must be installed to make django app working with postgres.
 # TODO not sure if needed | install -> add to installed apps
 # djangochannelsrestframework -> djangochannelsrestframework
 # django-extensions -> django_extensions
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 ]
 
 
-# TODO corsheaders may me a cause of issue if you will be stuck
+# NOTE: Corsheaders may be a cause of an issue. Info in case you will be stuck.
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'corsheaders.middleware.CorsMiddleware',

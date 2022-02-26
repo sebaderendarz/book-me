@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 import os
 
+from django.utils import timezone
+
 from core.config import utils
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_prometheus',
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
     'channels',
     'corsheaders',
     'authentication',
@@ -103,11 +106,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timezone.timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timezone.timedelta(hours=12),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
 }
 
 

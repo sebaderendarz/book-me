@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework_simplejwt import views as rest_views  # type: ignore
+from rest_framework_simplejwt import views as rest_views
 
 from authentication import views as auth_views
 
@@ -17,6 +17,11 @@ urlpatterns = [
         'login/customer/refresh/',
         rest_views.TokenRefreshView.as_view(),
         name='login-refresh-customer',
+    ),
+    path(
+        'register/activate/<slug:token>/',
+        auth_views.AccountActivationView.as_view(),
+        name='account-activation-link',
     ),
     path('register/', auth_views.RegisterUserView.as_view(), name='register-user'),
 ]

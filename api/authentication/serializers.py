@@ -1,17 +1,13 @@
-from django.contrib import auth
-from django.contrib.auth import models
 from django.utils.translation import gettext_lazy as __
-from rest_framework import exceptions, serializers as rest_serializers  # type: ignore
-from rest_framework_simplejwt import serializers as jwt_serializers, tokens  # type: ignore
+from rest_framework import exceptions, serializers as rest_serializers
+from rest_framework_simplejwt import serializers as jwt_serializers, tokens
 
-from authentication import value_objects
-
-User = auth.get_user_model()
+from authentication import models, value_objects
 
 
 class RegisterUserSerializer(rest_serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = models.User
         fields = ('email', 'password', 'name', 'surname', 'account_type')
         write_only_fields = ('password',)
 
@@ -22,12 +18,12 @@ class RegisterUserSerializer(rest_serializers.ModelSerializer):
         ):
             raise rest_serializers.ValidationError(__(f'"{value}" is not a valid choice.'))
 
-    def create(self, validated_data: dict) -> User:
+    def create(self, validated_data: dict) -> models.User:
         account_type = validated_data.pop('account_type')
 
         if account_type == value_objects.AccountType.BARBER.value:
-            return User.objects.create_barber(**validated_data)
-        return User.objects.create_customer(**validated_data)
+            return models.User.objects.create_barber(**validated_data)
+        return models.User.objects.create_customer(**validated_data)
 
 
 class TokenObtainPairAdminSerializer(
@@ -47,7 +43,7 @@ class TokenObtainPairAdminSerializer(
 
         return data
 
-    def get_token(self, user: models.AbstractUser) -> tokens.RefreshToken:
+    def get_token(self, user: models.User) -> tokens.RefreshToken:
         return self.token_class.for_user(user)
 
     def _validate_if_admin(self) -> None:
@@ -75,7 +71,7 @@ class TokenObtainPairBarberSerializer(
 
         return data
 
-    def get_token(self, user: models.AbstractUser) -> tokens.RefreshToken:
+    def get_token(self, user: models.User) -> tokens.RefreshToken:
         return self.token_class.for_user(user)
 
     def _validate_if_barber(self) -> None:
@@ -103,7 +99,7 @@ class TokenObtainPairCustomerSerializer(
 
         return data
 
-    def get_token(self, user: models.AbstractUser) -> tokens.RefreshToken:
+    def get_token(self, user: models.User) -> tokens.RefreshToken:
         return self.token_class.for_user(user)
 
     def _validate_if_customer(self) -> None:

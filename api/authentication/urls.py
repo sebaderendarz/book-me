@@ -18,4 +18,5 @@ urlpatterns = [
         rest_views.TokenRefreshView.as_view(),
         name='login-refresh-customer',
     ),
+    path('register/', auth_views.RegisterUserView.as_view(), name='register-user'),
 ]

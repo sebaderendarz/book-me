@@ -1,11 +1,38 @@
+from django.contrib import auth
 from django.contrib.auth import models
-from rest_framework import exceptions  # type: ignore
-from rest_framework_simplejwt import serializers, tokens  # type: ignore
+from django.utils.translation import gettext_lazy as __
+from rest_framework import exceptions, serializers as rest_serializers  # type: ignore
+from rest_framework_simplejwt import serializers as jwt_serializers, tokens  # type: ignore
 
 from authentication import value_objects
 
+User = auth.get_user_model()
 
-class TokenObtainPairAdminSerializer(serializers.TokenObtainSerializer):  # pylint: disable=W0223
+
+class RegisterUserSerializer(rest_serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'name', 'surname', 'account_type')
+        write_only_fields = ('password',)
+
+    def validate_account_type(self, value: str) -> None:
+        if value not in (
+            value_objects.AccountType.BARBER.value,
+            value_objects.AccountType.CUSTOMER.value,
+        ):
+            raise rest_serializers.ValidationError(__(f'"{value}" is not a valid choice.'))
+
+    def create(self, validated_data: dict) -> User:
+        account_type = validated_data.pop('account_type')
+
+        if account_type == value_objects.AccountType.BARBER.value:
+            return User.objects.create_barber(**validated_data)
+        return User.objects.create_customer(**validated_data)
+
+
+class TokenObtainPairAdminSerializer(
+    jwt_serializers.TokenObtainSerializer
+):  # pylint: disable=W0223
     '''Create access and initial refresh admin tokens.'''
 
     token_class = tokens.RefreshToken
@@ -31,7 +58,9 @@ class TokenObtainPairAdminSerializer(serializers.TokenObtainSerializer):  # pyli
             )
 
 
-class TokenObtainPairBarberSerializer(serializers.TokenObtainSerializer):  # pylint: disable=W0223
+class TokenObtainPairBarberSerializer(
+    jwt_serializers.TokenObtainSerializer
+):  # pylint: disable=W0223
     '''Create access and initial refresh barber tokens.'''
 
     token_class = tokens.RefreshToken
@@ -57,7 +86,9 @@ class TokenObtainPairBarberSerializer(serializers.TokenObtainSerializer):  # pyl
             )
 
 
-class TokenObtainPairCustomerSerializer(serializers.TokenObtainSerializer):  # pylint: disable=W0223
+class TokenObtainPairCustomerSerializer(
+    jwt_serializers.TokenObtainSerializer
+):  # pylint: disable=W0223
     '''Create access and initial refresh customer tokens.'''
 
     token_class = tokens.RefreshToken

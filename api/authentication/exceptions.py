@@ -1,4 +1,4 @@
-from rest_framework import exceptions  # type: ignore
+from rest_framework import exceptions
 
 
 class AccountActivationFailedException(exceptions.ParseError):

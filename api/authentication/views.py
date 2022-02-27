@@ -3,14 +3,8 @@ import uuid
 from django import urls
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as __
-from rest_framework import (  # type: ignore
-    permissions,
-    request,
-    response,
-    status,
-    views as rest_views,
-)
-from rest_framework_simplejwt import views as jwt_views  # type: ignore
+from rest_framework import permissions, request, response, status, views as rest_views
+from rest_framework_simplejwt import views as jwt_views
 
 from authentication import exceptions, models, serializers, value_objects
 from tasks import email_tasks

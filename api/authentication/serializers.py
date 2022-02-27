@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as __
-from rest_framework import exceptions, serializers as rest_serializers  # type: ignore
-from rest_framework_simplejwt import serializers as jwt_serializers, tokens  # type: ignore
+from rest_framework import exceptions, serializers as rest_serializers
+from rest_framework_simplejwt import serializers as jwt_serializers, tokens
 
 from authentication import models, value_objects
 

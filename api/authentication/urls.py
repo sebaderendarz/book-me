@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework_simplejwt import views as rest_views  # type: ignore
+from rest_framework_simplejwt import views as rest_views
 
 from authentication import views as auth_views
 

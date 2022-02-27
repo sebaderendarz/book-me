@@ -230,7 +230,7 @@ zstd = ["zstandard"]
 name = "certifi"
 version = "2021.10.8"
 description = "Python package for providing Mozilla's CA Bundle."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -283,7 +283,7 @@ tests = ["cryptography (>=1.3.0)", "pytest", "pytest-asyncio (==0.14.0)", "async
 name = "charset-normalizer"
 version = "2.0.12"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.5.0"
 
@@ -359,7 +359,7 @@ python-versions = "*"
 name = "coreapi"
 version = "2.3.3"
 description = "Python client library for Core API."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -373,7 +373,7 @@ uritemplate = "*"
 name = "coreschema"
 version = "0.0.4"
 description = "Core Schema."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -521,7 +521,7 @@ prometheus-client = ">=0.7"
 name = "django-stubs"
 version = "1.9.0"
 description = "Mypy stubs for Django"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -538,7 +538,7 @@ typing-extensions = "*"
 name = "django-stubs-ext"
 version = "0.3.1"
 description = "Monkey-patching and extensions for django-stubs"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -582,7 +582,7 @@ test = ["cryptography", "pytest-cov", "pytest-django", "pytest-xdist", "pytest",
 name = "djangorestframework-stubs"
 version = "1.4.0"
 description = "PEP-484 stubs for django-rest-framework"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -718,7 +718,7 @@ plugins = ["setuptools"]
 name = "itypes"
 version = "1.2.0"
 description = "Simple immutable types for python."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -741,7 +741,7 @@ testing = ["Django (<3.1)", "colorama", "docopt", "pytest (<7.0.0)"]
 name = "jinja2"
 version = "3.0.3"
 description = "A very fast and expressive template engine."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -791,7 +791,7 @@ python-versions = ">=3.6"
 name = "markupsafe"
 version = "2.1.0"
 description = "Safely add untrusted strings to HTML/XML markup."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -834,7 +834,7 @@ python-versions = "*"
 name = "mypy"
 version = "0.931"
 description = "Optional static typing for Python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -851,7 +851,7 @@ python2 = ["typed-ast (>=1.4.0,<2)"]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1198,7 +1198,7 @@ ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"
 name = "requests"
 version = "2.27.1"
 description = "Python HTTP for Humans."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 
@@ -1297,7 +1297,7 @@ python-versions = "*"
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -1305,7 +1305,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -1381,7 +1381,7 @@ twisted = ["zope.interface (>=5.2.0)", "twisted (>=20.3.0)"]
 name = "types-pytz"
 version = "2021.3.4"
 description = "Typing stubs for pytz"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1389,7 +1389,7 @@ python-versions = "*"
 name = "types-pyyaml"
 version = "6.0.4"
 description = "Typing stubs for PyYAML"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -1413,7 +1413,7 @@ python-versions = ">=2"
 name = "uritemplate"
 version = "4.1.1"
 description = "Implementation of RFC 6570 URI Templates"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -1421,7 +1421,7 @@ python-versions = ">=3.6"
 name = "urllib3"
 version = "1.26.8"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
@@ -1470,7 +1470,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "d3cdf25e973a68a84e6e8bdacee27f30859455049dfbad39885a654f9a0c2295"
+content-hash = "8151ae81872eb19fae2882080f81b2bdb36e353bacfada239a4302133cd5699b"
 
 [metadata.files]
 aioredis = [

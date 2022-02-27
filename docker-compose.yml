@@ -32,6 +32,9 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_PORT
       - POSTGRES_USER
+      - SENDGRID_API_KEY
+      - SENDGRID_SENDER_EMAIL
+      - SENDGRID_ACCOUNT_ACTIVATION_TEMPLATE_ID
 
   frontend:
     build:
@@ -91,6 +94,9 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_PORT
       - POSTGRES_USER
+      - SENDGRID_API_KEY
+      - SENDGRID_SENDER_EMAIL
+      - SENDGRID_ACCOUNT_ACTIVATION_TEMPLATE_ID
 
   redis:
     image: redis:6.2-buster

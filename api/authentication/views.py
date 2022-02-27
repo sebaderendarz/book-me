@@ -1,13 +1,60 @@
+import uuid
+
 from django import urls
-from django.contrib import auth
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as __
-from rest_framework import permissions, request, response, status, views as rest_views
+from rest_framework import (  # type: ignore
+    permissions,
+    request,
+    response,
+    status,
+    views as rest_views,
+)
 from rest_framework_simplejwt import views as jwt_views  # type: ignore
 
-from authentication import serializers
+from authentication import exceptions, models, serializers, value_objects
 from tasks import email_tasks
 
-User = auth.get_user_model()
+
+class AccountActivationView(rest_views.APIView):
+
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request: request.Request, token: str) -> response.Response:
+        uuid_token = self._get_uuid_from_token(token)
+        user = self._get_user_by_token(uuid_token)
+        self._check_if_user_under_verification(user)
+        self._check_if_activation_link_not_expired(user)
+        user.account_status = value_objects.AccountStatus.ACTIVE.value
+        user.save()
+        return response.Response(
+            {'detail': __('Account has been activated.')}, status=status.HTTP_200_OK
+        )
+
+    def _get_uuid_from_token(self, token: str) -> uuid.UUID:
+        try:
+            return uuid.UUID(token)
+        except ValueError:
+            raise exceptions.AccountActivationFailedException(__('Invalid link.'))
+
+    def _get_user_by_token(self, token: uuid.UUID) -> models.User:
+        user = models.User.objects.filter(email_confirmation_token=token).first()
+        if user is None:
+            raise exceptions.AccountActivationFailedException(__('Invalid link.'))
+        return user
+
+    def _check_if_user_under_verification(self, user: models.User) -> None:
+        if user.account_status != value_objects.AccountStatus.UNDER_VERIFICATION.value:
+            raise exceptions.AccountActivationFailedException(
+                __('This account has already been activated.')
+            )
+
+    def _check_if_activation_link_not_expired(self, user: models.User) -> None:
+        if user.email_confirmation_token_ttl < timezone.now():
+            user.hard_delete()
+            raise exceptions.AccountActivationFailedException(
+                __('Account activation link has expired. Create account again.')
+            )
 
 
 class RegisterUserView(rest_views.APIView):
@@ -26,11 +73,9 @@ class RegisterUserView(rest_views.APIView):
                 'Thank You for registering. An email with account activation '
                 'link was sent to You. Check your mailbox.'
             )
-            return response.Response(
-                {'detail': __(response_message)}, status=status.HTTP_201_CREATED
-            )
+        return response.Response({'detail': __(response_message)}, status=status.HTTP_201_CREATED)
 
-    def _send_account_activation_email(self, user: User, activation_link: str) -> None:
+    def _send_account_activation_email(self, user: models.User, activation_link: str) -> None:
         template_data = {
             'activation_link': activation_link,
             'user_email': user.email,

@@ -18,5 +18,10 @@ urlpatterns = [
         rest_views.TokenRefreshView.as_view(),
         name='login-refresh-customer',
     ),
+    path(
+        'register/activate/<slug:token>/',
+        auth_views.AccountActivationView.as_view(),
+        name='account-activation-link',
+    ),
     path('register/', auth_views.RegisterUserView.as_view(), name='register-user'),
 ]

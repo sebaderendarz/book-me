@@ -141,3 +141,6 @@ class User(
         ):
             self.account_status = value_objects.AccountStatus.CLOSED.name
             self.save()
+
+    def hard_delete(self) -> None:
+        super().delete()

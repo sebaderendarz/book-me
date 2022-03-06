@@ -8,4 +8,5 @@ urlpatterns = [
         views.ServiceOfferViewSet.as_view({'get': 'retrieve'}),
         name='get-service-offer-details',
     ),
+    path('service_offers/', views.ServiceOfferListView.as_view(), name='get-filtered-offers-list'),
 ]

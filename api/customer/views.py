@@ -1,0 +1,36 @@
+from django.utils.translation import gettext_lazy as __
+from rest_framework import request, response, status, views
+
+from customer import permissions, serializers
+
+# from .signals import trigger_order_channel
+
+
+class ServiceOrderView(views.APIView):
+
+    permission_classes = [permissions.IsAuthenticatedCustomer]
+
+    def post(self, request: request.Request) -> response.Response:
+        book_service_serializer = serializers.BookServiceSerializer(
+            data={**request.data, 'customer': request.user.id}
+        )
+        book_service_serializer.is_valid(raise_exception=True)
+        book_service_serializer.save()
+        # trigger_service_channel()
+        return response.Response(
+            {
+                'token': book_service_serializer.validated_data.token,
+                'detail': __('Use this token to confirm or cancel your reservation.'),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+    def delete(self, request: request.Request) -> response.Response:
+        cancel_service_serializer = serializers.CancelServiceSerializer(data=request.data)
+        cancel_service_serializer.is_valid(raise_exception=True)
+        cancel_service_serializer.save()
+        # trigger_service_channel()
+        return response.Response(
+            {'detail': __('Barber service cancelled.')},
+            status=status.HTTP_200_OK,
+        )

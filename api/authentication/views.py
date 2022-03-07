@@ -95,3 +95,10 @@ class TokenObtainPairBarberView(jwt_views.TokenViewBase):
 class TokenObtainPairCustomerView(jwt_views.TokenViewBase):
 
     serializer_class = serializers.TokenObtainPairCustomerSerializer
+
+
+class PingView(rest_views.APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request: request.Request) -> response.Response:
+        return response.Response({'ping': 'pong'})

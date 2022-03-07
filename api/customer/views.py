@@ -15,11 +15,11 @@ class ServiceOrderView(views.APIView):
             data={**request.data, 'customer': request.user.id}
         )
         book_service_serializer.is_valid(raise_exception=True)
-        book_service_serializer.save()
+        booked_service = book_service_serializer.save()
         # trigger_service_channel()
         return response.Response(
             {
-                'token': book_service_serializer.validated_data.token,
+                'token': booked_service.token,
                 'detail': __('Use this token to confirm or cancel your reservation.'),
             },
             status=status.HTTP_201_CREATED,
@@ -31,6 +31,6 @@ class ServiceOrderView(views.APIView):
         cancel_service_serializer.save()
         # trigger_service_channel()
         return response.Response(
-            {'detail': __('Barber service cancelled.')},
+            {'detail': __('Barber service canceled.')},
             status=status.HTTP_200_OK,
         )

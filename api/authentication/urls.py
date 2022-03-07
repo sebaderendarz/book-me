@@ -18,6 +18,7 @@ urlpatterns = [
         rest_views.TokenRefreshView.as_view(),
         name='login-refresh-customer',
     ),
+    path('ping/', auth_views.PingView.as_view(), name='ping'),
     path(
         'register/activate/<slug:token>/',
         auth_views.AccountActivationView.as_view(),

@@ -21,20 +21,21 @@ class BookServiceSerializer(serializers.ModelSerializer):
 
     def validate_service_time(self, service_time: str) -> datetime:
         try:
-            return datetime.fromisoformat(service_time)
+            service_datetime = datetime.fromisoformat(service_time)
         except ValueError:
             raise serializers.ValidationError(__('Invalid service time format.'))
+        validators.FullOrHalfHourValidator()(service_datetime)
+        self._validate_if_date_not_from_the_past(service_datetime)
+        self._validate_if_not_too_early_today(service_datetime)
+        return service_datetime
 
     def validate(self, attrs: dict) -> dict:
         validated_data = super().validate(attrs)
-        validators.FullOrHalfHourValidator()(validated_data['service_time'])
-        self._validate_if_date_not_from_the_past(validated_data['service_time'])
-        self._validate_if_not_too_early_today(validated_data['service_time'])
         self._validate_if_not_in_unavailability_period(
-            validated_data['service_time'].date, validated_data['offer']
+            validated_data['service_time'].date(), validated_data['offer']
         )
-        self._validate_if_working_day(validated_data['service_time'].date, validated_data['offer'])
-        self._validate_if_working_hour(validated_data['service_time'].date, validated_data['offer'])
+        self._validate_if_working_day(validated_data['service_time'], validated_data['offer'])
+        self._validate_if_working_hour(validated_data['service_time'], validated_data['offer'])
         self._validate_if_service_not_ordered_yet(
             validated_data['service_time'], validated_data['offer']
         )
@@ -70,13 +71,13 @@ class BookServiceSerializer(serializers.ModelSerializer):
             service_offer.working_days == barber_value_objects.WorkingDays.MONDAY_SATURDAY.name
             and service_time.weekday() > 5
         ):
-            raise serializers.ValidationError(__('Service not available in this day of a week.'))
+            raise serializers.ValidationError(__('Service not available in this day of the week.'))
 
     def _validate_if_working_hour(
         self, service_time: datetime, service_offer: barber_models.ServiceOffer
     ) -> None:
         hour = service_time.hour
-        error_message = __('Service not available at this hour of a day.')
+        error_message = __('Service not available at this hour of the day.')
         invalid_8_4 = (
             service_offer.open_hours == barber_value_objects.OpenHours.FROM_8AM_TO_4PM.name
             and (hour < 8 or hour >= 16)
@@ -111,7 +112,7 @@ class BookServiceSerializer(serializers.ModelSerializer):
             .first()
         )
         if service_order is not None:
-            raise serializers.ValidationError(__('Service for this time booked already.'))
+            raise serializers.ValidationError(__('Service for this timebox booked already.'))
 
     def create(self, validated_data: dict) -> customer_models.ServiceOrder:
         return customer_models.ServiceOrder.objects.create(**validated_data)
@@ -131,11 +132,14 @@ class CancelServiceSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(__('Token must be alphanumeric.'))
 
     def validate(self, attrs: dict) -> dict:
-        if (
-            not customer_models.ServiceOrder.objects.filter(token=attrs['token'])
+        self.instance = (
+            customer_models.ServiceOrder.objects.filter(
+                token=attrs['token'], service_time__gt=datetime.now()
+            )
             .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
             .first()
-        ):
+        )
+        if self.instance is None:
             raise serializers.ValidationError(__('Invalid or inactive token.'))
         return attrs
 

@@ -40,7 +40,9 @@ class FullOrHalfHourValidator:
         error_message = __('Provide datetime that is full or half hour.')
         if datetime is not None:
             minute = datetime.minute
-            if minute not in (0, 30):
+            second = datetime.second
+            microsecond = datetime.microsecond
+            if minute not in (0, 30) or second != 0 or microsecond != 0:
                 raise exceptions.ValidationError(error_message)
 
     def __eq__(self, other: object) -> bool:

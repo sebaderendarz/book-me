@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'customer',
     'management',
     'tasks',
+    'websockets',
 ]
 
 

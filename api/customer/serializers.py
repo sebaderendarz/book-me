@@ -120,6 +120,9 @@ class BookServiceSerializer(serializers.ModelSerializer):
 
 
 class CancelServiceSerializer(serializers.ModelSerializer):
+
+    token = serializers.CharField(max_length=8, min_length=8, trim_whitespace=True)
+
     class Meta:
         model = customer_models.ServiceOrder
         fields = ('token',)

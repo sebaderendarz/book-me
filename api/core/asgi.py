@@ -28,7 +28,7 @@ application = routing.ProtocolTypeRouter(
                 [
                     urls.re_path(
                         r'^websockets/notification/(?P<offer_id>\d+)/$',
-                        consumers.ServiceOrderConsumer.as_asgi(),
+                        consumers.ServiceOfferConsumer.as_asgi(),
                     ),
                 ]
             )

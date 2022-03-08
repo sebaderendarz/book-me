@@ -108,7 +108,7 @@ class BookServiceSerializer(serializers.ModelSerializer):
             customer_models.ServiceOrder.objects.filter(
                 offer=service_offer, service_time=service_time
             )
-            .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+            .exclude(status=customer_value_objects.ServiceOrderStatus.CLOSED.name)
             .first()
         )
         if service_order is not None:
@@ -136,7 +136,7 @@ class CancelServiceSerializer(serializers.ModelSerializer):
             customer_models.ServiceOrder.objects.filter(
                 token=attrs['token'], service_time__gt=datetime.now()
             )
-            .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+            .exclude(status=customer_value_objects.ServiceOrderStatus.CLOSED.name)
             .first()
         )
         if self.instance is None:
@@ -146,6 +146,6 @@ class CancelServiceSerializer(serializers.ModelSerializer):
     def update(
         self, instance: customer_models.ServiceOrder, validated_data: dict
     ) -> customer_models.ServiceOrder:
-        instance.status = customer_value_objects.OrderStatus.CLOSED.name
+        instance.status = customer_value_objects.ServiceOrderStatus.CLOSED.name
         instance.save()
         return instance

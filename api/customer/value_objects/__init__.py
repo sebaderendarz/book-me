@@ -1,4 +1,4 @@
-__all__ = ['OrderStatus']
+__all__ = ['ServiceOrderStatus']
 
 
-from customer.value_objects.order_status import OrderStatus
+from customer.value_objects.order_status import ServiceOrderStatus

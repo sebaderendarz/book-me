@@ -1,25 +1,27 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useRef, useState, useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to see the magic.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const { REACT_APP_WS_BASE_URL } = process.env;
+const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}notification/1/`;
+
+const App = () => {
+  const [schedule, setSchedule] = useState([]);
+  const ws = useRef(null);
+
+  useEffect(() => {
+    ws.current = new WebSocket(WEBSOCKET_API_URL);
+    ws.current.onmessage = (e) => {
+      const message = JSON.parse(e.data);
+      setSchedule(message ? message : []);
+    };
+
+    const wsCurrent = ws.current;
+
+    return () => {
+      wsCurrent.close();
+    };
+  }, []);
+
+  return <div>{schedule.length ? schedule : "NO LENGTH"}</div>;
+};
 
 export default App;

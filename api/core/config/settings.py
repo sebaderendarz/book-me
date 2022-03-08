@@ -23,9 +23,6 @@ DEBUG = utils.get_env_value('DJANGO_DEBUG', 'false').lower() == 'true'
 ALLOWED_HOSTS = utils.get_env_value('DJANGO_ALLOWED_HOSTS').split()
 
 # NOTE: psycopg2-binary dependency must be installed to make django app working with postgres.
-# TODO not sure if needed | install -> add to installed apps
-# djangochannelsrestframework -> djangochannelsrestframework
-# django-extensions -> django_extensions
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
@@ -95,7 +92,7 @@ DATABASES = {
 }
 
 
-# Remember to override AUTH_USER_MODEL when you want to use a custom User model.
+# NOTE: Remember to override AUTH_USER_MODEL when you want to use a custom User model.
 AUTH_USER_MODEL = 'authentication.User'
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -141,7 +138,7 @@ CHANNEL_LAYERS = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Warsaw'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -151,7 +148,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# needed only when using django-admin-interface extension with django version >= 3.0
+# NOTE: Needed only when using django-admin-interface extension with django version >= 3.0
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 SILENCED_SYSTEM_CHECKS = ['security.W019']
 

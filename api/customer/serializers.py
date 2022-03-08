@@ -47,8 +47,9 @@ class BookServiceSerializer(serializers.ModelSerializer):
 
     def _validate_if_not_too_early_today(self, service_time: datetime) -> None:
         now = datetime.now()
-        if service_time.hour < now.hour or (
-            service_time.hour == now.hour and service_time.minute <= now.minute
+        if service_time.date() == now.date() and (
+            service_time.hour < now.hour
+            or (service_time.hour == now.hour and service_time.minute <= now.minute)
         ):
             raise serializers.ValidationError(__('Invalid service time.'))
 
@@ -119,6 +120,9 @@ class BookServiceSerializer(serializers.ModelSerializer):
 
 
 class CancelServiceSerializer(serializers.ModelSerializer):
+
+    token = serializers.CharField(max_length=8, min_length=8, trim_whitespace=True)
+
     class Meta:
         model = customer_models.ServiceOrder
         fields = ('token',)

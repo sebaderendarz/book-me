@@ -106,7 +106,7 @@ class ServiceUnavailability(
                 customer_models.ServiceOrder.objects.filter(
                     offer=self.service_offer, service_time__range=time_range
                 )
-                .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+                .exclude(status=customer_value_objects.ServiceOrderStatus.CLOSED.name)
                 .first()
             )
             if service_orders is not None:

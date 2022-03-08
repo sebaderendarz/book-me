@@ -1,7 +1,7 @@
 import enum
 
 
-class OrderStatus(enum.Enum):
+class ServiceOrderStatus(enum.Enum):
     NEW = 'New'
     CONFIRMED = 'Confirmed'
     CLOSED = 'Closed'

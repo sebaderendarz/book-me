@@ -26,7 +26,7 @@ class PendingServiceOrderInline(admin.TabularInline):
         now_minus_30_min = datetime.now() - timedelta(minutes=30)
         return (
             qs.filter(service_time__gt=now_minus_30_min)
-            .exclude(status=customer_value_objects.OrderStatus.CLOSED.name)
+            .exclude(status=customer_value_objects.ServiceOrderStatus.CLOSED.name)
             .order_by('service_time')
         )
 

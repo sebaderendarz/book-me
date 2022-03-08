@@ -24,8 +24,8 @@ class ServiceOrder(prom_models.ExportModelOperationsMixin('customer.service_orde
     )
     status = models.CharField(
         __('Status'),
-        default=value_objects.OrderStatus.NEW.name,
-        **core_utils.enum_to_char_field_args(value_objects.OrderStatus),
+        default=value_objects.ServiceOrderStatus.NEW.name,
+        **core_utils.enum_to_char_field_args(value_objects.ServiceOrderStatus),
     )
     customer = models.ForeignKey('authentication.User', on_delete=models.PROTECT)
     offer = models.ForeignKey('barber.ServiceOffer', on_delete=models.PROTECT)

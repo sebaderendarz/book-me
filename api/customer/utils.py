@@ -14,7 +14,7 @@ def generate_short_uuid() -> str:
     return ShortUUID().random(length=8).upper()
 
 
-class OrderStatusFilter(admin.SimpleListFilter):
+class ServiceOrderStatusFilter(admin.SimpleListFilter):
     '''Custom filter on status field in ServiceOrder model.'''
 
     title = __('Order Status')
@@ -22,7 +22,7 @@ class OrderStatusFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         '''List of available options in proper format.'''
-        return utils.enum_to_char_field_args_translated(value_objects.OrderStatus)['choices']
+        return utils.enum_to_char_field_args_translated(value_objects.ServiceOrderStatus)['choices']
 
     def queryset(self, request, queryset):
         '''Filter queryset according to the specified option.'''

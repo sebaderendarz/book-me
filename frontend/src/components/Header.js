@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Fragment } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 
 function Header() {
   return (
-    <React.Fragment>
+    <Fragment>
       <Toolbar
         sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}
       >
@@ -29,7 +29,7 @@ function Header() {
           </Button>
         </Stack>
       </Toolbar>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import Blog from "./Blog.js";
+import CustomerLandingPage from "./CustomerLandingPage";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
 const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}notification/1/`;
@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <div>
-      <Blog />
+      <CustomerLandingPage />
     </div>
   );
 };

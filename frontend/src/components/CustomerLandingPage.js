@@ -7,16 +7,14 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./Header";
-import MainFeaturedPost from "./MainFeaturedPost";
-import Main from "./Main";
+import ImageWithCustomizableText from "./ImageWithCustomizableText";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
-import post1 from "./blog-post.1.md";
-import post2 from "./blog-post.2.md";
-import post3 from "./blog-post.3.md";
+import reviews from "./AppReviews";
+import MarkdownList from "./MarkdownList";
 
-const mainFeaturedPost = {
+const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:
     "BookMe is a free booking application, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
@@ -24,16 +22,18 @@ const mainFeaturedPost = {
   imageText: "Image not available.",
 };
 
-const posts = [post1, post2, post3];
-
-const sidebar = {
+const sidebarProps = {
   title: "About",
   description:
     "BookMe is a group of geeks that strives to take the hairdressing industry to the next level. We do our best to allow people around a world to book hairdresser's service seamlessly.",
   social: [
-    { name: "Twitter", icon: TwitterIcon },
-    { name: "Facebook", icon: FacebookIcon },
-    { name: "Reddit", icon: RedditIcon },
+    { name: "Twitter", icon: TwitterIcon, url: "https://twitter.com/bookme" },
+    {
+      name: "Facebook",
+      icon: FacebookIcon,
+      url: "https://facebook.com/bookme",
+    },
+    { name: "Reddit", icon: RedditIcon, url: "https://reddit.com/bookme" },
   ],
 };
 
@@ -48,7 +48,7 @@ const searchBarStyle = {
 
 const theme = createTheme();
 
-export default function Blog() {
+export default function CustomerLandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -60,14 +60,10 @@ export default function Blog() {
             onRequestSearch={() => console.log("onRequestSearch")}
             style={searchBarStyle}
           />
-          <MainFeaturedPost post={mainFeaturedPost} />
+          <ImageWithCustomizableText data={mainImageWithTextProps} />
           <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Main title="Reviews" posts={posts} />
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              social={sidebar.social}
-            />
+            <MarkdownList title="Reviews" reviews={reviews} />
+            <Sidebar {...sidebarProps} />
           </Grid>
         </main>
       </Container>

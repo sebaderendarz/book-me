@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-function MainFeaturedPost(props) {
-  const { post } = props;
+function ImageWithCustomizableText(props) {
+  const { data } = props;
 
   return (
     <Paper
@@ -18,15 +18,14 @@ function MainFeaturedPost(props) {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        backgroundImage: `url(${post.image})`,
+        backgroundImage: `url(${data.image})`,
       }}
     >
-      {/* Increase the priority of the hero background image */}
       {
         <img
           style={{ display: "none" }}
-          src={post.image}
-          alt={post.imageText}
+          src={data.image}
+          alt={data.imageText}
         />
       }
       <Box
@@ -54,10 +53,10 @@ function MainFeaturedPost(props) {
               color="inherit"
               gutterBottom
             >
-              {post.title}
+              {data.title}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
-              {post.description}
+              {data.description}
             </Typography>
           </Box>
         </Grid>
@@ -66,8 +65,8 @@ function MainFeaturedPost(props) {
   );
 }
 
-MainFeaturedPost.propTypes = {
-  post: PropTypes.shape({
+ImageWithCustomizableText.propTypes = {
+  data: PropTypes.shape({
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     imageText: PropTypes.string.isRequired,
@@ -75,4 +74,4 @@ MainFeaturedPost.propTypes = {
   }).isRequired,
 };
 
-export default MainFeaturedPost;
+export default ImageWithCustomizableText;

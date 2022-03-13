@@ -8,6 +8,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { withStyles } from "@mui/styles";
 import classNames from "classnames";
 
+// Code taken from material-ui-search-bar library and adjusted accordingly.
+// I wasn't able to install this dependency due to unresolvable conflicts
+// in dependencies. MUI expected react=^17.0.0 but mui-search-bar expected ^16.8.0.
+
 const styles = (theme) => ({
   root: {
     height: theme.spacing(6),

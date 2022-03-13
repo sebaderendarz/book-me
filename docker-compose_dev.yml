@@ -25,7 +25,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       # CHOKIDAR_USEPOLLING=true forces react app to use polling to watch file changes.
       # It isn't the optimal solution. There is a significant delay for hot reloading and higher CPU usage.
-      # False is default. If app works fine there is no need to set this env to true.
+      # False is default. If hot reload works fine there is no need to set this env to true.
 
   celery:
     build: 

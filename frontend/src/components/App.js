@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import CustomerLandingPage from "./CustomerLandingPage";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
 const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}notification/1/`;
@@ -21,7 +22,11 @@ const App = () => {
     };
   }, []);
 
-  return <div>{schedule.length ? schedule : "NO LENGTH"}</div>;
+  return (
+    <div>
+      <CustomerLandingPage />
+    </div>
+  );
 };
 
 export default App;

@@ -169,7 +169,7 @@ SearchBar.defaultProps = {
   className: "",
   closeIcon: <ClearIcon />,
   disabled: false,
-  placeholder: "Search for barbers...",
+  placeholder: "Search for hairdresser...",
   searchIcon: <SearchIcon />,
   style: null,
   value: "",

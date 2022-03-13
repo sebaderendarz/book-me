@@ -20,8 +20,8 @@ const mainFeaturedPost = {
   title: "Getting a new haircut easier than ever before...",
   description:
     "BookMe is a free booking application, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
-  image: "https://source.unsplash.com/random",
-  imageText: "Dummy Image Description",
+  image: "https://source.unsplash.com/random/?hairdresser",
+  imageText: "Image not available.",
 };
 
 const posts = [post1, post2, post3];
@@ -29,7 +29,7 @@ const posts = [post1, post2, post3];
 const sidebar = {
   title: "About",
   description:
-    "BookMe is a group of geeks that strives to take the hairdressing industry to the next level. We do our best to allow people around a world to book barber's service seamlessly.",
+    "BookMe is a group of geeks that strives to take the hairdressing industry to the next level. We do our best to allow people around a world to book hairdresser's service seamlessly.",
   social: [
     { name: "Twitter", icon: TwitterIcon },
     { name: "Facebook", icon: FacebookIcon },

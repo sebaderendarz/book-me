@@ -11,7 +11,7 @@ function Header() {
       <Toolbar
         sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}
       >
-        <Avatar alt="BookMe Logo" src="/media/bookme_124x124.png" />{" "}
+        <Avatar alt="BookMe Logo" src="/media/bookme_200.png" />{" "}
         <Typography
           component="h2"
           variant="h5"
@@ -21,10 +21,10 @@ function Header() {
           sx={{ flex: 1 }}
         ></Typography>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="medium">
+          <Button variant="contained" size="medium">
             Login
           </Button>
-          <Button variant="outlined" size="medium">
+          <Button variant="contained" size="medium">
             Sign up
           </Button>
         </Stack>

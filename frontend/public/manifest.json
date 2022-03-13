@@ -3,14 +3,9 @@
   "name": "Book Barber Service or Place Your Offer",
   "icons": [
     {
-      "src": "media/bookme_124x124.png",
+      "src": "media/bookme_200.png",
       "type": "image/png",
-      "sizes": "124x124"
-    },
-    {
-      "src": "media/bookme_80x80.png",
-      "type": "image/png",
-      "sizes": "80x80"
+      "sizes": "200x200"
     }
   ],
   "start_url": ".",

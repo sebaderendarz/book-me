@@ -8,7 +8,7 @@ from authentication import models, value_objects
 class RegisterUserSerializer(rest_serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('email', 'password', 'name', 'surname', 'account_type')
+        fields = ('email', 'password', 'name', 'surname', 'account_type', 'accepted_newsletter')
         write_only_fields = ('password',)
 
     def validate_account_type(self, value: str) -> None:

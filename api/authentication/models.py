@@ -15,6 +15,7 @@ class UserManager(auth_models.BaseUserManager):
 
     def create_admin(self, email: str, name: str, password: str, surname: str) -> 'User':
         return self._create_user(
+            accepted_newsletter=False,
             account_type=value_objects.AccountType.ADMIN,
             email=email,
             name=name,
@@ -22,8 +23,11 @@ class UserManager(auth_models.BaseUserManager):
             surname=surname,
         )
 
-    def create_barber(self, email: str, name: str, password: str, surname: str) -> 'User':
+    def create_barber(  # pylint: disable=too-many-arguments
+        self, accepted_newsletter: bool, email: str, name: str, password: str, surname: str
+    ) -> 'User':
         return self._create_user(
+            accepted_newsletter=accepted_newsletter,
             account_type=value_objects.AccountType.BARBER,
             email=email,
             name=name,
@@ -31,8 +35,11 @@ class UserManager(auth_models.BaseUserManager):
             surname=surname,
         )
 
-    def create_customer(self, email: str, name: str, password: str, surname: str) -> 'User':
+    def create_customer(  # pylint: disable=too-many-arguments
+        self, accepted_newsletter: bool, email: str, name: str, password: str, surname: str
+    ) -> 'User':
         return self._create_user(
+            accepted_newsletter=accepted_newsletter,
             account_type=value_objects.AccountType.CUSTOMER,
             email=email,
             name=name,
@@ -42,6 +49,7 @@ class UserManager(auth_models.BaseUserManager):
 
     def create_superuser(self, email: str, name: str, password: str, surname: str) -> 'User':
         return self._create_user(
+            accepted_newsletter=False,
             account_type=value_objects.AccountType.ADMIN,
             email=email,
             name=name,
@@ -51,6 +59,7 @@ class UserManager(auth_models.BaseUserManager):
 
     def _create_user(  # pylint: disable=too-many-arguments
         self,
+        accepted_newsletter: bool,
         account_type: value_objects.AccountType,
         email: str,
         name: str,
@@ -58,6 +67,7 @@ class UserManager(auth_models.BaseUserManager):
         surname: str,
     ) -> 'User':
         user = self.model(
+            accepted_newsletter=accepted_newsletter,
             account_type=account_type.name,
             email=self.normalize_email(email),
             name=name,
@@ -90,9 +100,10 @@ class User(
     )
     created_at = models.DateTimeField(__('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(__('Updated at'), auto_now=True)
-    email_confirmation_token = models.UUIDField(default=uuid.uuid4)
+    email_confirmation_token = models.UUIDField(__('Email Confirmation Token'), default=uuid.uuid4)
     email_confirmation_token_ttl = models.DateTimeField(
-        default=auth_utils.get_email_confirmation_token_expiration_time
+        __('Email Confirmation Token TTL'),
+        default=auth_utils.get_email_confirmation_token_expiration_time,
     )
     account_status = models.CharField(
         __('Account Status'),
@@ -102,6 +113,7 @@ class User(
     account_type = models.CharField(
         __('Account Type'), **core_utils.enum_to_char_field_args(value_objects.AccountType)
     )
+    accepted_newsletter = models.BooleanField(__('Accepted Newsletter'), default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname']

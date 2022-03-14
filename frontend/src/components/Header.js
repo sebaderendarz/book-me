@@ -11,7 +11,7 @@ function Header() {
       <Toolbar
         sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}
       >
-        <Avatar alt="BookMe Logo" src="/media/bookme_200.png" />{" "}
+        <Avatar alt="BookMe Logo" src="/media/bookme_200.png" />
         <Typography
           component="h2"
           variant="h5"

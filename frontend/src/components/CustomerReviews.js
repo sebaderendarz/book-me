@@ -1,47 +1,30 @@
 const review1 = `# Amazing experience
 
-_Maarch 1, 2022 by [Olivier](/)_
+_March 1, 2022 by [Olivier](/)_
 
-This blog post shows a few different types of content that are supported and styled with
-Material styles. Basic typography, images, and code are all supported.
-You can extend these by modifying \`Markdown.js\`.
-
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
-
-Curabitur blandit tempus porttitor. **Nullam quis risus eget urna mollis** ornare vel eu leo.
-Nullam id dolor id nibh ultricies vehicula ut id elit.
+Duis sed ipsum pretium, vulputate lectus eu, tristique felis. Nam sit amet mollis felis. 
+Pellentesque in orci elit. Cras imperdiet diam nec **magna sollicitudin**, nec semper mi aliquet. 
 
 Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum.
 Aenean lacinia bibendum nulla sed consectetur.
 
-## Heading
+## What makes a difference
 
 Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
 Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
 Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 
-### Sub-heading 1
+### **Design**
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-
-### Sub-heading 2
-
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.
-Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-sit amet risus.
 
 - Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
 - Donec id elit non mi porta gravida at eget metus.
-- Nulla vitae elit libero, a pharetra augue.
 
 Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
 
 1. Vestibulum id ligula porta felis euismod semper.
 1. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-1. Maecenas sed diam eget risus varius blandit sit amet non magna.
 
 Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.
 `;
@@ -51,18 +34,11 @@ const review2 = `# Simplicity is what makes this app offbeat
 _February 23, 2022 by [Matt](/)_
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+Aenean eu leo quam. Pellentesque _ornare sem lacinia_ quam venenatis vestibulum.
 Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
 
 Curabitur blandit tempus porttitor. **Nullam quis risus eget urna mollis** ornare vel eu leo.
 Nullam id dolor id nibh ultricies vehicula ut id elit.
-
-Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum.
-Aenean lacinia bibendum nulla sed consectetur.
-
-Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
 `;
 
 const review3 = `# Keep it up, the newest features are great
@@ -78,12 +54,9 @@ ut fermentum massa justo sit amet risus.
 - Donec id elit non mi porta gravida at eget metus.
 - Nulla vitae elit libero, a pharetra augue.
 
-Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum.
-Aenean lacinia bibendum nulla sed consectetur.
-
 Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
 `;
 
-const reviews = [review1, review2, review3];
+const customerReviews = [review1, review2, review3];
 
-export default reviews;
+export default customerReviews;

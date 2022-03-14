@@ -10,14 +10,13 @@ import Header from "./Header";
 import ImageWithCustomizableText from "./ImageWithCustomizableText";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import SearchBar from "./SearchBar";
-import customerReviews from "./CustomerReviews";
+import barberReviews from "./BarberReviews";
 import MarkdownList from "./MarkdownList";
 
 const mainImageWithTextProps = {
-  title: "Getting a new haircut easier than ever before...",
+  title: "Offer Your service easier than ever before...",
   description:
-    "BookMe is a free booking application, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
+    "BookMe is a free booking application, in which you can easily offer hairdresser's service. A few steps and people around a world can book the visit in your hair salon.",
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Image not available.",
 };
@@ -25,7 +24,7 @@ const mainImageWithTextProps = {
 const sidebarProps = {
   title: "About",
   description:
-    "BookMe is a group of geeks that strives to take the hairdressing industry to the next level. We do our best to allow people around the world to book hairdresser's service seamlessly.",
+    "BookMe is a group of geeks that strives to take the hairdressing industry to the next level. We do our best to allow hairdressers around the world to offer services seamlessly.",
   social: [
     { name: "Twitter", icon: TwitterIcon, url: "https://twitter.com/bookme" },
     {
@@ -37,32 +36,18 @@ const sidebarProps = {
   ],
 };
 
-const searchBarStyle = {
-  margin: "0 auto",
-  marginTop: 80,
-  marginBottom: 80,
-  maxWidth: 800,
-  height: 60,
-  boxShadow: "0px 0px 1px 1px #e0e0e0",
-};
-
 const theme = createTheme();
 
-export default function CustomerLandingPage() {
+export default function BarberLandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
         <Header />
         <main>
-          <SearchBar
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
-            style={searchBarStyle}
-          />
           <ImageWithCustomizableText data={mainImageWithTextProps} />
           <Grid container spacing={5} sx={{ mt: 3 }}>
-            <MarkdownList title="Reviews" reviews={customerReviews} />
+            <MarkdownList title="Reviews" reviews={barberReviews} />
             <Sidebar {...sidebarProps} />
           </Grid>
         </main>

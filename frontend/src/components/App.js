@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import BarberLandingPage from "./BarberLandingPage";
 import CustomerLandingPage from "./CustomerLandingPage";
 
 const { REACT_APP_WS_BASE_URL } = process.env;

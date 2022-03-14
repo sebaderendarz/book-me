@@ -17,7 +17,7 @@ import MarkdownList from "./MarkdownList";
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:
-    "BookMe is a free booking application, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
+    "BookMe is a free booking platform, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Image not available.",
 };

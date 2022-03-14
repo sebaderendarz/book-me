@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import BarberLandingPage from "./BarberLandingPage";
 import CustomerLandingPage from "./CustomerLandingPage";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
 const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}notification/1/`;

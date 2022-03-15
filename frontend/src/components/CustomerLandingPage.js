@@ -1,18 +1,14 @@
-import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import RedditIcon from "@mui/icons-material/Reddit";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./Header";
-import ImageWithCustomizableText from "./ImageWithCustomizableText";
-import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import customerReviews from "./CustomerReviews";
-import MarkdownList from "./MarkdownList";
+import AppDescription from "./AppDescription";
 
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
@@ -60,11 +56,11 @@ export default function CustomerLandingPage() {
             onRequestSearch={() => console.log("onRequestSearch")}
             style={searchBarStyle}
           />
-          <ImageWithCustomizableText data={mainImageWithTextProps} />
-          <Grid container spacing={5} sx={{ mt: 3 }}>
-            <MarkdownList title="Reviews" reviews={customerReviews} />
-            <Sidebar {...sidebarProps} />
-          </Grid>
+          <AppDescription
+            mainImage={mainImageWithTextProps}
+            sideBar={sidebarProps}
+            reviews={customerReviews}
+          />
         </main>
       </Container>
       <Footer />

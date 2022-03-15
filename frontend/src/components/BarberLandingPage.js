@@ -1,17 +1,13 @@
-import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import RedditIcon from "@mui/icons-material/Reddit";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./Header";
-import ImageWithCustomizableText from "./ImageWithCustomizableText";
-import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import barberReviews from "./BarberReviews";
-import MarkdownList from "./MarkdownList";
+import AppDescription from "./AppDescription";
 
 const mainImageWithTextProps = {
   title: "Offer Your service easier than ever before...",
@@ -45,11 +41,11 @@ export default function BarberLandingPage() {
       <Container maxWidth="lg">
         <Header />
         <main>
-          <ImageWithCustomizableText data={mainImageWithTextProps} />
-          <Grid container spacing={5} sx={{ mt: 3 }}>
-            <MarkdownList title="Reviews" reviews={barberReviews} />
-            <Sidebar {...sidebarProps} />
-          </Grid>
+          <AppDescription
+            mainImage={mainImageWithTextProps}
+            sideBar={sidebarProps}
+            reviews={barberReviews}
+          />
         </main>
       </Container>
       <Footer />

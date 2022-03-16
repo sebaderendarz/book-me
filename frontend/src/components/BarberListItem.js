@@ -1,6 +1,8 @@
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
+import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 
@@ -25,7 +27,25 @@ export default function BarberListItem(props) {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 128, height: 128 }}>
-            <Img alt="Barber Image" src={image} />
+            {image ? (
+              <Img alt="Barber Image" src={image} />
+            ) : (
+              <Stack spacing={1} sx={{ width: 128, height: 128 }}>
+                <Skeleton variant="text" animation={false} />
+                <Skeleton
+                  variant="circular"
+                  width={20}
+                  height={20}
+                  animation={false}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width={128}
+                  height={100}
+                  animation={false}
+                />
+              </Stack>
+            )}
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>

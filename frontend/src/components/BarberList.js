@@ -7,6 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
+// TODO add logic that displays only a specified numer of rows for a specified page
+
 export default function BarberList(props) {
   const { rows } = props;
   const [page, setPage] = useState(0);
@@ -27,15 +29,11 @@ export default function BarberList(props) {
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableBody>
-              <TableRow hover role="checkbox" tabIndex={-1} key={1}>
-                <BarberListItem />
-              </TableRow>
-              <TableRow hover role="checkbox" tabIndex={-1} key={1}>
-                <BarberListItem />
-              </TableRow>
-              <TableRow hover role="checkbox" tabIndex={-1} key={1}>
-                <BarberListItem />
-              </TableRow>
+              {rows.map((row) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={1}>
+                  <BarberListItem {...row} />
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>

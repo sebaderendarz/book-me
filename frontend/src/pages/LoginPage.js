@@ -10,7 +10,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 import Footer from "../components/Footer";
 import BlueTextTypography from "../components/BlueTextTypography";
 
@@ -18,18 +20,29 @@ const theme = createTheme();
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  let { loginUser, user } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
+    loginUser({
       email: data.get("email"),
       password: data.get("password"),
+    }).then((response) => {
+      if (response.status < 300) {
+        // TODO it should navigate to the previous page, it won't always be landing page!
+        navigate("/");
+      } else {
+        alert(response.data);
+        // TODO raise some modal?
+        // display error messages under each field in the form?
+      }
     });
   };
 
-  return (
+  return user ? (
+    <Navigate to="/" />
+  ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />

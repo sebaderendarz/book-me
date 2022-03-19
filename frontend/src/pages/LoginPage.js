@@ -4,18 +4,21 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import BlueTextTypography from "../components/BlueTextTypography";
 
 const theme = createTheme();
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -103,14 +106,20 @@ export default function LoginPage() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                  <BlueTextTypography
+                    variant="body2"
+                    onClick={() => navigate("/")}
+                  >
+                    Back to home
+                  </BlueTextTypography>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <BlueTextTypography
+                    variant="body2"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Don't have an account? Sign Up
+                  </BlueTextTypography>
                 </Grid>
               </Grid>
               <Footer />

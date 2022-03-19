@@ -8,10 +8,10 @@ import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import NotFoundPage from "./pages/NotFoundPage";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
-import BarberLandingPage from "./pages/TestPrivatePage";
+import BarberLandingPage from "./pages/BarberLandingPage";
+import TestPrivatePage from "./pages/TestPrivatePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import TestPrivatePage from "./pages/TestPrivatePage";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
             <Route element={<CustomerLandingPage />} path="/customer" />
             <Route element={<BarberLandingPage />} path="/hairdresser" />
             <Route element={<LoginPage />} path="/login" />
-            <Route element={<SignUpPage />} path="/register" />
+            <Route element={<SignUpPage />} path="/signup" />
             <Route path="/privpage" element={<PrivateRoute />}>
               <Route exact path="/privpage" element={<TestPrivatePage />} />
             </Route>

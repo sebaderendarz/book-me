@@ -32,7 +32,7 @@ const sidebarProps = {
 
 const theme = createTheme();
 
-export default function BarberLandingPage() {
+export default function TestPrivatePage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

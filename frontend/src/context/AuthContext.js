@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
-      navigate.push("/customer");
+      navigate("/customer");
     } else {
       alert("Something went wrong!");
     }
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens(null);
     setUser(null);
     localStorage.removeItem("authTokens");
-    navigate.push("/login");
+    //navigate("/login");
   };
 
   let contextData = {

@@ -1,20 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Footer from "../components/Footer";
-import { withStyles } from "@mui/styles";
-
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
+import BlueTextTypography from "../components/BlueTextTypography";
 
 const theme = createTheme();
-
-const BlueTextTypography = withStyles({
-  root: {
-    color: "#1976d2",
-  },
-})(Typography);
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -38,7 +31,7 @@ export default function NotFoundPage() {
             removed, name changed or is temporarily unavailable.
           </Typography>
           <BlueTextTypography variant="body1" onClick={() => navigate("/")}>
-            Back to homepage
+            Back to home
           </BlueTextTypography>
         </Container>
         <Footer />

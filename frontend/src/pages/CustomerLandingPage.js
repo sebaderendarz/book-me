@@ -5,11 +5,11 @@ import RedditIcon from "@mui/icons-material/Reddit";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "./Header";
-import Footer from "./Footer";
-import SearchBar from "./SearchBar";
-import AppDescription from "./AppDescription";
-import BarberList from "./BarberList";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SearchBar from "../components/SearchBar";
+import AppDescription from "../components/AppDescription";
+import BarberList from "../components/BarberList";
 
 const rows = [
   {

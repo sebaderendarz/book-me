@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import RedditIcon from "@mui/icons-material/Reddit";
@@ -7,8 +8,38 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./Header";
 import Footer from "./Footer";
 import SearchBar from "./SearchBar";
-import customerReviews from "./CustomerReviews";
 import AppDescription from "./AppDescription";
+import BarberList from "./BarberList";
+
+const rows = [
+  {
+    id: 1,
+    address: "st. Solna 24",
+    barberName: "Naughty Alice",
+    city: "Warsaw",
+    price: "50.00",
+    thumbnail: null,
+    updatedAt: "2020-03-18T08:26:30+0000",
+  },
+  {
+    id: 2,
+    address: "st. Solna 24",
+    barberName: "Dirty Joey",
+    city: "Warsaw",
+    price: "70.00",
+    thumbnail: null,
+    updatedAt: "2021-03-18T08:26:30+0000",
+  },
+  {
+    id: 3,
+    address: "st. Solna 24",
+    barberName: "Sneaky Martin",
+    city: "Warsaw",
+    price: "90.00",
+    thumbnail: null,
+    updatedAt: "2022-03-18T08:26:30+0000",
+  },
+];
 
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
@@ -45,6 +76,14 @@ const searchBarStyle = {
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
+  const [searchPhrase, setSearchPhrase] = useState("");
+
+  function handleOnRequestSearch(searchText) {
+    console.log(searchText);
+    setSearchPhrase(searchText);
+    // TODO Trigger api call here?
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -52,15 +91,11 @@ export default function CustomerLandingPage() {
         <Header />
         <main>
           <SearchBar
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={(searchText) => setSearchPhrase(searchText)}
+            onRequestSearch={handleOnRequestSearch}
             style={searchBarStyle}
           />
-          <AppDescription
-            mainImage={mainImageWithTextProps}
-            sideBar={sidebarProps}
-            reviews={customerReviews}
-          />
+          <BarberList rows={rows} />
         </main>
       </Container>
       <Footer />

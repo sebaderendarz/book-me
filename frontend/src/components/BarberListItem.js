@@ -14,7 +14,7 @@ const Img = styled("img")({
 });
 
 export default function BarberListItem(props) {
-  const { image, barberName, address, price } = props;
+  const { thumbnail, barberName, city, address, price } = props;
   return (
     <Paper
       sx={{
@@ -27,8 +27,8 @@ export default function BarberListItem(props) {
       <Grid container spacing={2}>
         <Grid item>
           <ButtonBase sx={{ width: 128, height: 128 }}>
-            {image ? (
-              <Img alt="Barber Image" src={image} />
+            {thumbnail ? (
+              <Img alt="Barber Image" src={thumbnail} />
             ) : (
               <Stack spacing={1} sx={{ width: 128, height: 128 }}>
                 <Skeleton variant="text" animation={false} />
@@ -53,6 +53,9 @@ export default function BarberListItem(props) {
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
                 {barberName}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                {city}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {address}

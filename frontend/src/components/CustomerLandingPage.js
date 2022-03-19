@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import RedditIcon from "@mui/icons-material/Reddit";
@@ -10,26 +11,33 @@ import SearchBar from "./SearchBar";
 import AppDescription from "./AppDescription";
 import BarberList from "./BarberList";
 
-// TODO consider what data is needed in rows, what should be taken from endpoint.
-// Remember about some kind of id field.
 const rows = [
   {
-    image: null,
+    id: 1,
+    address: "st. Solna 24",
     barberName: "Naughty Alice",
-    address: "Warsaw, st. Solna 24",
+    city: "Warsaw",
     price: "50.00",
+    thumbnail: null,
+    updatedAt: "2020-03-18T08:26:30+0000",
   },
   {
-    image: null,
-    barberName: "Naughty Alice",
-    address: "Warsaw, st. Solna 24",
-    price: "50.00",
+    id: 2,
+    address: "st. Solna 24",
+    barberName: "Dirty Joey",
+    city: "Warsaw",
+    price: "70.00",
+    thumbnail: null,
+    updatedAt: "2021-03-18T08:26:30+0000",
   },
   {
-    image: null,
-    barberName: "Naughty Alice",
-    address: "Warsaw, st. Solna 24",
-    price: "50.00",
+    id: 3,
+    address: "st. Solna 24",
+    barberName: "Sneaky Martin",
+    city: "Warsaw",
+    price: "90.00",
+    thumbnail: null,
+    updatedAt: "2022-03-18T08:26:30+0000",
   },
 ];
 
@@ -68,6 +76,14 @@ const searchBarStyle = {
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
+  const [searchPhrase, setSearchPhrase] = useState("");
+
+  function handleOnRequestSearch(searchText) {
+    console.log(searchText);
+    setSearchPhrase(searchText);
+    // TODO Trigger api call here?
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -75,8 +91,8 @@ export default function CustomerLandingPage() {
         <Header />
         <main>
           <SearchBar
-            onChange={() => console.log("onChange")}
-            onRequestSearch={() => console.log("onRequestSearch")}
+            onChange={(searchText) => setSearchPhrase(searchText)}
+            onRequestSearch={handleOnRequestSearch}
             style={searchBarStyle}
           />
           <BarberList rows={rows} />

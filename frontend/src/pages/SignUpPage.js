@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import BlueTextTypography from "../components/BlueTextTypography";
+import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import Footer from "../components/Footer";
 
 const theme = createTheme();
@@ -138,20 +138,20 @@ export default function SignUpPage() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <BlueTextTypography
+                  <BlueUnderlinedTextTypography
                     variant="body2"
                     onClick={() => navigate("/")}
                   >
                     Back to home
-                  </BlueTextTypography>
+                  </BlueUnderlinedTextTypography>
                 </Grid>
                 <Grid item>
-                  <BlueTextTypography
+                  <BlueUnderlinedTextTypography
                     variant="body2"
                     onClick={() => navigate("/login")}
                   >
                     Already have an account? Sign in
-                  </BlueTextTypography>
+                  </BlueUnderlinedTextTypography>
                 </Grid>
               </Grid>
             </Box>

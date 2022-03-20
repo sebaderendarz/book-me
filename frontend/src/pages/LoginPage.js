@@ -2,46 +2,108 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import Footer from "../components/Footer";
-import BlueTextTypography from "../components/BlueTextTypography";
+import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
+import RedTextTypography from "../components/RedTextTypography";
 
 const theme = createTheme();
 
+const defaultFormErrors = {
+  email: { error: false, errorMessage: "" },
+  password: { error: false, errorMessage: "" },
+  general: { error: false, errorMessage: "" },
+};
+
 export default function LoginPage() {
-  const navigate = useNavigate();
   let { loginUser, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [form, setForm] = useState(null);
+  const [formErrors, setFormErrors] = useState(defaultFormErrors);
+  const location = useLocation();
 
   const handleSubmit = (event) => {
+    console.log(location.pathname);
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    loginUser({
-      email: data.get("email"),
-      password: data.get("password"),
-    }).then((response) => {
-      if (response.status < 300) {
-        // TODO it should navigate to the previous page, it won't always be landing page!
-        navigate("/");
-      } else {
-        alert(response.data);
-        // TODO raise some modal?
-        // display error messages under each field in the form?
+    let errors = validateForm();
+    if (errors !== defaultFormErrors) {
+      setFormErrors(errors);
+    } else {
+      const data = new FormData(event.currentTarget);
+      loginUser({
+        email: data.get("email"),
+        password: data.get("password"),
+      }).then((response) => {
+        if (response.status < 300) {
+          const previousLocation = localStorage.getItem("previousLocation");
+          navigate(previousLocation ? previousLocation : "/");
+        } else {
+          setFormErrors({
+            ...defaultFormErrors,
+            ...getGeneralError(response.data),
+          });
+        }
+      });
+    }
+  };
+
+  const validateForm = () => {
+    if (!form) {
+      return {
+        general: { error: true, errorMessage: "Please fill out this form." },
+      };
+    }
+
+    const formLength = form.length;
+    const errors = { general: { error: false, errorMessage: "" } };
+    if (form.checkValidity() === false) {
+      for (let i = 0; i < formLength; i++) {
+        const elem = form[i];
+        if (Object.keys(formErrors).includes(elem.name)) {
+          if (!elem.validity.valid) {
+            errors[elem.name] = {
+              error: true,
+              errorMessage: elem.validationMessage,
+            };
+          } else {
+            errors[elem.name] = {
+              error: false,
+              errorMessage: "",
+            };
+          }
+        }
       }
-    });
+      return { ...formErrors, ...errors };
+    } else {
+      return defaultFormErrors;
+    }
+  };
+
+  const getGeneralError = (response) => {
+    let errorMessage = "No active account found with the given credentials.";
+    if (response && response.detail) errorMessage = response.detail;
+    return { general: { error: true, errorMessage: errorMessage } };
+  };
+
+  const navigateToPreviousLocation = () => {
+    const previousLocation = localStorage.getItem("previousLocation");
+    return previousLocation ? (
+      <Navigate to={previousLocation} />
+    ) : (
+      <Navigate to="/" />
+    );
   };
 
   return user ? (
-    <Navigate to="/" />
+    navigateToPreviousLocation()
   ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -82,6 +144,7 @@ export default function LoginPage() {
             <Box
               component="form"
               noValidate
+              ref={(form) => setForm(form)}
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
@@ -89,10 +152,13 @@ export default function LoginPage() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
                 name="email"
+                label="Email Address"
+                type="email"
+                id="email"
                 autoComplete="email"
+                error={formErrors.email.error}
+                helperText={formErrors.email.errorMessage}
                 autoFocus
               />
               <TextField
@@ -103,12 +169,13 @@ export default function LoginPage() {
                 label="Password"
                 type="password"
                 id="password"
+                error={formErrors.password.error}
+                helperText={formErrors.password.errorMessage}
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              <RedTextTypography variant="body2">
+                {formErrors.general.errorMessage}
+              </RedTextTypography>
               <Button
                 type="submit"
                 fullWidth
@@ -117,26 +184,26 @@ export default function LoginPage() {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <BlueTextTypography
-                    variant="body2"
-                    onClick={() => navigate("/")}
-                  >
-                    Back to home
-                  </BlueTextTypography>
-                </Grid>
-                <Grid item>
-                  <BlueTextTypography
-                    variant="body2"
-                    onClick={() => navigate("/signup")}
-                  >
-                    Don't have an account? Sign Up
-                  </BlueTextTypography>
-                </Grid>
-              </Grid>
-              <Footer />
             </Box>
+            <Grid container>
+              <Grid item xs>
+                <BlueUnderlinedTextTypography
+                  variant="body2"
+                  onClick={() => navigate("/")}
+                >
+                  Back to home
+                </BlueUnderlinedTextTypography>
+              </Grid>
+              <Grid item>
+                <BlueUnderlinedTextTypography
+                  variant="body2"
+                  onClick={() => navigate("/signup")}
+                >
+                  Don't have an account? Sign Up
+                </BlueUnderlinedTextTypography>
+              </Grid>
+            </Grid>
+            <Footer />
           </Box>
         </Grid>
       </Grid>

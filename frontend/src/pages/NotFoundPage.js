@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Footer from "../components/Footer";
-import BlueTextTypography from "../components/BlueTextTypography";
+import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 
 const theme = createTheme();
 
@@ -30,9 +30,12 @@ export default function NotFoundPage() {
             Sorry, but the page you are looking for does not exist, has been
             removed, name changed or is temporarily unavailable.
           </Typography>
-          <BlueTextTypography variant="body1" onClick={() => navigate("/")}>
+          <BlueUnderlinedTextTypography
+            variant="body1"
+            onClick={() => navigate("/")}
+          >
             Back to home
-          </BlueTextTypography>
+          </BlueUnderlinedTextTypography>
         </Container>
         <Footer />
       </Box>

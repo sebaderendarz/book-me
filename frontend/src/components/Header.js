@@ -5,12 +5,14 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useContext } from "react";
+import { useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
   let { logoutUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <Fragment>
@@ -35,14 +37,20 @@ function Header() {
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                localStorage.setItem("previousLocation", location.pathname);
+                navigate("/login");
+              }}
             >
               Login
             </Button>
             <Button
               variant="contained"
               size="medium"
-              onClick={() => navigate("/signup")}
+              onClick={() => {
+                localStorage.setItem("previousLocation", location.pathname);
+                navigate("/signup");
+              }}
             >
               Sign up
             </Button>{" "}

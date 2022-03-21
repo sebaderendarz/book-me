@@ -50,7 +50,7 @@ export default function SignUpPage() {
         account_type: "CUSTOMER",
       }).then((response) => {
         if (response.status < 300) {
-          // TODO some pop-up with info about successful signUp
+          // TODO some modal with info about successful signUp
           const previousLocation = localStorage.getItem("previousLocation");
           navigate(previousLocation ? previousLocation : "/");
         } else {

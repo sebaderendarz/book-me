@@ -15,7 +15,7 @@ import Footer from "../components/Footer";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import RedTextTypography from "../components/RedTextTypography";
 
-// TODO Improve styling. Form changes when error helper text is being displayed.
+// TODO Improve styling. Style changes when error helper text is being displayed.
 
 const theme = createTheme();
 
@@ -174,6 +174,7 @@ export default function SignInPage() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
+                    margin="normal"
                     required
                     fullWidth
                     name="email"
@@ -188,6 +189,7 @@ export default function SignInPage() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    margin="normal"
                     required
                     fullWidth
                     name="password"
@@ -213,28 +215,31 @@ export default function SignInPage() {
               >
                 Sign In
               </Button>
+              <Grid container>
+                <Grid item xs>
+                  <BlueUnderlinedTextTypography
+                    variant="body2"
+                    onClick={() => navigate("/")}
+                  >
+                    Back to home
+                  </BlueUnderlinedTextTypography>
+                </Grid>
+                <Grid item>
+                  <BlueUnderlinedTextTypography
+                    variant="body2"
+                    onClick={() => {
+                      localStorage.setItem(
+                        "previousLocation",
+                        location.pathname
+                      );
+                      navigate("/signup");
+                    }}
+                  >
+                    Don't have an account? Sign Up
+                  </BlueUnderlinedTextTypography>
+                </Grid>
+              </Grid>
             </Box>
-            <Grid container>
-              <Grid item xs>
-                <BlueUnderlinedTextTypography
-                  variant="body2"
-                  onClick={() => navigate("/")}
-                >
-                  Back to home
-                </BlueUnderlinedTextTypography>
-              </Grid>
-              <Grid item>
-                <BlueUnderlinedTextTypography
-                  variant="body2"
-                  onClick={() => {
-                    localStorage.setItem("previousLocation", location.pathname);
-                    navigate("/signup");
-                  }}
-                >
-                  Don't have an account? Sign Up
-                </BlueUnderlinedTextTypography>
-              </Grid>
-            </Grid>
             <Footer />
           </Box>
         </Grid>

@@ -31,8 +31,17 @@ export default function SignUpPage() {
     });
   };
 
+  const navigateToPreviousLocation = () => {
+    const previousLocation = localStorage.getItem("previousLocation");
+    return previousLocation ? (
+      <Navigate to={previousLocation} />
+    ) : (
+      <Navigate to="/" />
+    );
+  };
+
   return user ? (
-    <Navigate to="/" />
+    navigateToPreviousLocation()
   ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -148,7 +157,7 @@ export default function SignUpPage() {
                 <Grid item>
                   <BlueUnderlinedTextTypography
                     variant="body2"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/signin")}
                   >
                     Already have an account? Sign in
                   </BlueUnderlinedTextTypography>

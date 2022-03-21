@@ -10,7 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import BarberLandingPage from "./pages/BarberLandingPage";
 import TestPrivatePage from "./pages/TestPrivatePage";
-import LoginPage from "./pages/LoginPage";
+import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
             <Route exact path="/" element={<Navigate to="/customer" />} />
             <Route element={<CustomerLandingPage />} path="/customer" />
             <Route element={<BarberLandingPage />} path="/hairdresser" />
-            <Route element={<LoginPage />} path="/login" />
+            <Route element={<SignInPage />} path="/signin" />
             <Route element={<SignUpPage />} path="/signup" />
             <Route path="/privpage" element={<PrivateRoute />}>
               <Route exact path="/privpage" element={<TestPrivatePage />} />

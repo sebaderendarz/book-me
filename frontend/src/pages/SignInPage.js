@@ -15,6 +15,8 @@ import Footer from "../components/Footer";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import RedTextTypography from "../components/RedTextTypography";
 
+// TODO Improve styling. Form changes when error helper text is being displayed.
+
 const theme = createTheme();
 
 const defaultFormErrors = {
@@ -23,7 +25,7 @@ const defaultFormErrors = {
   general: { error: false, errorMessage: "" },
 };
 
-export default function LoginPage() {
+export default function SignInPage() {
   let { loginUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
@@ -148,34 +150,40 @@ export default function LoginPage() {
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="email"
-                label="Email Address"
-                type="email"
-                id="email"
-                autoComplete="email"
-                error={formErrors.email.error}
-                helperText={formErrors.email.errorMessage}
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                error={formErrors.password.error}
-                helperText={formErrors.password.errorMessage}
-                autoComplete="current-password"
-              />
-              <RedTextTypography variant="body2">
-                {formErrors.general.errorMessage}
-              </RedTextTypography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="email"
+                    label="Email Address"
+                    type="email"
+                    id="email"
+                    autoComplete="email"
+                    error={formErrors.email.error}
+                    helperText={formErrors.email.errorMessage}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    error={formErrors.password.error}
+                    helperText={formErrors.password.errorMessage}
+                    autoComplete="current-password"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RedTextTypography variant="body2">
+                    {formErrors.general.errorMessage}
+                  </RedTextTypography>
+                </Grid>
+              </Grid>
               <Button
                 type="submit"
                 fullWidth

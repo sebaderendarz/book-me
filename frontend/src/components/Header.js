@@ -39,10 +39,10 @@ function Header() {
               size="medium"
               onClick={() => {
                 localStorage.setItem("previousLocation", location.pathname);
-                navigate("/login");
+                navigate("/signin");
               }}
             >
-              Login
+              Sign in
             </Button>
             <Button
               variant="contained"

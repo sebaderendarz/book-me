@@ -11,24 +11,82 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import Footer from "../components/Footer";
 
 const theme = createTheme();
 
+const defaultFormErrors = {
+  firstName: { error: false, errorMessage: "" },
+  lastName: { error: false, errorMessage: "" },
+  email: { error: false, errorMessage: "" },
+  password: { error: false, errorMessage: "" },
+  general: { error: false, errorMessage: "" },
+};
+
 export default function SignUpPage() {
-  const navigate = useNavigate();
   let { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [form, setForm] = useState(null);
+  const [formErrors, setFormErrors] = useState(defaultFormErrors);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let errors = validateForm();
+    if (errors !== defaultFormErrors) {
+      setFormErrors(errors);
+    } else {
+      const data = new FormData(event.currentTarget);
+      // TODO register user here
+      // add registerUser method to auth context.
+      console.log({
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+
+      // TODO display a modal that registration succeded and redirect user to some page, previous?
+    }
+  };
+
+  const validateForm = () => {
+    if (!form) {
+      return {
+        general: { error: true, errorMessage: "Please fill out this form." },
+      };
+    }
+
+    const formLength = form.length;
+    const errors = { general: { error: false, errorMessage: "" } };
+    if (form.checkValidity() === false) {
+      for (let i = 0; i < formLength; i++) {
+        const elem = form[i];
+        if (Object.keys(formErrors).includes(elem.name)) {
+          if (!elem.validity.valid) {
+            errors[elem.name] = {
+              error: true,
+              errorMessage: elem.validationMessage,
+            };
+          } else {
+            errors[elem.name] = {
+              error: false,
+              errorMessage: "",
+            };
+          }
+        }
+      }
+      return { ...formErrors, ...errors };
+    } else {
+      return defaultFormErrors;
+    }
+  };
+
+  const getGeneralError = (response) => {
+    // TODO adjust this, check what is returned from BE
+    let errorMessage = "Some cool error message when registration failed.";
+    if (response && response.detail) errorMessage = response.detail;
+    return { general: { error: true, errorMessage: errorMessage } };
   };
 
   const navigateToPreviousLocation = () => {
@@ -82,6 +140,7 @@ export default function SignUpPage() {
             <Box
               component="form"
               noValidate
+              ref={(form) => setForm(form)}
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >

@@ -33,7 +33,6 @@ export default function SignInPage() {
   const location = useLocation();
 
   const handleSubmit = (event) => {
-    console.log(location.pathname);
     event.preventDefault();
     let errors = validateForm();
     if (errors !== defaultFormErrors) {
@@ -141,7 +140,7 @@ export default function SignInPage() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Sign In
             </Typography>
             <Box
               component="form"
@@ -205,7 +204,10 @@ export default function SignInPage() {
               <Grid item>
                 <BlueUnderlinedTextTypography
                   variant="body2"
-                  onClick={() => navigate("/signup")}
+                  onClick={() => {
+                    localStorage.setItem("previousLocation", location.pathname);
+                    navigate("/signup");
+                  }}
                 >
                   Don't have an account? Sign Up
                 </BlueUnderlinedTextTypography>

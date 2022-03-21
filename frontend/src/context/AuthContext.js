@@ -47,6 +47,25 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("authTokens");
   };
 
+  let registerUser = async (data) => {
+    console.log(data);
+    let result = null;
+    await axios
+      .post(`${baseURL}/auth/register/`, data)
+      .then((response) => {
+        result = response;
+      })
+      .catch((error) => {
+        if (error.response) {
+          result = error.response;
+        } else {
+          alert("Something went wrong!");
+        }
+      });
+
+    return result;
+  };
+
   let contextData = {
     user: user,
     authTokens: authTokens,
@@ -54,6 +73,7 @@ export const AuthProvider = ({ children }) => {
     setUser: setUser,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    registerUser: registerUser,
   };
 
   useEffect(() => {

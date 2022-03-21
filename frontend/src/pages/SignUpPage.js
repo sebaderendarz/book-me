@@ -15,6 +15,7 @@ import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import Footer from "../components/Footer";
+import RedTextTypography from "../components/RedTextTypography";
 
 const theme = createTheme();
 
@@ -27,9 +28,10 @@ const defaultFormErrors = {
 };
 
 export default function SignUpPage() {
-  let { user } = useContext(AuthContext);
+  let { registerUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
+  const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
 
   const handleSubmit = (event) => {
@@ -39,14 +41,25 @@ export default function SignUpPage() {
       setFormErrors(errors);
     } else {
       const data = new FormData(event.currentTarget);
-      // TODO register user here
-      // add registerUser method to auth context.
-      console.log({
+      registerUser({
+        name: data.get("firstName"),
+        surname: data.get("lastName"),
         email: data.get("email"),
         password: data.get("password"),
+        accepted_newsletter: acceptedNewsletter,
+        account_type: "CUSTOMER",
+      }).then((response) => {
+        if (response.status < 300) {
+          // TODO some pop-up with info about successful signUp
+          const previousLocation = localStorage.getItem("previousLocation");
+          navigate(previousLocation ? previousLocation : "/");
+        } else {
+          setFormErrors({
+            ...defaultFormErrors,
+            ...getResponseErrors(response.data),
+          });
+        }
       });
-
-      // TODO display a modal that registration succeded and redirect user to some page, previous?
     }
   };
 
@@ -82,11 +95,43 @@ export default function SignUpPage() {
     }
   };
 
-  const getGeneralError = (response) => {
-    // TODO adjust this, check what is returned from BE
-    let errorMessage = "Some cool error message when registration failed.";
-    if (response && response.detail) errorMessage = response.detail;
-    return { general: { error: true, errorMessage: errorMessage } };
+  const getResponseErrors = (response) => {
+    let errorMessages = {};
+    if (response) {
+      if (response.firstName && response.firstName[0])
+        errorMessages = {
+          firstName: { error: true, errorMessage: response.firstName[0] },
+        };
+      if (response.lastName && response.lastName[0])
+        errorMessages = {
+          ...errorMessages,
+          password: { error: true, errorMessage: response.lastName[0] },
+        };
+      if (response.email && response.email[0])
+        errorMessages = {
+          ...errorMessages,
+          email: { error: true, errorMessage: response.email[0] },
+        };
+      if (response.password && response.password[0])
+        errorMessages = {
+          ...errorMessages,
+          password: { error: true, errorMessage: response.password[0] },
+        };
+      if (response.detail)
+        errorMessages = {
+          ...errorMessages,
+          general: { error: true, errorMessage: response.detail },
+        };
+    }
+    return errorMessages === {}
+      ? {
+          general: {
+            error: true,
+            errorMessage:
+              "Cannot create an account with the given credentials.",
+          },
+        }
+      : errorMessages;
   };
 
   const navigateToPreviousLocation = () => {
@@ -147,51 +192,73 @@ export default function SignUpPage() {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoFocus
                     autoComplete="given-name"
-                    name="firstName"
-                    required
+                    error={formErrors.firstName.error}
+                    helperText={formErrors.firstName.errorMessage}
                     fullWidth
+                    required
                     id="firstName"
                     label="First Name"
-                    autoFocus
+                    name="firstName"
+                    type="text"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
+                    autoComplete="family-name"
+                    error={formErrors.lastName.error}
+                    helperText={formErrors.lastName.errorMessage}
                     fullWidth
+                    required
                     id="lastName"
                     label="Last Name"
                     name="lastName"
-                    autoComplete="family-name"
+                    type="text"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    autoComplete="email"
+                    error={formErrors.email.error}
+                    helperText={formErrors.email.errorMessage}
                     required
                     fullWidth
                     id="email"
                     label="Email Address"
                     name="email"
-                    autoComplete="email"
+                    type="email"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    autoComplete="new-password"
+                    error={formErrors.password.error}
+                    helperText={formErrors.password.errorMessage}
                     required
                     fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
                     id="password"
-                    autoComplete="new-password"
+                    label="Password"
+                    name="password"
+                    type="password"
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <RedTextTypography variant="body2">
+                    {formErrors.general.errorMessage}
+                  </RedTextTypography>
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
+                      <Checkbox
+                        id="acceptedNewsletter"
+                        name="acceptedNewsletter"
+                        color="primary"
+                      />
                     }
+                    checked={acceptedNewsletter}
+                    onChange={() => setAcceptedNewsletter(!acceptedNewsletter)}
                     label="I want to receive inspiration, marketing promotions and updates via email."
                   />
                 </Grid>

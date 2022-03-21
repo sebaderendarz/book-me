@@ -49,7 +49,7 @@ export default function SignInPage() {
         } else {
           setFormErrors({
             ...defaultFormErrors,
-            ...getGeneralError(response.data),
+            ...getResponseErrors(response.data),
           });
         }
       });
@@ -88,10 +88,32 @@ export default function SignInPage() {
     }
   };
 
-  const getGeneralError = (response) => {
-    let errorMessage = "No active account found with the given credentials.";
-    if (response && response.detail) errorMessage = response.detail;
-    return { general: { error: true, errorMessage: errorMessage } };
+  const getResponseErrors = (response) => {
+    let errorMessages = {};
+    if (response) {
+      if (response.email && response.email[0])
+        errorMessages = {
+          email: { error: true, errorMessage: response.email[0] },
+        };
+      if (response.password && response.password[0])
+        errorMessages = {
+          ...errorMessages,
+          password: { error: true, errorMessage: response.password[0] },
+        };
+      if (response.detail)
+        errorMessages = {
+          ...errorMessages,
+          general: { error: true, errorMessage: response.detail },
+        };
+    }
+    return errorMessages === {}
+      ? {
+          general: {
+            error: true,
+            errorMessage: "No active account found with the given credentials.",
+          },
+        }
+      : errorMessages;
   };
 
   const navigateToPreviousLocation = () => {

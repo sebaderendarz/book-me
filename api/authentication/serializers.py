@@ -3,6 +3,7 @@ from rest_framework import exceptions, serializers as rest_serializers
 from rest_framework_simplejwt import serializers as jwt_serializers, tokens
 
 from authentication import models, value_objects
+from core import validators
 
 
 class RegisterUserSerializer(rest_serializers.ModelSerializer):
@@ -17,6 +18,10 @@ class RegisterUserSerializer(rest_serializers.ModelSerializer):
             value_objects.AccountType.CUSTOMER.value,
         ):
             raise rest_serializers.ValidationError(__(f'"{value}" is not a valid choice.'))
+
+    def validate_password(self, value: str) -> str:
+        validators.PasswordLengthValidator().validate(value)
+        return value
 
     def create(self, validated_data: dict) -> models.User:
         account_type = validated_data.pop('account_type')

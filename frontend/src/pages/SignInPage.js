@@ -174,31 +174,31 @@ export default function SignInPage() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="email"
-                    label="Email Address"
-                    type="email"
-                    id="email"
+                    autoFocus
                     autoComplete="email"
                     error={formErrors.email.error}
                     helperText={formErrors.email.errorMessage}
-                    autoFocus
+                    fullWidth
+                    required
+                    id="email"
+                    label="Email Address"
+                    margin="normal"
+                    name="email"
+                    type="email"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
+                    autoComplete="current-password"
                     error={formErrors.password.error}
                     helperText={formErrors.password.errorMessage}
-                    autoComplete="current-password"
+                    fullWidth
+                    required
+                    id="password"
+                    label="Password"
+                    margin="normal"
+                    name="password"
+                    type="password"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -208,8 +208,8 @@ export default function SignInPage() {
                 </Grid>
               </Grid>
               <Button
-                type="submit"
                 fullWidth
+                type="submit"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

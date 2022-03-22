@@ -53,7 +53,7 @@ function Header() {
               }}
             >
               Sign up
-            </Button>{" "}
+            </Button>
           </Stack>
         ) : (
           <Stack direction="row" spacing={1}>

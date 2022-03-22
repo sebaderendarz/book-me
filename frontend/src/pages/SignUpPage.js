@@ -1,14 +1,17 @@
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Paper from "@mui/material/Paper";
+import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import CssBaseline from "@mui/material/CssBaseline";
+import Fade from "@mui/material/Fade";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Modal from "@mui/material/Modal";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
@@ -27,12 +30,35 @@ const defaultFormErrors = {
   general: { error: false, errorMessage: "" },
 };
 
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #e0e0e0",
+  borderRadius: "10px",
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function SignUpPage() {
   let { registerUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModalText] = useState(
+    "Thank You for registering. An email with account activation link was sent to You."
+  );
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    const previousLocation = localStorage.getItem("previousLocation");
+    navigate(previousLocation ? previousLocation : "/");
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,9 +76,10 @@ export default function SignUpPage() {
         account_type: "CUSTOMER",
       }).then((response) => {
         if (response.status < 300) {
-          // TODO some modal with info about successful signUp
-          const previousLocation = localStorage.getItem("previousLocation");
-          navigate(previousLocation ? previousLocation : "/");
+          if (response.data && response.data.detail) {
+            setModalText(response.data.detail);
+          }
+          setModalOpen(true);
         } else {
           setFormErrors({
             ...defaultFormErrors,
@@ -98,14 +125,14 @@ export default function SignUpPage() {
   const getResponseErrors = (response) => {
     let errorMessages = {};
     if (response) {
-      if (response.firstName && response.firstName[0])
+      if (response.name && response.name[0])
         errorMessages = {
-          firstName: { error: true, errorMessage: response.firstName[0] },
+          firstName: { error: true, errorMessage: response.name[0] },
         };
-      if (response.lastName && response.lastName[0])
+      if (response.surname && response.surname[0])
         errorMessages = {
           ...errorMessages,
-          password: { error: true, errorMessage: response.lastName[0] },
+          lastName: { error: true, errorMessage: response.surname[0] },
         };
       if (response.email && response.email[0])
         errorMessages = {
@@ -149,6 +176,41 @@ export default function SignUpPage() {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={modalOpen}
+          onClose={handleModalClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={modalOpen}>
+            <Box sx={modalStyle}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+              >
+                Success!
+              </Typography>
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                {modalText}
+              </Typography>
+              <Box sx={{ mt: 2 }} textAlign="center">
+                <Button
+                  variant="contained"
+                  size="medium"
+                  onClick={handleModalClose}
+                >
+                  OK
+                </Button>
+              </Box>
+            </Box>
+          </Fade>
+        </Modal>
         <Grid
           item
           xs={false}

@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   let registerUser = async (data) => {
-    console.log(data);
     let result = null;
     await axios
       .post(`${baseURL}/auth/register/`, data)

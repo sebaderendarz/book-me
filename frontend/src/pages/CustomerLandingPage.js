@@ -12,36 +12,6 @@ import AppDescription from "../components/AppDescription";
 import BarberList from "../components/BarberList";
 import customerReviews from "../components/CustomerReviews";
 
-const rows = [
-  {
-    id: 1,
-    address: "st. Solna 24",
-    barberName: "Naughty Alice",
-    city: "Warsaw",
-    price: "50.00",
-    thumbnail: "https://source.unsplash.com/random/?pretty+girl",
-    updatedAt: "2020-03-18T08:26:30+0000",
-  },
-  {
-    id: 2,
-    address: "st. Solna 24",
-    barberName: "Dirty Joey",
-    city: "Warsaw",
-    price: "70.00",
-    thumbnail: "https://source.unsplash.com/random/?young+man",
-    updatedAt: "2021-03-18T08:26:30+0000",
-  },
-  {
-    id: 3,
-    address: "st. Solna 24",
-    barberName: "Sneaky Martin",
-    city: "Warsaw",
-    price: "90.00",
-    thumbnail: "https://source.unsplash.com/random/?guy",
-    updatedAt: "2022-03-18T08:26:30+0000",
-  },
-];
-
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:
@@ -77,12 +47,17 @@ const searchBarStyle = {
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
+  const [isSearch, setIsSearch] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState("");
 
   function handleOnRequestSearch(searchText) {
     console.log(searchText);
     setSearchPhrase(searchText);
-    // TODO Trigger api call here?
+    if (searchText !== "") {
+      setIsSearch(true);
+    } else {
+      setIsSearch(false);
+    }
   }
 
   return (
@@ -96,12 +71,15 @@ export default function CustomerLandingPage() {
             onRequestSearch={handleOnRequestSearch}
             style={searchBarStyle}
           />
-          <BarberList rows={rows} />
-          <AppDescription
-            mainImage={mainImageWithTextProps}
-            sideBar={sidebarProps}
-            reviews={customerReviews}
-          />
+          {isSearch ? (
+            <BarberList searchPhrase={searchPhrase} />
+          ) : (
+            <AppDescription
+              mainImage={mainImageWithTextProps}
+              sideBar={sidebarProps}
+              reviews={customerReviews}
+            />
+          )}
         </main>
       </Container>
       <Footer />

@@ -10,7 +10,35 @@ import Paper from "@mui/material/Paper";
 import BarberListItem from "./BarberListItem";
 import ImageWithCustomizableText from "./ImageWithCustomizableText";
 
-// TODO Adjust rowsPerPage default option
+const rows = [
+  {
+    id: 1,
+    address: "st. Solna 24",
+    barberName: "Naughty Alice",
+    city: "Warsaw",
+    price: "50.00",
+    thumbnail: "https://source.unsplash.com/random/?pretty+girl",
+    updatedAt: "2020-03-18T08:26:30+0000",
+  },
+  {
+    id: 2,
+    address: "st. Solna 24",
+    barberName: "Dirty Joey",
+    city: "Warsaw",
+    price: "70.00",
+    thumbnail: "https://source.unsplash.com/random/?young+man",
+    updatedAt: "2021-03-18T08:26:30+0000",
+  },
+  {
+    id: 3,
+    address: "st. Solna 24",
+    barberName: "Sneaky Martin",
+    city: "Warsaw",
+    price: "90.00",
+    thumbnail: "https://source.unsplash.com/random/?guy",
+    updatedAt: "2022-03-18T08:26:30+0000",
+  },
+];
 
 const notFoundImageData = {
   title: "Results not found...",
@@ -45,7 +73,7 @@ function stableSort(array) {
 }
 
 export default function BarberList(props) {
-  const { rows } = props;
+  const { searchPhrase } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 

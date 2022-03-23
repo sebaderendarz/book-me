@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import Footer from "../components/Footer";
@@ -30,7 +30,6 @@ export default function SignInPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
-  const location = useLocation();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -228,10 +227,6 @@ export default function SignInPage() {
                   <BlueUnderlinedTextTypography
                     variant="body2"
                     onClick={() => {
-                      localStorage.setItem(
-                        "previousLocation",
-                        location.pathname
-                      );
                       navigate("/customer/signup");
                     }}
                   >

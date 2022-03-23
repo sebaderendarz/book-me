@@ -5,7 +5,6 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +12,6 @@ function Header(props) {
   const { accountType } = props;
   let { logoutUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
 
   return (
     <Fragment>
@@ -39,7 +37,6 @@ function Header(props) {
               variant="contained"
               size="medium"
               onClick={() => {
-                localStorage.setItem("previousLocation", location.pathname);
                 if (accountType === "BARBER") {
                   window.location.replace(
                     "http://localhost:8000/admin/",
@@ -56,7 +53,6 @@ function Header(props) {
               variant="contained"
               size="medium"
               onClick={() => {
-                localStorage.setItem("previousLocation", location.pathname);
                 navigate(
                   accountType === "CUSTOMER"
                     ? "/customer/signup"

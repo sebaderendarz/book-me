@@ -13,7 +13,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
@@ -47,7 +47,6 @@ export default function SignUpPage(props) {
   const { accountType } = props;
   let { registerUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
   const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
@@ -58,14 +57,7 @@ export default function SignUpPage(props) {
 
   const handleModalClose = () => {
     setModalOpen(false);
-    const previousLocation = localStorage.getItem("previousLocation");
-    navigate(
-      previousLocation
-        ? previousLocation
-        : accountType === "CUSTOMER"
-        ? "/customer"
-        : "/hairdresser"
-    );
+    navigate(accountType === "CUSTOMER" ? "/customer" : "/hairdresser");
   };
 
   const handleSubmit = (event) => {
@@ -348,10 +340,6 @@ export default function SignUpPage(props) {
                   <BlueUnderlinedTextTypography
                     variant="body2"
                     onClick={() => {
-                      localStorage.setItem(
-                        "previousLocation",
-                        location.pathname
-                      );
                       navigate(
                         accountType === "CUSTOMER"
                           ? "/customer"
@@ -366,10 +354,6 @@ export default function SignUpPage(props) {
                   <BlueUnderlinedTextTypography
                     variant="body2"
                     onClick={() => {
-                      localStorage.setItem(
-                        "previousLocation",
-                        location.pathname
-                      );
                       if (accountType === "BARBER") {
                         window.location.replace(
                           "http://localhost:8000/admin/",

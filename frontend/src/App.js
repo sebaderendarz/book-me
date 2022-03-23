@@ -20,17 +20,17 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route exact path="/" element={<Navigate to="/customer" />} />
-            <Route exact element={<CustomerLandingPage />} path="/customer" />
             <Route element={<SignInPage />} path="/customer/signin" />
             <Route
               element={<SignUpPage accountType={"CUSTOMER"} />}
               path="/customer/signup"
             />
-            <Route exact element={<BarberLandingPage />} path="/hairdresser" />
+            <Route element={<CustomerLandingPage />} path="/customer" />
             <Route
               element={<SignUpPage accountType={"BARBER"} />}
               path="/hairdresser/signup"
             />
+            <Route element={<BarberLandingPage />} path="/hairdresser" />
             <Route path="/privpage" element={<PrivateRoute />}>
               <Route exact path="/privpage" element={<TestPrivatePage />} />
             </Route>

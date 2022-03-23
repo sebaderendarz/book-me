@@ -1,16 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 
 function Copyright() {
+  const navigate = useNavigate();
+
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://bookme.com">
-        BookMe Inc.
-      </Link>{" "}
-      {new Date().getFullYear()}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      onClick={() => navigate("/")}
+    >
+      Copyright © BookMe Inc. {new Date().getFullYear()}
       {"."}
     </Typography>
   );

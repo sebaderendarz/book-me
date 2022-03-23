@@ -5,11 +5,12 @@ import RedditIcon from "@mui/icons-material/Reddit";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "./Header";
-import Footer from "./Footer";
-import SearchBar from "./SearchBar";
-import AppDescription from "./AppDescription";
-import BarberList from "./BarberList";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SearchBar from "../components/SearchBar";
+import AppDescription from "../components/AppDescription";
+import BarberList from "../components/BarberList";
+import customerReviews from "../components/CustomerReviews";
 
 const rows = [
   {
@@ -18,7 +19,7 @@ const rows = [
     barberName: "Naughty Alice",
     city: "Warsaw",
     price: "50.00",
-    thumbnail: null,
+    thumbnail: "https://source.unsplash.com/random/?pretty+girl",
     updatedAt: "2020-03-18T08:26:30+0000",
   },
   {
@@ -27,7 +28,7 @@ const rows = [
     barberName: "Dirty Joey",
     city: "Warsaw",
     price: "70.00",
-    thumbnail: null,
+    thumbnail: "https://source.unsplash.com/random/?young+man",
     updatedAt: "2021-03-18T08:26:30+0000",
   },
   {
@@ -36,7 +37,7 @@ const rows = [
     barberName: "Sneaky Martin",
     city: "Warsaw",
     price: "90.00",
-    thumbnail: null,
+    thumbnail: "https://source.unsplash.com/random/?guy",
     updatedAt: "2022-03-18T08:26:30+0000",
   },
 ];
@@ -88,7 +89,7 @@ export default function CustomerLandingPage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header />
+        <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
             onChange={(searchText) => setSearchPhrase(searchText)}
@@ -96,6 +97,11 @@ export default function CustomerLandingPage() {
             style={searchBarStyle}
           />
           <BarberList rows={rows} />
+          <AppDescription
+            mainImage={mainImageWithTextProps}
+            sideBar={sidebarProps}
+            reviews={customerReviews}
+          />
         </main>
       </Container>
       <Footer />

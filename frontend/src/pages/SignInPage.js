@@ -45,7 +45,7 @@ export default function SignInPage() {
       }).then((response) => {
         if (response.status < 300) {
           const previousLocation = localStorage.getItem("previousLocation");
-          navigate(previousLocation ? previousLocation : "/");
+          navigate(previousLocation ? previousLocation : "/customer");
         } else {
           setFormErrors({
             ...defaultFormErrors,
@@ -121,7 +121,7 @@ export default function SignInPage() {
     return previousLocation ? (
       <Navigate to={previousLocation} />
     ) : (
-      <Navigate to="/" />
+      <Navigate to="/customer" />
     );
   };
 
@@ -219,7 +219,7 @@ export default function SignInPage() {
                 <Grid item xs>
                   <BlueUnderlinedTextTypography
                     variant="body2"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/customer")}
                   >
                     Back to home
                   </BlueUnderlinedTextTypography>
@@ -232,7 +232,7 @@ export default function SignInPage() {
                         "previousLocation",
                         location.pathname
                       );
-                      navigate("/signup");
+                      navigate("/customer/signup");
                     }}
                   >
                     Don't have an account? Sign Up

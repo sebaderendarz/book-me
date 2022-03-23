@@ -89,7 +89,7 @@ export default function CustomerLandingPage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header />
+        <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
             onChange={(searchText) => setSearchPhrase(searchText)}

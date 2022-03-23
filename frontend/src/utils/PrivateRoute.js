@@ -10,7 +10,7 @@ const PrivateRoute = () => {
 
   const navigateToSignIn = () => {
     localStorage.setItem("previousLocation", location.pathname);
-    return <Navigate to="/signin" />;
+    return <Navigate to="/customer/signin" />;
   };
 
   return !user ? navigateToSignIn() : <Outlet />;

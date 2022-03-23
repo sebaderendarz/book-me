@@ -13,7 +13,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
@@ -43,9 +43,11 @@ const modalStyle = {
   p: 4,
 };
 
-export default function SignUpPage() {
+export default function SignUpPage(props) {
+  const { accountType } = props;
   let { registerUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
@@ -57,7 +59,13 @@ export default function SignUpPage() {
   const handleModalClose = () => {
     setModalOpen(false);
     const previousLocation = localStorage.getItem("previousLocation");
-    navigate(previousLocation ? previousLocation : "/");
+    navigate(
+      previousLocation
+        ? previousLocation
+        : accountType === "CUSTOMER"
+        ? "/customer"
+        : "/hairdresser"
+    );
   };
 
   const handleSubmit = (event) => {
@@ -161,17 +169,19 @@ export default function SignUpPage() {
       : errorMessages;
   };
 
-  const navigateToPreviousLocation = () => {
+  const redirectToPreviousLocation = () => {
     const previousLocation = localStorage.getItem("previousLocation");
     return previousLocation ? (
       <Navigate to={previousLocation} />
     ) : (
-      <Navigate to="/" />
+      <Navigate
+        to={accountType === "CUSTOMER" ? "/customer" : "/hairdresser"}
+      />
     );
   };
 
   return user ? (
-    navigateToPreviousLocation()
+    redirectToPreviousLocation()
   ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -337,7 +347,17 @@ export default function SignUpPage() {
                 <Grid item xs>
                   <BlueUnderlinedTextTypography
                     variant="body2"
-                    onClick={() => navigate("/")}
+                    onClick={() => {
+                      localStorage.setItem(
+                        "previousLocation",
+                        location.pathname
+                      );
+                      navigate(
+                        accountType === "CUSTOMER"
+                          ? "/customer"
+                          : "/hairdresser"
+                      );
+                    }}
                   >
                     Back to home
                   </BlueUnderlinedTextTypography>
@@ -345,7 +365,20 @@ export default function SignUpPage() {
                 <Grid item>
                   <BlueUnderlinedTextTypography
                     variant="body2"
-                    onClick={() => navigate("/signin")}
+                    onClick={() => {
+                      localStorage.setItem(
+                        "previousLocation",
+                        location.pathname
+                      );
+                      if (accountType === "BARBER") {
+                        window.location.replace(
+                          "http://localhost:8000/admin/",
+                          "_blank"
+                        );
+                      } else {
+                        navigate("/customer/signin");
+                      }
+                    }}
                   >
                     Already have an account? Sign in
                   </BlueUnderlinedTextTypography>

@@ -6,6 +6,11 @@
       "src": "media/bookme_200.png",
       "type": "image/png",
       "sizes": "200x200"
+    },
+    {
+      "src": "media/bookme_200_white.png",
+      "type": "image/png",
+      "sizes": "200x200"
     }
   ],
   "start_url": ".",

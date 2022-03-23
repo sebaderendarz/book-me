@@ -1,15 +1,16 @@
 import { Fragment } from "react";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+  const { accountType } = props;
   let { logoutUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +40,14 @@ function Header() {
               size="medium"
               onClick={() => {
                 localStorage.setItem("previousLocation", location.pathname);
-                navigate("/signin");
+                if (accountType === "BARBER") {
+                  window.location.replace(
+                    "http://localhost:8000/admin/",
+                    "_blank"
+                  );
+                } else {
+                  navigate("/customer/signin");
+                }
               }}
             >
               Sign in
@@ -49,7 +57,11 @@ function Header() {
               size="medium"
               onClick={() => {
                 localStorage.setItem("previousLocation", location.pathname);
-                navigate("/signup");
+                navigate(
+                  accountType === "CUSTOMER"
+                    ? "/customer/signup"
+                    : "/hairdresser/signup"
+                );
               }}
             >
               Sign up
@@ -59,7 +71,7 @@ function Header() {
           <Stack direction="row" spacing={1}>
             <Button variant="contained" size="medium" onClick={logoutUser}>
               Logout
-            </Button>{" "}
+            </Button>
           </Stack>
         )}
       </Toolbar>

@@ -37,7 +37,7 @@ export default function TestPrivatePage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header />
+        <Header accountType={"CUSTOMER"} />
         <main>
           <AppDescription
             mainImage={mainImageWithTextProps}

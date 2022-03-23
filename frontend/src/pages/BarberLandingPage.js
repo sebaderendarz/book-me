@@ -39,7 +39,7 @@ export default function BarberLandingPage() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header />
+        <Header accountType={"BARBER"} />
         <main>
           <AppDescription
             mainImage={mainImageWithTextProps}

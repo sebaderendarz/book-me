@@ -49,11 +49,11 @@ const theme = createTheme();
 export default function CustomerLandingPage() {
   const [isSearch, setIsSearch] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState("");
+  const [pendingSearchPhrase, setPendingSearchPhrase] = useState("");
 
-  function handleOnRequestSearch(searchText) {
-    console.log(searchText);
-    setSearchPhrase(searchText);
-    if (searchText !== "") {
+  function handleOnRequestSearch() {
+    setSearchPhrase(pendingSearchPhrase);
+    if (pendingSearchPhrase !== "") {
       setIsSearch(true);
     } else {
       setIsSearch(false);
@@ -67,7 +67,7 @@ export default function CustomerLandingPage() {
         <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
-            onChange={(searchText) => setSearchPhrase(searchText)}
+            onChange={(searchText) => setPendingSearchPhrase(searchText)}
             onRequestSearch={handleOnRequestSearch}
             style={searchBarStyle}
           />

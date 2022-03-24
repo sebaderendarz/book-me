@@ -13,8 +13,11 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
+// NOTE: https://source.unsplash.com/random/?hairdresser can be used
+// instead of Stack when image is not avail.
+
 export default function BarberListItem(props) {
-  const { thumbnail, barberName, city, address, price } = props;
+  const { thumbnail, barber_name, city, address, price } = props;
   return (
     <Paper
       sx={{
@@ -52,7 +55,7 @@ export default function BarberListItem(props) {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {barberName}
+                {barber_name}
               </Typography>
               <Typography variant="body2" gutterBottom>
                 {city}

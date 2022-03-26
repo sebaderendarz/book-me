@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
@@ -13,15 +13,18 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
+// NOTE: When preparing to demo https://source.unsplash.com/random/?hairdresser
+// can be used instead of Stack when thumbnail is null.
+
 export default function BarberListItem(props) {
-  const { thumbnail, barberName, city, address, price } = props;
+  const { thumbnail, barber_name, city, address, price } = props;
   return (
-    <Paper
+    <Box
       sx={{
         p: 2,
-        margin: "auto",
-        flexGrow: 1,
-        backgroundColor: "#fff",
+        mb: 2,
+        borderRadius: 1,
+        boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
       }}
     >
       <Grid container spacing={2}>
@@ -52,7 +55,7 @@ export default function BarberListItem(props) {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
-                {barberName}
+                {barber_name}
               </Typography>
               <Typography variant="body2" gutterBottom>
                 {city}
@@ -69,6 +72,6 @@ export default function BarberListItem(props) {
           </Grid>
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }

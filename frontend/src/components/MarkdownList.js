@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import MarkdownItem from "./MarkdownItem";
@@ -23,9 +24,12 @@ function MarkdownList(props) {
       </Typography>
       <Divider />
       {reviews.map((review, index) => (
-        <MarkdownItem className="markdown" key={index}>
-          {review}
-        </MarkdownItem>
+        <Box>
+          <MarkdownItem className="markdown" key={index}>
+            {review}
+          </MarkdownItem>
+          <Divider />
+        </Box>
       ))}
     </Grid>
   );

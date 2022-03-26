@@ -12,40 +12,10 @@ import AppDescription from "../components/AppDescription";
 import BarberList from "../components/BarberList";
 import customerReviews from "../components/CustomerReviews";
 
-const rows = [
-  {
-    id: 1,
-    address: "st. Solna 24",
-    barberName: "Naughty Alice",
-    city: "Warsaw",
-    price: "50.00",
-    thumbnail: "https://source.unsplash.com/random/?pretty+girl",
-    updatedAt: "2020-03-18T08:26:30+0000",
-  },
-  {
-    id: 2,
-    address: "st. Solna 24",
-    barberName: "Dirty Joey",
-    city: "Warsaw",
-    price: "70.00",
-    thumbnail: "https://source.unsplash.com/random/?young+man",
-    updatedAt: "2021-03-18T08:26:30+0000",
-  },
-  {
-    id: 3,
-    address: "st. Solna 24",
-    barberName: "Sneaky Martin",
-    city: "Warsaw",
-    price: "90.00",
-    thumbnail: "https://source.unsplash.com/random/?guy",
-    updatedAt: "2022-03-18T08:26:30+0000",
-  },
-];
-
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:
-    "BookMe is a free booking platform, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
+    "BookMe is a free booking platform, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from everywhere.",
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Image not available.",
 };
@@ -71,40 +41,55 @@ const searchBarStyle = {
   marginBottom: 80,
   maxWidth: 800,
   height: 60,
-  boxShadow: "0px 0px 1px 1px #e0e0e0",
+  boxShadow: "0px 0px 3px 0px rgb(0 0 0 / 20%)",
 };
 
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
+  const [isSearch, setIsSearch] = useState(false);
   const [searchPhrase, setSearchPhrase] = useState("");
+  const [pendingSearchPhrase, setPendingSearchPhrase] = useState("");
 
-  function handleOnRequestSearch(searchText) {
-    console.log(searchText);
-    setSearchPhrase(searchText);
-    // TODO Trigger api call here?
+  function handleOnRequestSearch() {
+    setSearchPhrase(pendingSearchPhrase);
+    if (pendingSearchPhrase !== "") {
+      setIsSearch(true);
+    } else {
+      setIsSearch(false);
+    }
   }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="lg"
+        sx={{
+          bgcolor: "white",
+          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          minHeight: "100vh",
+        }}
+      >
         <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
-            onChange={(searchText) => setSearchPhrase(searchText)}
+            onChange={(searchText) => setPendingSearchPhrase(searchText)}
             onRequestSearch={handleOnRequestSearch}
             style={searchBarStyle}
           />
-          <BarberList rows={rows} />
-          <AppDescription
-            mainImage={mainImageWithTextProps}
-            sideBar={sidebarProps}
-            reviews={customerReviews}
-          />
+          {isSearch ? (
+            <BarberList searchPhrase={searchPhrase} />
+          ) : (
+            <AppDescription
+              mainImage={mainImageWithTextProps}
+              sideBar={sidebarProps}
+              reviews={customerReviews}
+            />
+          )}
         </main>
+        <Footer />
       </Container>
-      <Footer />
     </ThemeProvider>
   );
 }

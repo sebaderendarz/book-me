@@ -1,16 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import BarberListItem from "./BarberListItem";
 import ImageWithCustomizableText from "./ImageWithCustomizableText";
-
-// TODO Adjust rowsPerPage default option
+import useAxios from "../utils/useAxios";
 
 const notFoundImageData = {
   title: "Results not found...",
@@ -20,34 +13,41 @@ const notFoundImageData = {
   imageText: "Results not found.",
 };
 
-function comparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0], "updated");
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
 export default function BarberList(props) {
-  const { rows } = props;
+  const { searchPhrase } = props;
+  const [numOfResults, setNumOfResults] = useState(0);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [results, setResults] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const api = useAxios();
+
+  useEffect(() => {
+    setPage(0);
+    sendRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchPhrase, rowsPerPage]);
+
+  useEffect(() => {
+    sendRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  const sendRequest = () => {
+    api
+      .get(
+        `/barber/service_offers/?page_size=${rowsPerPage}&page=${
+          page + 1
+        }&search=${searchPhrase}`
+      )
+      .then((res) => {
+        setNumOfResults(res.data.count);
+        setResults(res.data.results);
+      })
+      .catch((error) => {
+        setNumOfResults(0);
+        setResults([]);
+      });
+  };
 
   const handleClick = (event, name) => {
     console.log("handleClick - " + name);
@@ -59,58 +59,23 @@ export default function BarberList(props) {
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  return rows && rows.length > 0 ? (
+  return results && results.length > 0 ? (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table aria-labelledby="tableTitle" size="medium">
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      tabIndex={-1}
-                      key={row.id}
-                    >
-                      <BarberListItem {...row} />
-                    </TableRow>
-                  );
-                })}
-              {/*TODO remove next 9 lines? CHeck comment above the const emptyRows =*/}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 20 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[1, 2, 5, 10, 25, 50]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+      {results.map((result, index) => {
+        return <BarberListItem key={index} {...result} />;
+      })}
+      <TablePagination
+        component="div"
+        count={numOfResults}
+        labelRowsPerPage={"Offers per page:"}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[1, 5, 10, 25, 50, 100]}
+      />
     </Box>
   ) : (
     <ImageWithCustomizableText data={notFoundImageData} />

@@ -38,7 +38,13 @@ export default function BarberLandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="lg"
+        sx={{
+          bgcolor: "white",
+          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+        }}
+      >
         <Header accountType={"BARBER"} />
         <main>
           <AppDescription
@@ -47,8 +53,8 @@ export default function BarberLandingPage() {
             reviews={barberReviews}
           />
         </main>
+        <Footer />
       </Container>
-      <Footer />
     </ThemeProvider>
   );
 }

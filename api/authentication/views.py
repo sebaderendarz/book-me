@@ -11,9 +11,6 @@ from tasks import email_tasks
 
 
 class AccountActivationView(rest_views.APIView):
-
-    permission_classes = (permissions.AllowAny,)
-
     def get(self, request: request.Request, token: str) -> response.Response:
         uuid_token = self._get_uuid_from_token(token)
         user = self._get_user_by_token(uuid_token)
@@ -52,9 +49,6 @@ class AccountActivationView(rest_views.APIView):
 
 
 class RegisterUserView(rest_views.APIView):
-
-    permission_classes = (permissions.AllowAny,)
-
     def post(self, request: request.Request) -> response.Response:
         user_serializer = serializers.RegisterUserSerializer(data=request.data)
         if user_serializer.is_valid(raise_exception=True):

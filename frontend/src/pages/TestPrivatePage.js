@@ -36,7 +36,13 @@ export default function TestPrivatePage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="lg"
+        sx={{
+          bgcolor: "white",
+          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+        }}
+      >
         <Header accountType={"CUSTOMER"} />
         <main>
           <AppDescription

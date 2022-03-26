@@ -6,7 +6,7 @@ from barber import models
 class ServiceOfferListSerializer(rest_serializers.ModelSerializer):
     class Meta:
         model = models.ServiceOffer
-        fields = ('barber_name', 'city', 'id', 'price', 'thumbnail', 'updated_at')
+        fields = ('address', 'barber_name', 'city', 'id', 'price', 'thumbnail', 'updated_at')
 
 
 class ServiceOfferSerializer(rest_serializers.ModelSerializer):

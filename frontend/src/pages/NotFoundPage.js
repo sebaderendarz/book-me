@@ -19,6 +19,7 @@ export default function NotFoundPage() {
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
+          bgcolor: "#fff",
         }}
       >
         <CssBaseline />
@@ -36,8 +37,8 @@ export default function NotFoundPage() {
           >
             Back to home
           </BlueUnderlinedTextTypography>
+          <Footer />
         </Container>
-        <Footer />
       </Box>
     </ThemeProvider>
   );

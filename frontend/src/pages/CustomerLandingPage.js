@@ -63,7 +63,14 @@ export default function CustomerLandingPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container
+        maxWidth="lg"
+        sx={{
+          bgcolor: "#fff",
+          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          minHeight: "100vh",
+        }}
+      >
         <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
@@ -81,8 +88,8 @@ export default function CustomerLandingPage() {
             />
           )}
         </main>
+        <Footer />
       </Container>
-      <Footer />
     </ThemeProvider>
   );
 }

@@ -66,7 +66,7 @@ export default function CustomerLandingPage() {
       <Container
         maxWidth="lg"
         sx={{
-          bgcolor: "#fff",
+          bgcolor: "white",
           boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
           minHeight: "100vh",
         }}

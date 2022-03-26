@@ -19,7 +19,7 @@ export default function NotFoundPage() {
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
-          bgcolor: "#fff",
+          bgcolor: "white",
         }}
       >
         <CssBaseline />

@@ -15,7 +15,7 @@ import customerReviews from "../components/CustomerReviews";
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:
-    "BookMe is a free booking platform, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from anywhere.",
+    "BookMe is a free booking platform, in which you can easily find a free date and make an appointment conveniently. No calling - you book anytime and from everywhere.",
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Image not available.",
 };
@@ -41,7 +41,7 @@ const searchBarStyle = {
   marginBottom: 80,
   maxWidth: 800,
   height: 60,
-  boxShadow: "0px 0px 1px 1px #e0e0e0",
+  boxShadow: "0px 0px 3px 0px rgb(0 0 0 / 20%)",
 };
 
 const theme = createTheme();

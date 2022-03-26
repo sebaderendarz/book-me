@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import BarberListItem from "./BarberListItem";
 import ImageWithCustomizableText from "./ImageWithCustomizableText";
 import useAxios from "../utils/useAxios";
@@ -17,8 +12,6 @@ const notFoundImageData = {
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Results not found.",
 };
-
-// TODO fix <div> cannot be a child of tr/td warning in the browser console
 
 export default function BarberList(props) {
   const { searchPhrase } = props;
@@ -70,35 +63,19 @@ export default function BarberList(props) {
 
   return results && results.length > 0 ? (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <TableContainer>
-          <Table aria-labelledby="tableTitle" size="medium">
-            <TableBody>
-              {results.map((result) => {
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, result.id)}
-                    tabIndex={-1}
-                    key={result.id}
-                  >
-                    <BarberListItem {...result} />
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          component="div"
-          count={numOfResults}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+      {results.map((result, index) => {
+        return <BarberListItem key={index} {...result} />;
+      })}
+      <TablePagination
+        component="div"
+        count={numOfResults}
+        labelRowsPerPage={"Offers per page:"}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        rowsPerPageOptions={[1, 5, 10, 25, 50, 100]}
+      />
     </Box>
   ) : (
     <ImageWithCustomizableText data={notFoundImageData} />

@@ -21,7 +21,11 @@ function Header(props) {
         <Avatar
           alt="BookMe Logo"
           src="/media/bookme_200.png"
-          onClick={() => navigate("/")}
+          onClick={() =>
+            // NOTE: For customers navigate to "/" instead of "/customer", because it clears
+            // search results and redirects to the rerendered "/customer" displaying app description.
+            navigate(accountType === "CUSTOMER" ? "/" : "/hairdresser")
+          }
         />
         <Typography
           component="h2"

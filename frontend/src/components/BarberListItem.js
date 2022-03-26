@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
@@ -16,15 +16,17 @@ const Img = styled("img")({
 // NOTE: https://source.unsplash.com/random/?hairdresser can be used
 // instead of Stack when image is not avail.
 
+// 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
+
 export default function BarberListItem(props) {
   const { thumbnail, barber_name, city, address, price } = props;
   return (
-    <Paper
+    <Box
       sx={{
         p: 2,
-        margin: "auto",
-        flexGrow: 1,
-        backgroundColor: "#fff",
+        mb: 2,
+        borderRadius: 1,
+        boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
       }}
     >
       <Grid container spacing={2}>
@@ -72,6 +74,6 @@ export default function BarberListItem(props) {
           </Grid>
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }

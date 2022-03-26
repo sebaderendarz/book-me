@@ -1,17 +1,28 @@
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
-import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 
-const Img = styled("img")({
-  margin: "auto",
-  display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
-});
+const OfferDescriptionDivider = ({ text }) => {
+  return (
+    <Divider sx={{ m: 2 }} textAlign="center">
+      {text}
+    </Divider>
+  );
+};
+
+const OfferDetailsItem = ({ name, value }) => {
+  return (
+    <Box sx={{ textAlign: "center", color: "#1976d2" }}>
+      <Typography>{name}</Typography>
+      <Typography>{value}</Typography>
+    </Box>
+  );
+};
 
 export default function BarberOfferDescription(props) {
   const { offerDetails } = props;
@@ -24,11 +35,15 @@ export default function BarberOfferDescription(props) {
         boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
       }}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={3}>
         <Grid item>
           <ButtonBase sx={{ width: 128, height: 128 }}>
             {offerDetails.thumbnail ? (
-              <Img alt="Barber Image" src={offerDetails.thumbnail} />
+              <Avatar
+                alt="Barber Image"
+                src={offerDetails.thumbnail}
+                sx={{ width: 128, height: 128 }}
+              />
             ) : (
               <Stack spacing={1} sx={{ width: 128, height: 128 }}>
                 <Skeleton variant="text" animation={false} />
@@ -49,27 +64,49 @@ export default function BarberOfferDescription(props) {
           </ButtonBase>
         </Grid>
         <Grid item xs={12} sm container>
-          <Grid item xs container direction="column" spacing={2}>
+          <Grid item xs container direction="column">
             <Grid item xs>
               <Typography gutterBottom variant="h4" component="div">
                 {offerDetails.barber_name}
               </Typography>
-              <Typography variant="body1" gutterBottom>
-                City:
-              </Typography>
-              <Typography variant="body1" gutterBottom>
+              <OfferDescriptionDivider text={"Address"} />
+              <Typography align="center" variant="body1" gutterBottom>
                 {offerDetails.city}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography align="center" variant="body2">
                 {offerDetails.address}
               </Typography>
-              <Typography variant="body2">
+              <OfferDescriptionDivider text={"Description"} />
+              <Typography align="center" variant="body2">
                 {offerDetails.description}
               </Typography>
+              <OfferDescriptionDivider text={"Details"} />
+              <Grid item container justifyContent="center">
+                <Box>
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    divider={<Divider orientation="vertical" flexItem />}
+                    spacing={{ xs: 1, sm: 2, md: 4 }}
+                  >
+                    <OfferDetailsItem
+                      name={"Specialization"}
+                      value={offerDetails.specialization}
+                    />
+                    <OfferDetailsItem
+                      name={"Open Hours"}
+                      value={offerDetails.open_hours}
+                    />
+                    <OfferDetailsItem
+                      name={"Working Days"}
+                      value={offerDetails.working_days}
+                    />
+                  </Stack>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="subtitle1" component="div">
+            <Typography variant="h6" component="div">
               {"$" + offerDetails.price}
             </Typography>
           </Grid>

@@ -7,14 +7,20 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BarberOfferDescription from "../components/BarberOfferDescription";
 
+// Ideas how to implement baber ordering:
+// 1. Display hours only for one day + use datepicker to display other days.
+//   Display info that barber not avail instead of fully booked list of times when barber not avail?
+//   It would be easier to simply display that barber is busy :)
+// 2. ?
+
 const barberDescription = {
   id: 1,
   address: "st. Solna 24",
   barber_name: "Naughty Alice",
   city: "Warsaw",
   price: "50.00",
-  thumbnail: null,
-  specialization: "WOMEN",
+  thumbnail: "https://source.unsplash.com/random/?hairdresser",
+  specialization: "Women",
   open_hours: "10AM-6PM",
   working_days: "Monday-Sunday",
   description:

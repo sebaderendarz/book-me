@@ -15,7 +15,7 @@ import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
-    <div className="App" style={{ bgcolor: "#fdfdfd" }}>
+    <div className="App" style={{ backgroundColor: "#fdfdfd" }}>
       <Router>
         <AuthProvider>
           <Routes>

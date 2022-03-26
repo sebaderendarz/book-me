@@ -13,10 +13,8 @@ const Img = styled("img")({
   maxHeight: "100%",
 });
 
-// NOTE: https://source.unsplash.com/random/?hairdresser can be used
-// instead of Stack when image is not avail.
-
-// 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
+// NOTE: When preparing to demo https://source.unsplash.com/random/?hairdresser
+// can be used instead of Stack when thumbnail is null.
 
 export default function BarberListItem(props) {
   const { thumbnail, barber_name, city, address, price } = props;

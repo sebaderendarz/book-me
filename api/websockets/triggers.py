@@ -18,3 +18,19 @@ def _send_service_offer_notification(data: list, service_offer_id: int) -> None:
     sync.async_to_sync(channel_layer.group_send)(  # type:ignore
         templates.SERVICE_OFFER_GROUP.format(service_offer_id), message
     )
+
+
+def trigger_service_unavailabilities_channel(service_offer_id: int) -> None:
+    service_unavailabilities = utils.get_future_service_unavailabilities(service_offer_id)
+    serialized_unavailabilities = utils.serialize_service_unavailabilities(
+        service_unavailabilities
+    )
+    _send_service_unavailabilities_notification(serialized_unavailabilities, service_offer_id)
+
+
+def _send_service_unavailabilities_notification(data: list, service_offer_id: int) -> None:
+    channel_layer = layers.get_channel_layer()
+    message = {"type": "service_unavailabilities_message", "text": json.dumps(data)}
+    sync.async_to_sync(channel_layer.group_send)(  # type:ignore
+        templates.SERVICE_UNAVAILABILITIES_GROUP.format(service_offer_id), message
+    )

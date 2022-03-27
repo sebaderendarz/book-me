@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import BarberAvailability from "../components/BarberAvailability";
 import BarberOfferDescription from "../components/BarberOfferDescription";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -125,6 +126,7 @@ export default function BarberOfferPage() {
           {offerDetails ? (
             <BarberOfferDescription offerDetails={offerDetails} />
           ) : null}
+          <BarberAvailability absences={absences} orders={orders} />
         </main>
         <Footer />
       </Container>

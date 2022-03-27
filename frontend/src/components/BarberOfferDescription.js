@@ -30,6 +30,7 @@ export default function BarberOfferDescription(props) {
     <Box
       sx={{
         p: 2,
+        mt: 5,
         mb: 2,
         borderRadius: 1,
         boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",

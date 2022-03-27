@@ -18,13 +18,13 @@ def send_email(message: sendgrid.Mail) -> Union[int, str]:
         str: Exception in case of internal Sendgrid SDK error
     '''
 
-    SENDGRID_API_KEY = utils.get_env_value('SENDGRID_API_KEY')
+    sendgrid_api_key = utils.get_env_value('SENDGRID_API_KEY')
     try:
-        sg = sendgrid.SendGridAPIClient(SENDGRID_API_KEY)
-        return sg.send(message).status_code
-    except Exception as e:
-        logger.exception(e)
-        return str(e)
+        sendgrid_client = sendgrid.SendGridAPIClient(sendgrid_api_key)
+        return sendgrid_client.send(message).status_code
+    except Exception as exc:  # pylint: disable=broad-except
+        logger.exception(exc)
+        return str(exc)
 
 
 def generate_message(

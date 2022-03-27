@@ -1,18 +1,16 @@
 import json
 import logging
 
-from asgiref.sync import sync_to_async
-from channels import consumer
 from channels.db import database_sync_to_async
 from django.db.models import query
 
-from websockets import templates, utils
+from websockets import consumers, templates, utils
 
 logger = logging.getLogger('django')
 
 
-class ServiceOfferConsumer(consumer.AsyncConsumer):
-    async def websocket_connect(self, event: dict) -> None:
+class ServiceOfferConsumer(consumers.BaseConsumer):
+    async def websocket_connect(self, event: dict) -> None:  # pylint: disable=unused-argument
         '''Connect new user to the group or create a new channel group.'''
         service_offer_id = int(self.scope['url_route']['kwargs']['offer_id'])
         group_name = templates.SERVICE_OFFER_GROUP.format(service_offer_id)
@@ -44,27 +42,6 @@ class ServiceOfferConsumer(consumer.AsyncConsumer):
     def _serialize_service_orders(self, service_orders: query.QuerySet) -> list:
         return utils.serialize_service_orders(service_orders)
 
-    async def websocket_receive(self, event: dict) -> None:
-        '''Handle message sent by user. No logic for this as for now.'''
-        data = event.get('text', None)
-        if not data:
-            await self.log_debug('No data in the message')
-        await self.log_debug(data)
-
     async def service_offer_message(self, event: dict) -> None:
         '''Send the actual message.'''
         await self.send({'type': 'websocket.send', 'text': event['text']})
-
-    @sync_to_async
-    def log_debug(self, message: str) -> None:
-        '''Log debug info asynchronously.'''
-        logger.debug(message)
-
-    @sync_to_async
-    def log_warning(self, message: str) -> None:
-        '''Log warning asynchronously.'''
-        logger.warning(message)
-
-    async def websocket_disconnect(self, event: dict) -> None:
-        '''Close channel connection.'''
-        raise consumer.StopConsumer()

@@ -30,7 +30,7 @@ isort --settings-path pyproject.toml --check-only --diff $PATHS_TO_LINT;
 echo '----------------------------------------------------------------------'
 
 echo 'Running' $PYLINT_VERSION;
-pylint --jobs 8 authentication barber core customer;
+pylint --jobs 8 authentication barber core customer tasks websockets;
 echo '----------------------------------------------------------------------'
 
 echo 'All linters ok!';

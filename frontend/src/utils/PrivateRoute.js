@@ -1,5 +1,5 @@
-import { useLocation, Outlet, Navigate } from "react-router-dom";
 import { useContext } from "react";
+import { useLocation, Outlet, Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 // NOTE: We must use <Navigate>. Error is raised when we use

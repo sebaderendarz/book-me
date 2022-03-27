@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
+import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import Paper from "@mui/material/Paper";
-import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { withStyles } from "@mui/styles";
-import classNames from "classnames";
 
 // Code taken from material-ui-search-bar library and adjusted accordingly.
 // I wasn't able to install this dependency due to unresolvable conflicts

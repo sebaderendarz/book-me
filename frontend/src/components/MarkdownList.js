@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import MarkdownItem from "./MarkdownItem";
 
 function MarkdownList(props) {

@@ -1,12 +1,11 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 // TODO Improve redirection when hairdresser clicks on back arrow in the browser
 // when being in the django admin login view. Now it sometimes redirects to "/customer"

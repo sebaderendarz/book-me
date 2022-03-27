@@ -1,15 +1,15 @@
 import { useState } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import RedditIcon from "@mui/icons-material/Reddit";
+import CssBaseline from "@mui/material/CssBaseline";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import RedditIcon from "@mui/icons-material/Reddit";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import SearchBar from "../components/SearchBar";
 import AppDescription from "../components/AppDescription";
 import BarberList from "../components/BarberList";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
 import customerReviews from "../components/CustomerReviews";
 
 // TODO Currently user is redirected to barber offer page

@@ -7,9 +7,6 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-// NOTE: When preparing to demo https://source.unsplash.com/random/?hairdresser
-// can be used instead of Stack when thumbnail is null.
-
 export default function BarberListItem(props) {
   const { id, address, barber_name, city, price, thumbnail } = props;
   const navigate = useNavigate();

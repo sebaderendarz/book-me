@@ -2,6 +2,7 @@
 from django.contrib import admin
 
 from customer import models, utils, value_objects as customer_value_objects
+from websockets import triggers
 
 # NOTE: Service Order is not validated before it is saved in django admin!
 # If you want to allow, even only users with admin priviliges, to create or edit
@@ -14,18 +15,23 @@ from customer import models, utils, value_objects as customer_value_objects
 def make_new(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to NEW.'''
     queryset.update(status=customer_value_objects.ServiceOrderStatus.NEW.name)
+    # NOTE: This is a bulk operation. instance.save is not called. We must trigger
+    # websocket explicitly, because post save/delete signal is not triggered.
+    triggers.trigger_service_orders_channel(queryset[0].offer_id)
 
 
 @admin.action(description='Close selected service orders')
 def make_closed(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to CLOSED.'''
     queryset.update(status=customer_value_objects.ServiceOrderStatus.CLOSED.name)
+    triggers.trigger_service_orders_channel(queryset[0].offer_id)
 
 
 @admin.action(description='Confirm selected service orders')
 def make_confirmed(modeladmin, request, queryset):  # pylint: disable=unused-argument
     '''Change status of selected offers to HIDDEN.'''
     queryset.update(status=customer_value_objects.ServiceOrderStatus.CONFIRMED.name)
+    triggers.trigger_service_orders_channel(queryset[0].offer_id)
 
 
 @admin.register(models.ServiceOrder)

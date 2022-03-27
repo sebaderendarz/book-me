@@ -42,7 +42,7 @@ class BookServiceSerializer(serializers.ModelSerializer):
         return validated_data
 
     def _validate_if_date_not_from_the_past(self, service_time: datetime) -> None:
-        if service_time.date() < datetime.now().date():
+        if service_time.date() < date.today():
             raise serializers.ValidationError(__('Invalid service date.'))
 
     def _validate_if_not_too_early_today(self, service_time: datetime) -> None:

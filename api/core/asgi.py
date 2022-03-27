@@ -27,8 +27,12 @@ application = routing.ProtocolTypeRouter(
             routing.URLRouter(
                 [
                     urls.re_path(
-                        r'^websockets/notification/(?P<offer_id>\d+)/$',
-                        consumers.ServiceOfferConsumer.as_asgi(),
+                        r'^websockets/service_orders/(?P<offer_id>\d+)/$',
+                        consumers.ServiceOrdersConsumer.as_asgi(),
+                    ),
+                    urls.re_path(
+                        r'^websockets/service_unavailabilities/(?P<offer_id>\d+)/$',
+                        consumers.ServiceUnavailabilitiesConsumer.as_asgi(),
                     ),
                 ]
             )

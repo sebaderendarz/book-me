@@ -67,7 +67,6 @@ export default function BarberOfferPage() {
     api
       .get(`/barber/service_offer/${offer_id}/`)
       .then((res) => {
-        console.log(res.data);
         setOfferDetails(res.data);
       })
       .catch(() => {

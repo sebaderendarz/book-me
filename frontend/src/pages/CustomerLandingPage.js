@@ -12,6 +12,13 @@ import AppDescription from "../components/AppDescription";
 import BarberList from "../components/BarberList";
 import customerReviews from "../components/CustomerReviews";
 
+// TODO Currently user is redirected to barber offer page
+// when he click on one of barbers on the list. Then when user clicks
+// back arrow in the browser he is redirected to this page again,
+// but search results are lost and user has to search for barbers again.
+// It should work that search phrase is saved, but one must think
+// in what cases and how search phrase should be saved.
+
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:

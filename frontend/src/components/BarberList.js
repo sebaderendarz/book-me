@@ -43,14 +43,10 @@ export default function BarberList(props) {
         setNumOfResults(res.data.count);
         setResults(res.data.results);
       })
-      .catch((error) => {
+      .catch(() => {
         setNumOfResults(0);
         setResults([]);
       });
-  };
-
-  const handleClick = (event, name) => {
-    console.log("handleClick - " + name);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -74,7 +70,7 @@ export default function BarberList(props) {
         onRowsPerPageChange={handleChangeRowsPerPage}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[1, 5, 10, 25, 50, 100]}
+        rowsPerPageOptions={[5, 10, 25, 50]}
       />
     </Box>
   ) : (

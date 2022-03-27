@@ -24,10 +24,8 @@ function MarkdownList(props) {
       </Typography>
       <Divider />
       {reviews.map((review, index) => (
-        <Box>
-          <MarkdownItem className="markdown" key={index}>
-            {review}
-          </MarkdownItem>
+        <Box key={index}>
+          <MarkdownItem className="markdown">{review}</MarkdownItem>
           <Divider />
         </Box>
       ))}

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
@@ -10,9 +11,16 @@ import Typography from "@mui/material/Typography";
 // can be used instead of Stack when thumbnail is null.
 
 export default function BarberListItem(props) {
-  const { thumbnail, barber_name, city, address, price } = props;
+  const { id, address, barber_name, city, price, thumbnail } = props;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/hairdresser/service_offer/${id}`);
+  };
+
   return (
     <Box
+      onClick={handleClick}
       sx={{
         p: 2,
         mb: 2,

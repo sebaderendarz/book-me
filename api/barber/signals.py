@@ -1,8 +1,6 @@
-import functools
 import os
 import pathlib
 import shutil
-from typing import Callable
 import uuid
 
 from django import dispatch
@@ -10,23 +8,13 @@ from django.conf import settings
 from django.db.models import signals
 
 from barber import models
+from core import utils
 from tasks import image_handling
-
-
-def prevent_recursion(func: Callable) -> Callable:
-    @functools.wraps(func)
-    def no_recursion(sender, instance=None, **kwargs):  # type:ignore
-        if not instance or hasattr(instance, '_dirty'):
-            return
-        func(sender, instance=instance, **kwargs)
-        instance._dirty = True  # pylint: disable=protected-access
-        instance.save()
-
-    return no_recursion
+from websockets import triggers
 
 
 @dispatch.receiver(signals.post_save, sender=models.ServiceOffer)
-@prevent_recursion
+@utils.prevent_signal_recursion
 def generate_thumbnail_from_image(  # type:ignore # pylint: disable=unused-argument
     sender, instance, *args, **kwargs
 ) -> None:
@@ -56,3 +44,11 @@ def _resize_thumbnail_if_too_big(instance: models.ServiceOffer) -> None:
         image_handling.resize_image_at_path.delay(
             instance.thumbnail.path, (models.MAX_THUMBNAIL_WIDTH, models.MAX_THUMBNAIL_HEIGHT)
         )
+
+
+@dispatch.receiver(signals.post_save, sender=models.ServiceUnavailability)
+@utils.prevent_signal_recursion
+def trigger_service_unavailabilities_channel(  # type:ignore # pylint: disable=unused-argument
+    sender, instance, *args, **kwargs
+) -> None:
+    triggers.trigger_service_unavailabilities_channel(instance.service_offer_id)

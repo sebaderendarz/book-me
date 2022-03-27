@@ -1,5 +1,7 @@
 import enum
+import functools
 import typing
+from typing import Callable
 
 from django.utils.translation import gettext_lazy as __
 
@@ -30,3 +32,15 @@ def flat_dictionary(dictionary: typing.Dict, parent_key: str = '', sep: str = ''
         else:
             items.append((new_key_name, value))
     return dict(items)
+
+
+def prevent_signal_recursion(func: Callable) -> Callable:
+    @functools.wraps(func)
+    def no_recursion(sender, instance=None, **kwargs):  # type:ignore
+        if not instance or hasattr(instance, '_dirty'):
+            return
+        func(sender, instance=instance, **kwargs)
+        instance._dirty = True  # pylint: disable=protected-access
+        instance.save()
+
+    return no_recursion

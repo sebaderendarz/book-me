@@ -5,6 +5,7 @@ import SignUpPage from "../pages/SignUpPage";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
 const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}websockets/service_unavailabilities/10/`;
+// const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}websockets/service_orders/10/`;
 
 const App = () => {
   const [schedule, setSchedule] = useState([]);

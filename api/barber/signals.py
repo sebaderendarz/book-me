@@ -46,9 +46,16 @@ def _resize_thumbnail_if_too_big(instance: models.ServiceOffer) -> None:
         )
 
 
+@dispatch.receiver(signals.post_delete, sender=models.ServiceUnavailability)
+def trigger_post_delete_unavailabilities_channel(  # type:ignore # pylint: disable=unused-argument
+    sender, instance, *args, **kwargs
+) -> None:
+    triggers.trigger_service_unavailabilities_channel(instance.service_offer_id)
+
+
 @dispatch.receiver(signals.post_save, sender=models.ServiceUnavailability)
 @utils.prevent_signal_recursion
-def trigger_service_unavailabilities_channel(  # type:ignore # pylint: disable=unused-argument
+def trigger_post_save_unavailabilities_channel(  # type:ignore # pylint: disable=unused-argument
     sender, instance, *args, **kwargs
 ) -> None:
     triggers.trigger_service_unavailabilities_channel(instance.service_offer_id)

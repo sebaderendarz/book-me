@@ -25,7 +25,7 @@ def serialize_service_orders(service_orders: query.QuerySet) -> list:
 def get_future_service_unavailabilities(service_offer_id: int) -> query.QuerySet:
     return (
         barber_models.ServiceUnavailability.objects.filter(
-            service_offer_id=service_offer_id, start_date__gte=date.today()
+            service_offer_id=service_offer_id, end_date__gte=date.today()
         )
         .values('start_date', 'end_date')
         .order_by('start_date')

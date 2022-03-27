@@ -32,7 +32,7 @@ class ServiceUnavailabilitiesConsumer(consumers.BaseConsumer):
 
     async def _prepare_new_message(self, data: list) -> dict:
         return {
-            'type': 'service_unavailabilites_message',
+            'type': 'service_unavailabilities_message',
             'text': json.dumps(data),
         }
 
@@ -44,6 +44,6 @@ class ServiceUnavailabilitiesConsumer(consumers.BaseConsumer):
     def _serialize_service_unavailabilities(self, service_unavailabilities: query.QuerySet) -> list:
         return utils.serialize_service_unavailabilities(service_unavailabilities)
 
-    async def service_unavailabilites_message(self, event: dict) -> None:
+    async def service_unavailabilities_message(self, event: dict) -> None:
         '''Send the actual message.'''
         await self.send({'type': 'websocket.send', 'text': event['text']})

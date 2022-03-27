@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from django.db.models import query
 
@@ -11,7 +11,7 @@ def get_active_service_orders(service_offer_id: int) -> query.QuerySet:
         customer_models.ServiceOrder.objects.filter(
             offer_id=service_offer_id, service_time__gt=datetime.now()
         )
-        .exclude(status=value_objects.OrderStatus.CLOSED.name)
+        .exclude(status=value_objects.ServiceOrderStatus.CLOSED.name)
         .values('service_time')
         .order_by('service_time')
         .all()
@@ -23,10 +23,9 @@ def serialize_service_orders(service_orders: query.QuerySet) -> list:
 
 
 def get_future_service_unavailabilities(service_offer_id: int) -> query.QuerySet:
-    today = datetime.now().date()
     return (
         barber_models.ServiceUnavailability.objects.filter(
-            service_offer_id=service_offer_id, start_date__gte=today
+            service_offer_id=service_offer_id, start_date__gte=date.today()
         )
         .values('start_date', 'end_date')
         .order_by('start_date')

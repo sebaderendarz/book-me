@@ -22,9 +22,7 @@ def _send_service_offer_notification(data: list, service_offer_id: int) -> None:
 
 def trigger_service_unavailabilities_channel(service_offer_id: int) -> None:
     service_unavailabilities = utils.get_future_service_unavailabilities(service_offer_id)
-    serialized_unavailabilities = utils.serialize_service_unavailabilities(
-        service_unavailabilities
-    )
+    serialized_unavailabilities = utils.serialize_service_unavailabilities(service_unavailabilities)
     _send_service_unavailabilities_notification(serialized_unavailabilities, service_offer_id)
 
 

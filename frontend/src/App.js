@@ -39,6 +39,7 @@ function App() {
             <Route path="/privpage" element={<PrivateRoute />}>
               <Route exact path="/privpage" element={<TestPrivatePage />} />
             </Route>
+            <Route path="/not_found" element={<NotFoundPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AuthProvider>

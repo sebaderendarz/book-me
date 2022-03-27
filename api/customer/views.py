@@ -15,7 +15,7 @@ class ServiceOrderView(views.APIView):
         )
         book_service_serializer.is_valid(raise_exception=True)
         booked_service = book_service_serializer.save()
-        triggers.trigger_service_offer_channel(booked_service.offer_id)
+        triggers.trigger_service_orders_channel(booked_service.offer_id)
         return response.Response(
             {
                 'token': booked_service.token,
@@ -28,7 +28,7 @@ class ServiceOrderView(views.APIView):
         cancel_service_serializer = serializers.CancelServiceSerializer(data=request.data)
         cancel_service_serializer.is_valid(raise_exception=True)
         canceled_service = cancel_service_serializer.save()
-        triggers.trigger_service_offer_channel(canceled_service.offer_id)
+        triggers.trigger_service_orders_channel(canceled_service.offer_id)
         return response.Response(
             {'detail': __('Barber service canceled.')},
             status=status.HTTP_200_OK,

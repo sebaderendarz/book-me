@@ -9,11 +9,11 @@ from websockets import consumers, templates, utils
 logger = logging.getLogger('django')
 
 
-class ServiceOfferConsumer(consumers.BaseConsumer):
+class ServiceOrdersConsumer(consumers.BaseConsumer):
     async def websocket_connect(self, event: dict) -> None:  # pylint: disable=unused-argument
         '''Connect new user to the group or create a new channel group.'''
         service_offer_id = int(self.scope['url_route']['kwargs']['offer_id'])
-        group_name = templates.SERVICE_OFFER_GROUP.format(service_offer_id)
+        group_name = templates.SERVICE_ORDERS_GROUP.format(service_offer_id)
         await self.channel_layer.group_add(group_name, self.channel_name)
         await self.send({'type': 'websocket.accept'})
         await self.log_debug(f'New user connected to the "{group_name}" channel group.')
@@ -24,13 +24,13 @@ class ServiceOfferConsumer(consumers.BaseConsumer):
         serialized_orders = await self._serialize_service_orders(service_orders)
         new_message = await self._prepare_new_message(serialized_orders)
         await self.channel_layer.group_send(
-            templates.SERVICE_OFFER_GROUP.format(service_offer_id), new_message
+            templates.SERVICE_ORDERS_GROUP.format(service_offer_id), new_message
         )
         await self.log_debug(f'New message sent "{new_message}"')
 
     async def _prepare_new_message(self, data: list) -> dict:
         return {
-            'type': 'service_offer_message',
+            'type': 'service_orders_message',
             'text': json.dumps(data),
         }
 
@@ -42,6 +42,6 @@ class ServiceOfferConsumer(consumers.BaseConsumer):
     def _serialize_service_orders(self, service_orders: query.QuerySet) -> list:
         return utils.serialize_service_orders(service_orders)
 
-    async def service_offer_message(self, event: dict) -> None:
+    async def service_orders_message(self, event: dict) -> None:
         '''Send the actual message.'''
         await self.send({'type': 'websocket.send', 'text': event['text']})

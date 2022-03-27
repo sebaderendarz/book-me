@@ -7,6 +7,12 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
+import Paper from "@mui/material/Paper";
+
+const style = {
+  width: "100%",
+};
+
 export default function BarberAvailability(props) {
   const { absences, orders } = props;
   const [date, setDate] = useState(new Date());
@@ -21,12 +27,7 @@ export default function BarberAvailability(props) {
       }}
     >
       <Grid container align="center">
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h4" component="div">
-            Select one of available dates
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
               label="service date"
@@ -38,6 +39,27 @@ export default function BarberAvailability(props) {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+        </Grid>
+      </Grid>
+      <Grid container columnSpacing={4} rowSpacing={2} justifyContent="center">
+        <Grid item xs={11} sm={5} container>
+          <Paper style={style}>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                <Typography variant="subtitle1" component="div">
+                  11:30
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="subtitle1" component="div">
+                  {"$"}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+        <Grid item xs={11} sm={5} container>
+          another{" "}
         </Grid>
       </Grid>
     </Box>

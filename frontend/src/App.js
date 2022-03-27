@@ -6,16 +6,17 @@ import {
 } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
-import NotFoundPage from "./pages/NotFoundPage";
-import CustomerLandingPage from "./pages/CustomerLandingPage";
 import BarberLandingPage from "./pages/BarberLandingPage";
-import TestPrivatePage from "./pages/TestPrivatePage";
+import BarberOfferPage from "./pages/BarberOfferPage";
+import CustomerLandingPage from "./pages/CustomerLandingPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
+import TestPrivatePage from "./pages/TestPrivatePage";
 
 function App() {
   return (
-    <div className="App" style={{ bgcolor: "#fdfdfd" }}>
+    <div className="App" style={{ backgroundColor: "#fdfdfd" }}>
       <Router>
         <AuthProvider>
           <Routes>
@@ -29,6 +30,10 @@ function App() {
             <Route
               element={<SignUpPage accountType={"BARBER"} />}
               path="/hairdresser/signup"
+            />
+            <Route
+              element={<BarberOfferPage accountType={"CUSTOMER"} />}
+              path="/hairdresser/service_offer/:offer_id"
             />
             <Route element={<BarberLandingPage />} path="/hairdresser" />
             <Route path="/privpage" element={<PrivateRoute />}>

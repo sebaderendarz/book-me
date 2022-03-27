@@ -3,6 +3,12 @@ from django.contrib import admin
 
 from customer import models, utils, value_objects as customer_value_objects
 
+# NOTE: Service Order is not validated before it is saved in django admin!
+# If you want to allow, even only users with admin priviliges, to create or edit
+# service orders, then service order object should be validated before it is saved
+# as it is validated when working with service orders via endpoints.
+# Check BookServiceSerializer.
+
 
 @admin.action(description='Renew selected service orders')
 def make_new(modeladmin, request, queryset):  # pylint: disable=unused-argument

@@ -44,6 +44,7 @@ export default function BarberOfferDescription(props) {
                 alt="Barber Image"
                 src={offerDetails.thumbnail}
                 sx={{ width: 128, height: 128 }}
+                variant="rounded"
               />
             ) : (
               <Stack spacing={1} sx={{ width: 128, height: 128 }}>

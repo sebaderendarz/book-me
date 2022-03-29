@@ -5,13 +5,7 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-
-import Paper from "@mui/material/Paper";
-
-const style = {
-  width: "100%",
-};
+import BookOrCancelBarberTimeItem from "./BookOrCancelBarberTimeItem";
 
 export default function BarberAvailability(props) {
   const { absences, orders } = props;
@@ -19,14 +13,15 @@ export default function BarberAvailability(props) {
   return (
     <Box
       sx={{
-        p: 2,
+        px: 2,
+        py: 4,
         mt: 5,
-        mb: 2,
+        mb: 1,
         borderRadius: 1,
         boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
       }}
     >
-      <Grid container align="center">
+      <Grid container align="center" sx={{ mb: 3 }}>
         <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
@@ -42,25 +37,26 @@ export default function BarberAvailability(props) {
         </Grid>
       </Grid>
       <Grid container columnSpacing={4} rowSpacing={2} justifyContent="center">
-        <Grid item xs={11} sm={5} container>
-          <Paper style={style}>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <Typography variant="subtitle1" component="div">
-                  11:30
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="subtitle1" component="div">
-                  {"$"}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
-        <Grid item xs={11} sm={5} container>
-          another{" "}
-        </Grid>
+        <BookOrCancelBarberTimeItem
+          isAvail={true}
+          dateTime={"11:00"}
+          offerId={1}
+        />
+        <BookOrCancelBarberTimeItem
+          isAvail={false}
+          dateTime={"11:30"}
+          offerId={2}
+        />
+        <BookOrCancelBarberTimeItem
+          isAvail={false}
+          dateTime={"12:00"}
+          offerId={3}
+        />
+        <BookOrCancelBarberTimeItem
+          isAvail={true}
+          dateTime={"12:30"}
+          offerId={4}
+        />
       </Grid>
     </Box>
   );

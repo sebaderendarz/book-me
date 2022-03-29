@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Box from "@mui/material/Box";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField from "@mui/material/TextField";
-import BookOrCancelBarberTimeItem from "./BookOrCancelBarberTimeItem";
+import BookOrCancelBarberServiceItem from "./BookOrCancelBarberServiceItem";
+import AuthContext from "../context/AuthContext";
 
 export default function BarberAvailability(props) {
   const { absences, orders } = props;
+  const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalText, setModalText] = useState("");
+
   return (
     <Box
       sx={{
@@ -37,22 +42,22 @@ export default function BarberAvailability(props) {
         </Grid>
       </Grid>
       <Grid container columnSpacing={4} rowSpacing={2} justifyContent="center">
-        <BookOrCancelBarberTimeItem
+        <BookOrCancelBarberServiceItem
           isAvail={true}
           dateTime={"11:00"}
           offerId={1}
         />
-        <BookOrCancelBarberTimeItem
+        <BookOrCancelBarberServiceItem
           isAvail={false}
           dateTime={"11:30"}
           offerId={2}
         />
-        <BookOrCancelBarberTimeItem
+        <BookOrCancelBarberServiceItem
           isAvail={false}
           dateTime={"12:00"}
           offerId={3}
         />
-        <BookOrCancelBarberTimeItem
+        <BookOrCancelBarberServiceItem
           isAvail={true}
           dateTime={"12:30"}
           offerId={4}

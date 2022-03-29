@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { createTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { ThemeProvider } from "@emotion/react";
 
 const theme = createTheme({
   palette: {
@@ -20,8 +19,14 @@ const theme = createTheme({
   },
 });
 
-export default function BookOrCancelBarberTimeItem(props) {
-  const { isAvail, dateTime, offerId } = props;
+export default function BookOrCancelBarberServiceItem(props) {
+  const {
+    bookServiceHandler,
+    cancelServiceHandler,
+    dateTime,
+    isAvail,
+    offerId,
+  } = props;
 
   return (
     <ThemeProvider theme={theme}>
@@ -47,7 +52,11 @@ export default function BookOrCancelBarberTimeItem(props) {
                 color={isAvail ? "available" : "busy"}
                 component="div"
                 onClick={() => {
-                  console.log("button clicked");
+                  if (isAvail) {
+                    bookServiceHandler(offerId, dateTime);
+                  } else {
+                    cancelServiceHandler(offerId, dateTime);
+                  }
                 }}
                 size="medium"
                 variant="contained"

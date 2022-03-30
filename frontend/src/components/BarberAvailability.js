@@ -7,31 +7,48 @@ import Grid from "@mui/material/Grid";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import BookOrCancelBarberServiceItem from "./BookOrCancelBarberServiceItem";
-import AuthContext from "../context/AuthContext";
-import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
+import HeaderTextInputTwoButtonsModal from "./modals/HeaderTextInputTwoButtonsModal";
 import HeaderTextOneButtonModal from "./modals/HeaderTextOneButtonModal";
-
-// IDEA: one modal per modal type.
+import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
+import AuthContext from "../context/AuthContext";
 
 // failed cancellation, do you want to book service, redirect to login-> some text, maybe response from BE, 2 buttons, TRY AGAIN and CLOSE
-// cancel service -> some text, input field to put token and two buttons below, BACK and CANCEL/CONFIRM
-// final word cancel and failed booking-> prepared, some text, one OK button
 // final word booked -> Modal with a beautiful, big token to be copied and some additional text.
 //                      Token in blue. Text above should be black. One OK button below.
+// NOTE: when string is empty or missing Typography component is not rendered at all. Both modal types can by implemented in one :)
+
+// final word cancel and failed booking-> some text, one OK button
+
+// cancel service -> some text, input field to put token and two buttons below, BACK and CANCEL/CONFIRM
+
+const isAlnumValidator = (val) => {
+  if (val.match("/^[a-z0-9]+$/i") === null) {
+    return "";
+  }
+  return "Token should be alphanumeric.";
+};
+
+const lengthValidator = (val) => {
+  if (val.length === 8) {
+    return "";
+  }
+  return "Token should be 8 length.";
+};
 
 export default function BarberAvailability(props) {
   const { absences, orders } = props;
   const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [generalModalOpen, setGeneralModalOpen] = useState(false);
   const [finalWordsModalOpen, setFinalWordsModalOpen] = useState(false);
+  const [inputModalOpen, setInputModalOpen] = useState(false);
   const [modalText, setModalText] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
   const bookServiceHandler = ({ offerId, dateTime }) => {
     if (!user) {
-      setLoginModalOpen(true);
+      setInputModalOpen(true);
     } else {
       console.log(`book service handler called: ${offerId} ${dateTime}`);
     }
@@ -39,7 +56,7 @@ export default function BarberAvailability(props) {
 
   const cancelServiceHandler = ({ offerId, dateTime }) => {
     if (!user) {
-      setLoginModalOpen(true);
+      setInputModalOpen(true);
     } else {
       console.log(`cancel service handler called: ${offerId} ${dateTime}`);
     }
@@ -61,18 +78,31 @@ export default function BarberAvailability(props) {
           "Successfully canceled hairdresser's service. Text should be taken from response from BE"
         }
         handleModalClose={() => setFinalWordsModalOpen(false)}
+        highlightedText={"XSD2S3MI"}
         buttonOnClick={() => setFinalWordsModalOpen(false)}
         buttonText={"OK"}
         modalOpen={finalWordsModalOpen}
+      />
+      <HeaderTextInputTwoButtonsModal
+        contentText={"Enter token to cancel your reservation."}
+        modalOnClose={() => setInputModalOpen(false)}
+        inputValidators={[lengthValidator, isAlnumValidator]}
+        leftButtonOnClick={() => setInputModalOpen(false)}
+        leftButtonText={"BACK"}
+        modalOpen={inputModalOpen}
+        rightButtonOnClick={(input) => {
+          console.log(`token from input: ${input}`);
+        }}
+        rightButtonText={"CONFIRM"}
       />
       <HeaderTextTwoButtonsModal
         contentText={
           "Only signed in users can book and cancel hairdresser's services. Please sign in first."
         }
-        handleModalClose={() => setLoginModalOpen(false)}
-        leftButtonOnClick={() => setLoginModalOpen(false)}
+        handleModalClose={() => setGeneralModalOpen(false)}
+        leftButtonOnClick={() => setGeneralModalOpen(false)}
         leftButtonText={"BACK"}
-        modalOpen={loginModalOpen}
+        modalOpen={generalModalOpen}
         rightButtonOnClick={() => {
           localStorage.setItem("previousLocation", location.pathname);
           navigate("/customer/signin");

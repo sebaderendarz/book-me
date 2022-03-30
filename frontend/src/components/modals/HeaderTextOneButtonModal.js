@@ -7,42 +7,55 @@ import Typography from "@mui/material/Typography";
 import { modalStyle } from "./modalStyle";
 
 export default function HeaderTextOneButtonModal(props) {
-  const { buttonText, contentText, handleModalClose, headerText, modalOpen } =
-    props;
+  const {
+    buttonText,
+    contentText,
+    handleModalClose,
+    headerText,
+    highlightedText,
+    modalOpen,
+  } = props;
   return (
     <Modal
-      aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={modalOpen}
-      onClose={handleModalClose}
-      closeAfterTransition
+      aria-labelledby="transition-modal-title"
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
+      closeAfterTransition
+      onClose={handleModalClose}
+      open={modalOpen}
     >
       <Fade in={modalOpen}>
         <Box sx={modalStyle}>
           <Typography
-            id="transition-modal-title"
             align="center"
-            variant="h6"
             component="h2"
+            id="transition-modal-title"
+            variant="h6"
           >
             {headerText}
           </Typography>
           <Typography
-            id="transition-modal-description"
             align="center"
+            id="transition-modal-description"
             sx={{ mt: 2 }}
           >
             {contentText}
           </Typography>
-          <Box sx={{ mt: 2 }} textAlign="center">
+          <Typography
+            align="center"
+            sx={{ mt: 3, color: "#1976d2" }}
+            variant="h4"
+          >
+            {highlightedText}
+          </Typography>
+          <Box sx={{ mt: 3 }} textAlign="center">
             <Button
-              variant="contained"
-              size="medium"
               onClick={handleModalClose}
+              size="medium"
+              variant="contained"
             >
               {buttonText}
             </Button>

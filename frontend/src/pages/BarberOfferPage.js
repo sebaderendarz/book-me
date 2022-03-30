@@ -9,18 +9,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import useAxios from "../utils/useAxios";
 
-// Ideas how to implement baber ordering:
-// 1. Display hours only for one day + use datepicker to display other days.
-//   Display fully booked list of times when barber not avail.
-
-// What about barber unavailabilities? Barber orders are fetched from websocket, but unavailabilites
-// may change on fly too. Maybe send both informations via websocket in one notification?
-// Other way would be to rend request to barber unavailabilites endpoint each time websocket message
-// comes to FE, but in this case it would look like the break of the websocket logic at all...
-
-// TODO adjust data returned in response from barber/service_offer/id endpoint.
-// 1. Full link to the image.
-// 2. Enum values, not key names.
+// TODO: think over where data that comes from websocket should be parsed and to what
+// it should be parsed.
 
 // const offerDetails = {
 //   id: 1,

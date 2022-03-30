@@ -17,9 +17,14 @@ import AuthContext from "../context/AuthContext";
 //                      Token in blue. Text above should be black. One OK button below.
 // NOTE: when string is empty or missing Typography component is not rendered at all. Both modal types can by implemented in one :)
 
-// final word cancel and failed booking-> some text, one OK button
+// final word cancel, failed booking-> some text, one OK button
 
 // cancel service -> some text, input field to put token and two buttons below, BACK and CANCEL/CONFIRM
+
+// IDEA: there should be an object storing the current texts, button texts and click/close handlers for modal.
+// This object should be updated whenever needed.
+
+// Datetime sent to BE should be in UTC.  or maybe without TZ at all?
 
 const isAlnumValidator = (val) => {
   if (val.match("/^[a-z0-9]+$/i") === null) {
@@ -48,16 +53,20 @@ export default function BarberAvailability(props) {
 
   const bookServiceHandler = ({ offerId, dateTime }) => {
     if (!user) {
-      setInputModalOpen(true);
+      // set props for generalModal that it should look like login modal
+      setGeneralModalOpen(true);
     } else {
+      // send request to BE. Display correct modal based on the response.
       console.log(`book service handler called: ${offerId} ${dateTime}`);
     }
   };
 
   const cancelServiceHandler = ({ offerId, dateTime }) => {
     if (!user) {
-      setInputModalOpen(true);
+      // set props for generalModal that it should look like login modal
+      setGeneralModalOpen(true);
     } else {
+      // send request to BE. Display correct modal based on the response.
       console.log(`cancel service handler called: ${offerId} ${dateTime}`);
     }
   };

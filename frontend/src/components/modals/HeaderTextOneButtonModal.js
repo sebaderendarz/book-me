@@ -23,10 +23,19 @@ export default function HeaderTextOneButtonModal(props) {
     >
       <Fade in={modalOpen}>
         <Box sx={modalStyle}>
-          <Typography id="transition-modal-title" variant="h6" component="h2">
+          <Typography
+            id="transition-modal-title"
+            align="center"
+            variant="h6"
+            component="h2"
+          >
             {headerText}
           </Typography>
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+          <Typography
+            id="transition-modal-description"
+            align="center"
+            sx={{ mt: 2 }}
+          >
             {contentText}
           </Typography>
           <Box sx={{ mt: 2 }} textAlign="center">

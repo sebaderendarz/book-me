@@ -53,9 +53,9 @@ export default function BookOrCancelBarberServiceItem(props) {
                 component="div"
                 onClick={() => {
                   if (isAvail) {
-                    bookServiceHandler(offerId, dateTime);
+                    bookServiceHandler({ offerId, dateTime });
                   } else {
-                    cancelServiceHandler(offerId, dateTime);
+                    cancelServiceHandler({ offerId, dateTime });
                   }
                 }}
                 size="medium"

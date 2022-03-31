@@ -12,12 +12,12 @@ import { modalStyle } from "./modalStyle";
 export default function HeaderTextInputTwoButtonsModal(props) {
   const {
     contentText,
-    modalOnClose,
+    handleModalClose,
     headerText,
     inputValidators,
     leftButtonOnClick,
     leftButtonText,
-    modalOpen,
+    open,
     rightButtonOnClick,
     rightButtonText,
   } = props;
@@ -29,7 +29,7 @@ export default function HeaderTextInputTwoButtonsModal(props) {
     setInput("");
     setIsInputError(false);
     setInputHelperText("");
-    modalOnClose();
+    handleModalClose();
   };
 
   const handleLeftButtonOnClick = () => {
@@ -68,9 +68,9 @@ export default function HeaderTextInputTwoButtonsModal(props) {
       aria-labelledby="transition-modal-title"
       closeAfterTransition
       onClose={handleModalOnClose}
-      open={modalOpen}
+      open={open}
     >
-      <Fade in={modalOpen}>
+      <Fade in={open}>
         <Box sx={modalStyle}>
           <Typography
             align="center"

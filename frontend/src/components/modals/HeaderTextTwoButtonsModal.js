@@ -14,7 +14,7 @@ export default function HeaderTextTwoButtonsModal(props) {
     headerText,
     leftButtonOnClick,
     leftButtonText,
-    modalOpen,
+    open,
     rightButtonOnClick,
     rightButtonText,
   } = props;
@@ -28,9 +28,9 @@ export default function HeaderTextTwoButtonsModal(props) {
       aria-labelledby="transition-modal-title"
       closeAfterTransition
       onClose={handleModalClose}
-      open={modalOpen}
+      open={open}
     >
-      <Fade in={modalOpen}>
+      <Fade in={open}>
         <Box sx={modalStyle}>
           <Typography
             align="center"

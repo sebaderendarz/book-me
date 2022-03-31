@@ -35,7 +35,7 @@ export default function SignUpPage(props) {
   const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState(
     "Thank You for registering. An email with account activation link was sent to You."
   );
@@ -168,7 +168,7 @@ export default function SignUpPage(props) {
           contentText={modalText}
           handleModalClose={handleModalClose}
           headerText={"Success!"}
-          modalOpen={modalOpen}
+          open={open}
         />
         <Grid
           item

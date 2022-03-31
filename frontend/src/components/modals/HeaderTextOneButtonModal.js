@@ -13,7 +13,7 @@ export default function HeaderTextOneButtonModal(props) {
     handleModalClose,
     headerText,
     highlightedText,
-    modalOpen,
+    open,
   } = props;
   return (
     <Modal
@@ -25,9 +25,9 @@ export default function HeaderTextOneButtonModal(props) {
       }}
       closeAfterTransition
       onClose={handleModalClose}
-      open={modalOpen}
+      open={open}
     >
-      <Fade in={modalOpen}>
+      <Fade in={open}>
         <Box sx={modalStyle}>
           <Typography
             align="center"

@@ -16,7 +16,6 @@ import AuthContext from "../context/AuthContext";
 // final word booked -> Modal with a beautiful, big token to be copied and some additional text.
 //                      Token in blue. Text above should be black. One OK button below.
 // NOTE: when string is empty or missing Typography component is not rendered at all. Both modal types can by implemented in one :)
-
 // final word cancel, failed booking-> some text, one OK button
 
 // cancel service -> some text, input field to put token and two buttons below, BACK and CANCEL/CONFIRM
@@ -26,8 +25,11 @@ import AuthContext from "../context/AuthContext";
 
 // Datetime sent to BE should be in UTC.  or maybe without TZ at all?
 
+// DONE:
+// 1. Redirect to login and back after login flow works fine.
+
 const isAlnumValidator = (val) => {
-  if (val.match("/^[a-z0-9]+$/i") === null) {
+  if (val.match(/^[a-z0-9]+$/i)) {
     return "";
   }
   return "Token should be alphanumeric.";
@@ -45,30 +47,124 @@ export default function BarberAvailability(props) {
   const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
   const [generalModalOpen, setGeneralModalOpen] = useState(false);
+  const [generalModalProps, setGeneralModalProps] = useState(null);
   const [finalWordsModalOpen, setFinalWordsModalOpen] = useState(false);
+  const [finalWordsModalProps, setFinalWordsModalProps] = useState(null);
   const [inputModalOpen, setInputModalOpen] = useState(false);
-  const [modalText, setModalText] = useState("");
+  const [inputModalProps, setInputModalProps] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const bookServiceHandler = ({ offerId, dateTime }) => {
+    console.log(`book service button clicked: ${offerId} ${dateTime}`);
     if (!user) {
-      // set props for generalModal that it should look like login modal
-      setGeneralModalOpen(true);
+      setGeneralModalProps(redirectToLoginModalProps);
     } else {
-      // send request to BE. Display correct modal based on the response.
-      console.log(`book service handler called: ${offerId} ${dateTime}`);
+      setGeneralModalProps(doYouWantToBookModalProps);
     }
+    setGeneralModalOpen(true);
   };
 
   const cancelServiceHandler = ({ offerId, dateTime }) => {
+    console.log(`cancel service button clicked: ${offerId} ${dateTime}`);
     if (!user) {
-      // set props for generalModal that it should look like login modal
+      setGeneralModalProps(redirectToLoginModalProps);
       setGeneralModalOpen(true);
     } else {
-      // send request to BE. Display correct modal based on the response.
-      console.log(`cancel service handler called: ${offerId} ${dateTime}`);
+      setInputModalProps(cancelServiceModalProps);
+      setInputModalOpen(true);
     }
+  };
+
+  const cancelServiceModalProps = {
+    contentText: "Enter token to cancel your reservation.",
+    handleModalClose: () => setInputModalOpen(false),
+    headerText: null,
+    inputValidators: [lengthValidator, isAlnumValidator],
+    leftButtonOnClick: () => {
+      setInputModalOpen(false);
+    },
+    leftButtonText: "BACK",
+    rightButtonOnClick: (token) => {
+      console.log(`cancel service triggered -> token: ${token}`);
+      // send a request to cancel service here
+      // success of fail modal based on the response,
+      // try to take message from response
+      setInputModalOpen(false);
+    },
+    rightButtonText: "CONFIRM",
+  };
+
+  const doYouWantToBookModalProps = {
+    contentText: "Do you want wan to book this hairdresser's service?",
+    handleModalClose: () => setGeneralModalOpen(false),
+    headerText: null,
+    leftButtonOnClick: () => setGeneralModalOpen(false),
+    leftButtonText: "BACK",
+    rightButtonOnClick: ({ offerId, dateTime }) => {
+      console.log(`BOOK service should be invoked -> ${offerId} ${dateTime}`);
+      // send a request to book service here
+      // success of fail final words message based on the response,
+      // try to take message from response
+      //setFinalWordsModalProps(failedBookingModalProps);
+      setFinalWordsModalProps(finalWordsBookedModalProps);
+
+      setGeneralModalOpen(false);
+      setFinalWordsModalOpen(true);
+    },
+    rightButtonText: "BOOK",
+  };
+
+  const failedBookingModalProps = {
+    buttonText: "OK",
+    contentText: "Booking failed. Take message from response?",
+    handleModalClose: () => setFinalWordsModalOpen(false),
+    headerText: null,
+    highlightedText: null,
+  };
+
+  const finalWordsBookedModalProps = {
+    buttonText: "OK",
+    contentText: "Successfully booked service. Take message from response?",
+    handleModalClose: () => setFinalWordsModalOpen(false),
+    headerText: null,
+    highlightedText: "TOKEN HERE - SD1Q34RD",
+  };
+
+  const finalWordsCancelledModalProps = {
+    buttonText: "OK",
+    contentText:
+      "Successfully cancelled hairdresser's service. - take message from response?",
+    handleModalClose: () => setFinalWordsModalOpen(false),
+    headerText: null,
+    highlightedText: null,
+  };
+
+  const redirectToLoginModalProps = {
+    contentText:
+      "Only signed in users can book and cancel hairdresser's services. Please sign in first.",
+    handleModalClose: () => setGeneralModalOpen(false),
+    headerText: null,
+    leftButtonOnClick: () => setGeneralModalOpen(false),
+    leftButtonText: "BACK",
+    rightButtonOnClick: () => {
+      localStorage.setItem("previousLocation", location.pathname);
+      navigate("/customer/signin");
+    },
+    rightButtonText: "SIGN IN",
+  };
+
+  const serviceCancellationFailedModalProps = {
+    contentText: "Service cancellation failed. Take message from response?",
+    handleModalClose: () => setGeneralModalOpen(false),
+    headerText: null,
+    leftButtonOnClick: () => setGeneralModalOpen(false),
+    leftButtonText: "BACK",
+    rightButtonOnClick: () => {
+      // open cancel barber service again -> modal with input field
+      console.log("Retry service cancellation");
+    },
+    rightButtonText: "TRY AGAIN",
   };
 
   return (
@@ -83,40 +179,16 @@ export default function BarberAvailability(props) {
       }}
     >
       <HeaderTextOneButtonModal
-        contentText={
-          "Successfully canceled hairdresser's service. Text should be taken from response from BE"
-        }
-        handleModalClose={() => setFinalWordsModalOpen(false)}
-        highlightedText={"XSD2S3MI"}
-        buttonOnClick={() => setFinalWordsModalOpen(false)}
-        buttonText={"OK"}
-        modalOpen={finalWordsModalOpen}
+        open={finalWordsModalOpen}
+        {...finalWordsModalProps}
       />
       <HeaderTextInputTwoButtonsModal
-        contentText={"Enter token to cancel your reservation."}
-        modalOnClose={() => setInputModalOpen(false)}
-        inputValidators={[lengthValidator, isAlnumValidator]}
-        leftButtonOnClick={() => setInputModalOpen(false)}
-        leftButtonText={"BACK"}
-        modalOpen={inputModalOpen}
-        rightButtonOnClick={(input) => {
-          console.log(`token from input: ${input}`);
-        }}
-        rightButtonText={"CONFIRM"}
+        open={inputModalOpen}
+        {...inputModalProps}
       />
       <HeaderTextTwoButtonsModal
-        contentText={
-          "Only signed in users can book and cancel hairdresser's services. Please sign in first."
-        }
-        handleModalClose={() => setGeneralModalOpen(false)}
-        leftButtonOnClick={() => setGeneralModalOpen(false)}
-        leftButtonText={"BACK"}
-        modalOpen={generalModalOpen}
-        rightButtonOnClick={() => {
-          localStorage.setItem("previousLocation", location.pathname);
-          navigate("/customer/signin");
-        }}
-        rightButtonText={"SIGN IN"}
+        open={generalModalOpen}
+        {...generalModalProps}
       />
       <Grid container align="center" sx={{ mb: 3 }}>
         <Grid item xs={12}>

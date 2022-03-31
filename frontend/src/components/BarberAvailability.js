@@ -31,6 +31,7 @@ const lengthValidator = (val) => {
 };
 
 export default function BarberAvailability(props) {
+  const { absences, orders, offerId } = props;
   const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
   const [generalModalOpen, setGeneralModalOpen] = useState(false);

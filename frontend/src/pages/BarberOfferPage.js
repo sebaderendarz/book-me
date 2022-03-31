@@ -103,7 +103,7 @@ export default function BarberOfferPage() {
           <BarberAvailability
             absences={absences}
             orders={orders}
-            offerId={offer_id}
+            offer={offerDetails}
           />
         </main>
         <Footer />

@@ -20,13 +20,8 @@ const theme = createTheme({
 });
 
 export default function BookOrCancelBarberServiceItem(props) {
-  const {
-    bookServiceHandler,
-    cancelServiceHandler,
-    dateTime,
-    isAvail,
-    offerId,
-  } = props;
+  const { bookServiceHandler, cancelServiceHandler, offerId, serviceInfo } =
+    props;
 
   return (
     <ThemeProvider theme={theme}>
@@ -38,31 +33,37 @@ export default function BookOrCancelBarberServiceItem(props) {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: isAvail
+                    color: serviceInfo.isAvail
                       ? theme.palette.available.main
                       : theme.palette.busy.main,
                   }}
                 >
-                  {dateTime}
+                  {serviceInfo.hourMinute}
                 </Typography>
               </Box>
             </Grid>
             <Grid item xs={6} sx={{ textAlign: "center" }}>
               <Button
-                color={isAvail ? "available" : "busy"}
+                color={serviceInfo.isAvail ? "available" : "busy"}
                 component="div"
                 onClick={() => {
-                  if (isAvail) {
-                    bookServiceHandler({ offerId, dateTime });
+                  if (serviceInfo.isAvail) {
+                    bookServiceHandler({
+                      offerId,
+                      dateTime: serviceInfo.dateTime,
+                    });
                   } else {
-                    cancelServiceHandler({ offerId, dateTime });
+                    cancelServiceHandler({
+                      offerId,
+                      dateTime: serviceInfo.dateTime,
+                    });
                   }
                 }}
                 size="medium"
                 variant="contained"
                 sx={{ m: 1.3, minWidth: 87 }}
               >
-                {isAvail ? "Book" : "Cancel"}
+                {serviceInfo.isAvail ? "Book" : "Cancel"}
               </Button>
             </Grid>
           </Grid>

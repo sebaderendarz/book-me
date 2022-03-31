@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Box from "@mui/material/Box";
@@ -12,6 +12,8 @@ import HeaderTextOneButtonModal from "./modals/HeaderTextOneButtonModal";
 import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
+import parseDateTimeToDateString from "../utils/parseDateTimeToDateString";
+import serviceTimesGenerator from "../utils/serviceTimesGenerator";
 
 // TODO Change logic of modals. Should be one modal component with changing
 // content. Now after every modal change there is a visible background wink.
@@ -31,7 +33,7 @@ const lengthValidator = (val) => {
 };
 
 export default function BarberAvailability(props) {
-  const { absences, orders, offerId } = props;
+  const { offer } = props;
   const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
   const [generalModalOpen, setGeneralModalOpen] = useState(false);
@@ -40,9 +42,19 @@ export default function BarberAvailability(props) {
   const [finalWordsModalProps, setFinalWordsModalProps] = useState(null);
   const [inputModalOpen, setInputModalOpen] = useState(false);
   const [inputModalProps, setInputModalProps] = useState(null);
+  const [serviceTimesInfo, setServiceTimesInfo] = useState([]);
   const api = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setServiceTimesInfo(
+      serviceTimesGenerator({
+        date: parseDateTimeToDateString(date),
+        ...props,
+      })
+    );
+  }, [date, props]);
 
   const bookServiceHandler = ({ offerId, dateTime }) => {
     if (!user) {
@@ -260,34 +272,16 @@ export default function BarberAvailability(props) {
         </Grid>
       </Grid>
       <Grid container columnSpacing={4} rowSpacing={2} justifyContent="center">
-        <BookOrCancelBarberServiceItem
-          bookServiceHandler={bookServiceHandler}
-          cancelServiceHandler={cancelServiceHandler}
-          dateTime={"2022-04-06T12:00:00.000000"}
-          isAvail={true}
-          offerId={10}
-        />
-        <BookOrCancelBarberServiceItem
-          bookServiceHandler={bookServiceHandler}
-          cancelServiceHandler={cancelServiceHandler}
-          isAvail={false}
-          dateTime={"2022-04-06T12:30:00.000000"}
-          offerId={10}
-        />
-        <BookOrCancelBarberServiceItem
-          bookServiceHandler={bookServiceHandler}
-          cancelServiceHandler={cancelServiceHandler}
-          isAvail={false}
-          dateTime={"2022-04-06T13:00:00.000000"}
-          offerId={10}
-        />
-        <BookOrCancelBarberServiceItem
-          bookServiceHandler={bookServiceHandler}
-          cancelServiceHandler={cancelServiceHandler}
-          isAvail={true}
-          dateTime={"2022-04-06T13:30:00.000000"}
-          offerId={10}
-        />
+        {serviceTimesInfo.map((serviceInfo) => {
+          return (
+            <BookOrCancelBarberServiceItem
+              bookServiceHandler={bookServiceHandler}
+              cancelServiceHandler={cancelServiceHandler}
+              offerId={offer.id}
+              serviceInfo={serviceInfo}
+            />
+          );
+        })}
       </Grid>
     </Box>
   );

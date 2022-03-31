@@ -12,6 +12,7 @@ export default function HeaderTextTwoButtonsModal(props) {
     contentText,
     handleModalClose,
     headerText,
+    itemData,
     leftButtonOnClick,
     leftButtonText,
     open,
@@ -59,7 +60,9 @@ export default function HeaderTextTwoButtonsModal(props) {
             </Grid>
             <Grid item xs={6}>
               <Button
-                onClick={rightButtonOnClick}
+                onClick={() => {
+                  rightButtonOnClick(itemData);
+                }}
                 size="medium"
                 variant="contained"
               >

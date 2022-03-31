@@ -13,21 +13,8 @@ import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 
-// failed cancellation, do you want to book service, redirect to login-> some text, maybe response from BE, 2 buttons, TRY AGAIN and CLOSE
-// final word booked -> Modal with a beautiful, big token to be copied and some additional text.
-//                      Token in blue. Text above should be black. One OK button below.
-// NOTE: when string is empty or missing Typography component is not rendered at all. Both modal types can by implemented in one :)
-// final word cancel, failed booking-> some text, one OK button
-
-// cancel service -> some text, input field to put token and two buttons below, BACK and CANCEL/CONFIRM
-
-// IDEA: there should be an object storing the current texts, button texts and click/close handlers for modal.
-// This object should be updated whenever needed.
-
-// Datetime sent to BE should be in UTC.  or maybe without TZ at all?
-
-// DONE:
-// 1. Redirect to login and back after login flow works fine.
+// TODO Change logic of modals. Should be one modal component with changing
+// content. Now after every modal change there is a visible background wink.
 
 const isAlnumValidator = (val) => {
   if (val.match(/^[a-z0-9]+$/i)) {
@@ -44,7 +31,6 @@ const lengthValidator = (val) => {
 };
 
 export default function BarberAvailability(props) {
-  const { absences, orders } = props;
   const { user } = useContext(AuthContext);
   const [date, setDate] = useState(new Date());
   const [generalModalOpen, setGeneralModalOpen] = useState(false);
@@ -58,16 +44,18 @@ export default function BarberAvailability(props) {
   const navigate = useNavigate();
 
   const bookServiceHandler = ({ offerId, dateTime }) => {
-    console.log(`book service button clicked: ${offerId} ${dateTime}`);
     if (!user) {
       setGeneralModalProps(redirectToLoginModalProps);
     } else {
-      setGeneralModalProps(doYouWantToBookModalProps);
+      setGeneralModalProps({
+        ...doYouWantToBookModalProps,
+        itemData: { dateTime, offerId },
+      });
     }
     setGeneralModalOpen(true);
   };
 
-  const cancelServiceHandler = ({ offerId, dateTime }) => {
+  const cancelServiceHandler = () => {
     if (!user) {
       setGeneralModalProps(redirectToLoginModalProps);
       setGeneralModalOpen(true);
@@ -119,21 +107,66 @@ export default function BarberAvailability(props) {
   };
 
   const doYouWantToBookModalProps = {
-    contentText: "Do you want wan to book hairdresser's service?",
+    contentText: "Do you want want to book hairdresser's service?",
     handleModalClose: () => setGeneralModalOpen(false),
     headerText: null,
+    itemData: null,
     leftButtonOnClick: () => setGeneralModalOpen(false),
     leftButtonText: "BACK",
     rightButtonOnClick: ({ offerId, dateTime }) => {
       console.log(`BOOK service should be invoked -> ${offerId} ${dateTime}`);
-      // send a request to book service here
-      // success of fail final words message based on the response,
-      // try to take message from response
-      //setFinalWordsModalProps(failedBookingModalProps);
-      setFinalWordsModalProps(finalWordsBookedModalProps);
-
-      setGeneralModalOpen(false);
-      setFinalWordsModalOpen(true);
+      api
+        .post("/customer/service_order/", {
+          offer: offerId,
+          service_time: dateTime,
+        })
+        .then((res) => {
+          let successModalProps = finalWordsBookedModalProps;
+          if (res.data) {
+            if (res.data.token) {
+              successModalProps = {
+                ...successModalProps,
+                highlightedText: res.data.token,
+              };
+            }
+            if (res.data.detail) {
+              successModalProps = {
+                ...successModalProps,
+                contentText: res.data.detail,
+              };
+            }
+          }
+          setFinalWordsModalProps(successModalProps);
+          setGeneralModalOpen(false);
+          setFinalWordsModalOpen(true);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          let failedModalProps = failedBookingModalProps;
+          if (error.response && error.response.data) {
+            if (error.response.data.offer) {
+              failedModalProps = {
+                contentText: error.response.data.offer[0],
+                ...failedModalProps,
+              };
+            }
+            if (error.response.data.service_time) {
+              failedModalProps = {
+                contentText: error.response.data.service_time[0],
+                ...failedModalProps,
+              };
+            }
+            if (error.response.data.non_field_errors) {
+              failedModalProps = {
+                ...failedModalProps,
+                contentText: error.response.data.non_field_errors[0],
+              };
+            }
+          }
+          setFinalWordsModalProps(failedModalProps);
+          setGeneralModalOpen(false);
+          setFinalWordsModalOpen(true);
+        });
     },
     rightButtonText: "BOOK",
   };
@@ -231,30 +264,30 @@ export default function BarberAvailability(props) {
         <BookOrCancelBarberServiceItem
           bookServiceHandler={bookServiceHandler}
           cancelServiceHandler={cancelServiceHandler}
-          dateTime={"11:00"}
+          dateTime={"2022-04-06T12:00:00.000000"}
           isAvail={true}
-          offerId={1}
+          offerId={10}
         />
         <BookOrCancelBarberServiceItem
           bookServiceHandler={bookServiceHandler}
           cancelServiceHandler={cancelServiceHandler}
           isAvail={false}
-          dateTime={"11:30"}
-          offerId={2}
+          dateTime={"2022-04-06T12:30:00.000000"}
+          offerId={10}
         />
         <BookOrCancelBarberServiceItem
           bookServiceHandler={bookServiceHandler}
           cancelServiceHandler={cancelServiceHandler}
           isAvail={false}
-          dateTime={"12:00"}
-          offerId={3}
+          dateTime={"2022-04-06T13:00:00.000000"}
+          offerId={10}
         />
         <BookOrCancelBarberServiceItem
           bookServiceHandler={bookServiceHandler}
           cancelServiceHandler={cancelServiceHandler}
           isAvail={true}
-          dateTime={"12:30"}
-          offerId={4}
+          dateTime={"2022-04-06T13:30:00.000000"}
+          offerId={10}
         />
       </Grid>
     </Box>

@@ -11,6 +11,7 @@ import HeaderTextInputTwoButtonsModal from "./modals/HeaderTextInputTwoButtonsMo
 import HeaderTextOneButtonModal from "./modals/HeaderTextOneButtonModal";
 import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
 import AuthContext from "../context/AuthContext";
+import useAxios from "../utils/useAxios";
 
 // failed cancellation, do you want to book service, redirect to login-> some text, maybe response from BE, 2 buttons, TRY AGAIN and CLOSE
 // final word booked -> Modal with a beautiful, big token to be copied and some additional text.
@@ -52,6 +53,7 @@ export default function BarberAvailability(props) {
   const [finalWordsModalProps, setFinalWordsModalProps] = useState(null);
   const [inputModalOpen, setInputModalOpen] = useState(false);
   const [inputModalProps, setInputModalProps] = useState(null);
+  const api = useAxios();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -66,7 +68,6 @@ export default function BarberAvailability(props) {
   };
 
   const cancelServiceHandler = ({ offerId, dateTime }) => {
-    console.log(`cancel service button clicked: ${offerId} ${dateTime}`);
     if (!user) {
       setGeneralModalProps(redirectToLoginModalProps);
       setGeneralModalOpen(true);
@@ -86,17 +87,39 @@ export default function BarberAvailability(props) {
     },
     leftButtonText: "BACK",
     rightButtonOnClick: (token) => {
-      console.log(`cancel service triggered -> token: ${token}`);
-      // send a request to cancel service here
-      // success of fail modal based on the response,
-      // try to take message from response
-      setInputModalOpen(false);
+      api
+        .delete("/customer/service_order/", { data: { token } })
+        .then(() => {
+          setFinalWordsModalProps(finalWordsCancelledModalProps);
+          setInputModalOpen(false);
+          setFinalWordsModalOpen(true);
+        })
+        .catch((error) => {
+          let failedModalProps = failedCancellationModalProps;
+          if (error.response && error.response.data) {
+            if (error.response.data.token) {
+              failedModalProps = {
+                contentText: error.response.data.token[0],
+                ...failedModalProps,
+              };
+            }
+            if (error.response.data.non_field_errors) {
+              failedModalProps = {
+                ...failedModalProps,
+                contentText: error.response.data.non_field_errors[0],
+              };
+            }
+          }
+          setGeneralModalProps(failedModalProps);
+          setInputModalOpen(false);
+          setGeneralModalOpen(true);
+        });
     },
     rightButtonText: "CONFIRM",
   };
 
   const doYouWantToBookModalProps = {
-    contentText: "Do you want wan to book this hairdresser's service?",
+    contentText: "Do you want wan to book hairdresser's service?",
     handleModalClose: () => setGeneralModalOpen(false),
     headerText: null,
     leftButtonOnClick: () => setGeneralModalOpen(false),
@@ -117,15 +140,28 @@ export default function BarberAvailability(props) {
 
   const failedBookingModalProps = {
     buttonText: "OK",
-    contentText: "Booking failed. Take message from response?",
+    contentText: "Booking hairdresser's service failed.",
     handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: null,
   };
 
+  const failedCancellationModalProps = {
+    contentText: "Hairdresser's service cancellation failed.",
+    handleModalClose: () => setGeneralModalOpen(false),
+    headerText: null,
+    leftButtonOnClick: () => setGeneralModalOpen(false),
+    leftButtonText: "CLOSE",
+    rightButtonOnClick: () => {
+      setGeneralModalOpen(false);
+      setInputModalOpen(true);
+    },
+    rightButtonText: "TRY AGAIN",
+  };
+
   const finalWordsBookedModalProps = {
     buttonText: "OK",
-    contentText: "Successfully booked service. Take message from response?",
+    contentText: "Successfully booked hairdresser's service.",
     handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: "TOKEN HERE - SD1Q34RD",
@@ -133,8 +169,7 @@ export default function BarberAvailability(props) {
 
   const finalWordsCancelledModalProps = {
     buttonText: "OK",
-    contentText:
-      "Successfully cancelled hairdresser's service. - take message from response?",
+    contentText: "Successfully cancelled hairdresser's service.",
     handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: null,
@@ -152,19 +187,6 @@ export default function BarberAvailability(props) {
       navigate("/customer/signin");
     },
     rightButtonText: "SIGN IN",
-  };
-
-  const serviceCancellationFailedModalProps = {
-    contentText: "Service cancellation failed. Take message from response?",
-    handleModalClose: () => setGeneralModalOpen(false),
-    headerText: null,
-    leftButtonOnClick: () => setGeneralModalOpen(false),
-    leftButtonText: "BACK",
-    rightButtonOnClick: () => {
-      // open cancel barber service again -> modal with input field
-      console.log("Retry service cancellation");
-    },
-    rightButtonText: "TRY AGAIN",
   };
 
   return (

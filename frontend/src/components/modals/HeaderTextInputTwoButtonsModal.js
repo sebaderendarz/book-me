@@ -26,17 +26,17 @@ export default function HeaderTextInputTwoButtonsModal(props) {
   const [isInputError, setIsInputError] = useState(false);
 
   const handleModalOnClose = () => {
+    handleModalClose();
     setInput("");
     setIsInputError(false);
     setInputHelperText("");
-    handleModalClose();
   };
 
   const handleLeftButtonOnClick = () => {
+    leftButtonOnClick();
     setInput("");
     setIsInputError(false);
     setInputHelperText("");
-    leftButtonOnClick();
   };
 
   const handleRightButtonOnClick = () => {
@@ -49,9 +49,10 @@ export default function HeaderTextInputTwoButtonsModal(props) {
       });
     }
     if (inputErrorMessage.length === 0) {
+      rightButtonOnClick(input);
+      setInput("");
       setIsInputError(false);
       setInputHelperText("");
-      rightButtonOnClick(input);
     } else {
       setIsInputError(true);
       setInputHelperText(inputErrorMessage);

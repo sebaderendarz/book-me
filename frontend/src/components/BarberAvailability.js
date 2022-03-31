@@ -114,7 +114,6 @@ export default function BarberAvailability(props) {
     leftButtonOnClick: () => setGeneralModalOpen(false),
     leftButtonText: "BACK",
     rightButtonOnClick: ({ offerId, dateTime }) => {
-      console.log(`BOOK service should be invoked -> ${offerId} ${dateTime}`);
       api
         .post("/customer/service_order/", {
           offer: offerId,
@@ -141,7 +140,6 @@ export default function BarberAvailability(props) {
           setFinalWordsModalOpen(true);
         })
         .catch((error) => {
-          console.log(error.response);
           let failedModalProps = failedBookingModalProps;
           if (error.response && error.response.data) {
             if (error.response.data.offer) {

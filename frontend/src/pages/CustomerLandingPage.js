@@ -16,7 +16,7 @@ import customerReviews from "../components/CustomerReviews";
 // when he click on one of barbers on the list. Then when user clicks
 // back arrow in the browser he is redirected to this page again,
 // but search results are lost and user has to search for barbers again.
-// It should work that search phrase is saved, but one must think
+// It could work that search phrase is saved, but one must think over
 // in what cases and how search phrase should be saved.
 
 const mainImageWithTextProps = {

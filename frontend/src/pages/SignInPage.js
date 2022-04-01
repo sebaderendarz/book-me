@@ -15,7 +15,7 @@ import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypogr
 import Footer from "../components/Footer";
 import RedTextTypography from "../components/RedTextTypography";
 
-// TODO Improve styling. Style changes when error helper text is being displayed.
+// TODO Improve styling. Input fields width changes when error helper text is being displayed.
 
 const theme = createTheme();
 

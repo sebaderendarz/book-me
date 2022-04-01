@@ -18,7 +18,7 @@ import {
   serviceTimesGenerator,
 } from "../utils/serviceTimesGenerator";
 
-// TODO Change logic of modals. Should be one modal component with changing
+// TODO Improve logic of modals. Should be one modal component with changing
 // content. Now after every modal change there is a visible background wink.
 const getMinDate = ({ date, openHours }) => {
   const dateToday = new Date();

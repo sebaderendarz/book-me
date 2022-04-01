@@ -1,13 +1,3 @@
-// needed fields: hourMinute, dateTime (no timezone), isAvail
-
-// what to base results on:
-// 1. is this date a working day for barber
-// 2. hours of the day
-// 3. is barber present this day
-// 4. is already booked order for this date and time?
-
-// generate avail for all timemoxes with avail false and then validate all
-
 const workingDaysToDaysRangeParser = (workingDays) => {
   if (workingDays === "Monday-Friday") {
     return { startDay: 1, endDay: 5 };
@@ -70,10 +60,6 @@ const serviceTimesGenerator = ({ absences, date, orders, offer }) => {
       return timeboxes;
     }
   }
-  // TODO seems that timeboxins based on orders does not work?
-  // simple includes is incorrect because orders is complex object!
-  // check if you can simplify parsed orders
-  console.log(orders);
   return timeboxes.map((timebox) => {
     if (orders.includes(timebox.dateTime)) {
       return timebox;

@@ -8,7 +8,6 @@ import BarberOfferDescription from "../components/BarberOfferDescription";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import useAxios from "../utils/useAxios";
-import ordersParser from "../utils/ordersParser";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
 const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}websockets`;
@@ -80,7 +79,7 @@ export default function BarberOfferPage() {
     );
     ordersWs.current.onmessage = (e) => {
       const message = JSON.parse(e.data);
-      setOrders(message ? ordersParser(message) : []);
+      setOrders(message ? message : []);
     };
   };
 

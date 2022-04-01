@@ -267,7 +267,7 @@ export default function BarberAvailability(props) {
         mt: 5,
         mb: 1,
         borderRadius: 1,
-        boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
+        boxShadow: "0px 1px 5px 0px rgb(0 0 0 / 20%)",
       }}
     >
       <HeaderTextOneButtonModal

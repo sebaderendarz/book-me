@@ -16,7 +16,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <div className="App" style={{ backgroundColor: "#F0F0F0" }}>
+    <div className="App" style={{ backgroundColor: "#FEFEFE" }}>
       <Router>
         <AuthProvider>
           <Routes>

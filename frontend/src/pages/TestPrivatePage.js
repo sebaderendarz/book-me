@@ -40,7 +40,7 @@ export default function TestPrivatePage() {
         maxWidth="lg"
         sx={{
           bgcolor: "white",
-          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          boxShadow: "0px 0px 20px 0px rgb(0 0 0 / 20%)",
         }}
       >
         <Header accountType={"CUSTOMER"} />

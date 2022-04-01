@@ -48,7 +48,7 @@ const searchBarStyle = {
   marginBottom: 80,
   maxWidth: 800,
   height: 60,
-  boxShadow: "0px 0px 3px 0px rgb(0 0 0 / 20%)",
+  boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 20%)",
 };
 
 const theme = createTheme();
@@ -74,7 +74,7 @@ export default function CustomerLandingPage() {
         maxWidth="lg"
         sx={{
           bgcolor: "white",
-          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          boxShadow: "0px 0px 20px 0px rgb(0 0 0 / 20%)",
           minHeight: "100vh",
         }}
       >

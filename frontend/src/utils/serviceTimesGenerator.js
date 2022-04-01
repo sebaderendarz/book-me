@@ -1,4 +1,12 @@
-// TODO services from earlier today should be marked as busy!
+const isDateToday = (date) => {
+  const dateToday = new Date();
+  return (
+    date.getDate() === dateToday.getDate() &&
+    date.getMonth() === dateToday.getMonth() &&
+    date.getFullYear() === dateToday.getFullYear()
+  );
+};
+
 const generateInitialTimeboxes = ({ date, openHours }) => {
   const timeboxes = [];
   for (let hour = openHours.startHour; hour < openHours.endHour; hour++) {
@@ -64,6 +72,17 @@ const serviceTimesGenerator = ({ absences, date, orders, offer }) => {
   return timeboxes.map((timebox) => {
     if (orders.includes(timebox.dateTime)) {
       return timebox;
+    }
+    const dateObj = new Date(timebox.dateTime);
+    if (isDateToday(dateObj)) {
+      const dateNow = new Date();
+      if (
+        dateObj.getHours() < dateNow.getHours() ||
+        (dateObj.getHours() === dateNow.getHours() &&
+          dateObj.getMinutes() <= dateNow.getMinutes())
+      ) {
+        return timebox;
+      }
     }
     return { ...timebox, isAvail: true };
   });

@@ -15,6 +15,8 @@ import useAxios from "../utils/useAxios";
 import parseDateTimeToDateString from "../utils/parseDateTimeToDateString";
 import serviceTimesGenerator from "../utils/serviceTimesGenerator";
 
+// TODO Add logic that will start from the next day when it is too late today
+
 // TODO Change logic of modals. Should be one modal component with changing
 // content. Now after every modal change there is a visible background wink.
 
@@ -277,6 +279,7 @@ export default function BarberAvailability(props) {
             <BookOrCancelBarberServiceItem
               bookServiceHandler={bookServiceHandler}
               cancelServiceHandler={cancelServiceHandler}
+              key={serviceInfo.hourMinute}
               offerId={offer.id}
               serviceInfo={serviceInfo}
             />

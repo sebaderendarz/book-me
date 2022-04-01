@@ -98,13 +98,15 @@ export default function BarberOfferPage() {
         <Header accountType={"CUSTOMER"} />
         <main>
           {offerDetails ? (
-            <BarberOfferDescription offerDetails={offerDetails} />
+            <div>
+              <BarberOfferDescription offerDetails={offerDetails} />
+              <BarberAvailability
+                absences={absences}
+                orders={orders}
+                offer={offerDetails}
+              />
+            </div>
           ) : null}
-          <BarberAvailability
-            absences={absences}
-            orders={orders}
-            offer={offerDetails}
-          />
         </main>
         <Footer />
       </Container>

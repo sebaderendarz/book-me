@@ -1,5 +1,5 @@
 const parseDateTimeToDateString = (dateTime) =>
-  `${dateTime.getFullYear()}-${("0" + dateTime.getMonth()).slice(-2)}-${(
+  `${dateTime.getFullYear()}-${("0" + (dateTime.getMonth() + 1)).slice(-2)}-${(
     "0" + dateTime.getDate()
   ).slice(-2)}`;
 

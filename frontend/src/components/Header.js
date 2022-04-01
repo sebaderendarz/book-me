@@ -20,7 +20,7 @@ function Header(props) {
   return (
     <Fragment>
       <Toolbar
-        sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}
+        sx={{ borderBottom: 1.2, borderColor: "divider", marginBottom: 2 }}
       >
         <Avatar
           alt="BookMe Logo"

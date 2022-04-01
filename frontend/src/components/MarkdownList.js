@@ -26,7 +26,7 @@ function MarkdownList(props) {
       {reviews.map((review, index) => (
         <Box key={index}>
           <MarkdownItem className="markdown">{review}</MarkdownItem>
-          <Divider />
+          <Divider variant="middle" />
         </Box>
       ))}
     </Grid>

@@ -1,11 +1,19 @@
-const workingDaysToDaysRangeParser = (workingDays) => {
-  if (workingDays === "Monday-Friday") {
-    return { startDay: 1, endDay: 5 };
+// TODO services from earlier today should be marked as busy!
+const generateInitialTimeboxes = ({ date, openHours }) => {
+  const timeboxes = [];
+  for (let hour = openHours.startHour; hour < openHours.endHour; hour++) {
+    timeboxes.push({
+      isAvail: false,
+      hourMinute: `${hour}:00`,
+      dateTime: `${date}T${hour}:00:00`,
+    });
+    timeboxes.push({
+      isAvail: false,
+      hourMinute: `${hour}:30`,
+      dateTime: `${date}T${hour}:30:00`,
+    });
   }
-  if (workingDays === "Monday-Saturday") {
-    return { startDay: 1, endDay: 6 };
-  }
-  return { startDay: 0, endDay: 6 };
+  return timeboxes;
 };
 
 const openHoursToHoursRangeParser = (openHours) => {
@@ -24,21 +32,14 @@ const openHoursToHoursRangeParser = (openHours) => {
   return { startHour: 12, endHour: 20 };
 };
 
-const generateInitialTimeboxes = ({ date, openHours }) => {
-  const timeboxes = [];
-  for (let hour = openHours.startHour; hour < openHours.endHour; hour++) {
-    timeboxes.push({
-      isAvail: false,
-      hourMinute: `${hour}:00`,
-      dateTime: `${date}T${hour}:00:00`,
-    });
-    timeboxes.push({
-      isAvail: false,
-      hourMinute: `${hour}:30`,
-      dateTime: `${date}T${hour}:30:00`,
-    });
+const workingDaysToDaysRangeParser = (workingDays) => {
+  if (workingDays === "Monday-Friday") {
+    return { startDay: 1, endDay: 5 };
   }
-  return timeboxes;
+  if (workingDays === "Monday-Saturday") {
+    return { startDay: 1, endDay: 6 };
+  }
+  return { startDay: 0, endDay: 6 };
 };
 
 const serviceTimesGenerator = ({ absences, date, orders, offer }) => {
@@ -68,4 +69,4 @@ const serviceTimesGenerator = ({ absences, date, orders, offer }) => {
   });
 };
 
-export default serviceTimesGenerator;
+export { openHoursToHoursRangeParser, serviceTimesGenerator };

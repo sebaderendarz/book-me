@@ -13,12 +13,34 @@ import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 import parseDateTimeToDateString from "../utils/parseDateTimeToDateString";
-import serviceTimesGenerator from "../utils/serviceTimesGenerator";
-
-// TODO Add logic that will start from the next day when it is too late today
+import {
+  openHoursToHoursRangeParser,
+  serviceTimesGenerator,
+} from "../utils/serviceTimesGenerator";
 
 // TODO Change logic of modals. Should be one modal component with changing
 // content. Now after every modal change there is a visible background wink.
+const getMinDate = ({ date, openHours }) => {
+  const dateToday = new Date();
+  if (
+    !(
+      date.getDate() === dateToday.getDate() &&
+      date.getMonth() === dateToday.getMonth() &&
+      date.getFullYear() === dateToday.getFullYear()
+    )
+  ) {
+    return date;
+  }
+  const openHoursRange = openHoursToHoursRangeParser(openHours);
+  if (
+    dateToday.getHours() >= openHoursRange.endHour ||
+    (dateToday.getHours() === openHoursRange.endHour &&
+      dateToday.getMinutes() >= 30)
+  ) {
+    dateToday.setDate(dateToday.getDate() + 1);
+  }
+  return dateToday;
+};
 
 const isAlnumValidator = (val) => {
   if (val.match(/^[a-z0-9]+$/i)) {
@@ -37,7 +59,9 @@ const lengthValidator = (val) => {
 export default function BarberAvailability(props) {
   const { offer } = props;
   const { user } = useContext(AuthContext);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    getMinDate({ date: new Date(), openHours: offer.open_hours })
+  );
   const [generalModalOpen, setGeneralModalOpen] = useState(false);
   const [generalModalProps, setGeneralModalProps] = useState(null);
   const [finalWordsModalOpen, setFinalWordsModalOpen] = useState(false);
@@ -264,9 +288,12 @@ export default function BarberAvailability(props) {
             <DesktopDatePicker
               label="service date"
               value={date}
-              minDate={new Date()}
-              onChange={(newValue) => {
-                setDate(newValue);
+              minDate={getMinDate({
+                date: new Date(),
+                openHours: offer.open_hours,
+              })}
+              onChange={(date) => {
+                setDate(getMinDate({ date, openHours: offer.open_hours }));
               }}
               renderInput={(params) => <TextField {...params} />}
             />

@@ -3,7 +3,6 @@ import { createTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
 const theme = createTheme({
@@ -26,7 +25,15 @@ export default function BookOrCancelBarberServiceItem(props) {
   return (
     <ThemeProvider theme={theme}>
       <Grid item xs={11} sm={5} container>
-        <Paper style={{ width: "100%" }}>
+        <Box
+          sx={{
+            p: 0.5,
+            mb: 0.5,
+            borderRadius: 8,
+            boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 20%)",
+            width: "100%",
+          }}
+        >
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Box sx={{ m: 1, textAlign: "center" }}>
@@ -67,7 +74,7 @@ export default function BookOrCancelBarberServiceItem(props) {
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+        </Box>
       </Grid>
     </ThemeProvider>
   );

@@ -21,7 +21,7 @@ export default function BarberListItem(props) {
       sx={{
         p: 2,
         mb: 3,
-        borderRadius: 1,
+        borderRadius: 3,
         boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 20%)",
       }}
     >

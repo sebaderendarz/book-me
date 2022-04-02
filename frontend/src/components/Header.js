@@ -7,6 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AuthContext from "../context/AuthContext";
 
+const { REACT_APP_API_BASE_URL } = process.env;
+
 function Header(props) {
   const { accountType } = props;
   let { logoutUser, user } = useContext(AuthContext);
@@ -44,7 +46,7 @@ function Header(props) {
                 if (accountType === "BARBER") {
                   navigate(location.pathname);
                   window.location.replace(
-                    "http://localhost:8000/admin/",
+                    `${REACT_APP_API_BASE_URL}/admin/`,
                     "_blank"
                   );
                 } else {

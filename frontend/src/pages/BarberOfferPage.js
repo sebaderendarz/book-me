@@ -10,7 +10,7 @@ import Header from "../components/Header";
 import useAxios from "../utils/useAxios";
 
 const { REACT_APP_WS_BASE_URL } = process.env;
-const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}websockets`;
+const WEBSOCKET_API_URL = `${REACT_APP_WS_BASE_URL}/websockets`;
 
 const theme = createTheme();
 

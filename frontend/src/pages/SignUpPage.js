@@ -19,6 +19,7 @@ import RedTextTypography from "../components/RedTextTypography";
 import ModalBase from "../components/modals/ModalBase";
 import TextOneButtonModalContent from "../components/modals/TextOneButtonModalContent";
 
+const { REACT_APP_API_BASE_URL } = process.env;
 const theme = createTheme();
 
 const defaultFormErrors = {
@@ -317,7 +318,7 @@ export default function SignUpPage(props) {
                       if (accountType === "BARBER") {
                         navigate(location.pathname);
                         window.location.replace(
-                          "http://localhost:8000/admin/",
+                          `${REACT_APP_API_BASE_URL}/admin/`,
                           "_blank"
                         );
                       } else {

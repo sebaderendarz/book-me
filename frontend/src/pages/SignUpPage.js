@@ -15,8 +15,9 @@ import Typography from "@mui/material/Typography";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import Footer from "../components/Footer";
-import HeaderTextOneButtonModal from "../components/modals/HeaderTextOneButtonModal";
 import RedTextTypography from "../components/RedTextTypography";
+import ModalBase from "../components/modals/ModalBase";
+import TextOneButtonModalContent from "../components/modals/TextOneButtonModalContent";
 
 const theme = createTheme();
 
@@ -163,14 +164,15 @@ export default function SignUpPage(props) {
   ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
+        <ModalBase open={open} handleModalClose={handleModalClose}>
+          <TextOneButtonModalContent
+            buttonOnClick={handleModalClose}
+            buttonText={"OK"}
+            contentText={modalText}
+            headerText={"Success!"}
+          />
+        </ModalBase>
         <CssBaseline />
-        <HeaderTextOneButtonModal
-          buttonText={"OK"}
-          contentText={modalText}
-          handleModalClose={handleModalClose}
-          headerText={"Success!"}
-          open={open}
-        />
         <Grid
           item
           xs={false}

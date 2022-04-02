@@ -6,10 +6,11 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TextField from "@mui/material/TextField";
+import ModalBase from "./modals/ModalBase";
 import BookOrCancelBarberServiceItem from "./BookOrCancelBarberServiceItem";
-import HeaderTextInputTwoButtonsModal from "./modals/HeaderTextInputTwoButtonsModal";
-import HeaderTextOneButtonModal from "./modals/HeaderTextOneButtonModal";
-import HeaderTextTwoButtonsModal from "./modals/HeaderTextTwoButtonsModal";
+import TextInputTwoButtonsModalContent from "./modals/TextInputTwoButtonsModalContent";
+import TextOneButtonModalContent from "./modals/TextOneButtonModalContent";
+import TextTwoButtonsModalContent from "./modals/TextTwoButtonsModalContent";
 import AuthContext from "../context/AuthContext";
 import useAxios from "../utils/useAxios";
 import parseDateTimeToDateString from "../utils/parseDateTimeToDateString";
@@ -18,8 +19,6 @@ import {
   serviceTimesGenerator,
 } from "../utils/serviceTimesGenerator";
 
-// TODO Improve logic of modals. Should be one modal component with changing
-// content. Now after every modal change there is a visible background wink.
 const getMinDate = ({ date, openHours }) => {
   const dateToday = new Date();
   if (
@@ -106,7 +105,6 @@ export default function BarberAvailability(props) {
 
   const cancelServiceModalProps = {
     contentText: "Enter token to cancel your reservation.",
-    handleModalClose: () => setInputModalOpen(false),
     headerText: null,
     inputValidators: [lengthValidator, isAlnumValidator],
     leftButtonOnClick: () => {
@@ -126,8 +124,8 @@ export default function BarberAvailability(props) {
           if (error.response && error.response.data) {
             if (error.response.data.token) {
               failedModalProps = {
-                contentText: error.response.data.token[0],
                 ...failedModalProps,
+                contentText: error.response.data.token[0],
               };
             }
             if (error.response.data.non_field_errors) {
@@ -147,7 +145,6 @@ export default function BarberAvailability(props) {
 
   const doYouWantToBookModalProps = {
     contentText: "Do you want want to book hairdresser's service?",
-    handleModalClose: () => setGeneralModalOpen(false),
     headerText: null,
     itemData: null,
     leftButtonOnClick: () => setGeneralModalOpen(false),
@@ -183,14 +180,14 @@ export default function BarberAvailability(props) {
           if (error.response && error.response.data) {
             if (error.response.data.offer) {
               failedModalProps = {
-                contentText: error.response.data.offer[0],
                 ...failedModalProps,
+                contentText: error.response.data.offer[0],
               };
             }
             if (error.response.data.service_time) {
               failedModalProps = {
-                contentText: error.response.data.service_time[0],
                 ...failedModalProps,
+                contentText: error.response.data.service_time[0],
               };
             }
             if (error.response.data.non_field_errors) {
@@ -209,16 +206,15 @@ export default function BarberAvailability(props) {
   };
 
   const failedBookingModalProps = {
+    buttonOnClick: () => setFinalWordsModalOpen(false),
     buttonText: "OK",
     contentText: "Booking hairdresser's service failed.",
-    handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: null,
   };
 
   const failedCancellationModalProps = {
     contentText: "Hairdresser's service cancellation failed.",
-    handleModalClose: () => setGeneralModalOpen(false),
     headerText: null,
     leftButtonOnClick: () => setGeneralModalOpen(false),
     leftButtonText: "CLOSE",
@@ -230,17 +226,17 @@ export default function BarberAvailability(props) {
   };
 
   const finalWordsBookedModalProps = {
+    buttonOnClick: () => setFinalWordsModalOpen(false),
     buttonText: "OK",
     contentText: "Successfully booked hairdresser's service.",
-    handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: "TOKEN",
   };
 
   const finalWordsCancelledModalProps = {
+    buttonOnClick: () => setFinalWordsModalOpen(false),
     buttonText: "OK",
     contentText: "Successfully cancelled hairdresser's service.",
-    handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
     highlightedText: null,
   };
@@ -248,7 +244,6 @@ export default function BarberAvailability(props) {
   const redirectToLoginModalProps = {
     contentText:
       "Only signed in users can book and cancel hairdresser's services. Please sign in first.",
-    handleModalClose: () => setGeneralModalOpen(false),
     headerText: null,
     leftButtonOnClick: () => setGeneralModalOpen(false),
     leftButtonText: "BACK",
@@ -270,18 +265,24 @@ export default function BarberAvailability(props) {
         boxShadow: "0px 1px 5px 0px rgb(0 0 0 / 20%)",
       }}
     >
-      <HeaderTextOneButtonModal
-        open={finalWordsModalOpen}
-        {...finalWordsModalProps}
-      />
-      <HeaderTextInputTwoButtonsModal
-        open={inputModalOpen}
-        {...inputModalProps}
-      />
-      <HeaderTextTwoButtonsModal
-        open={generalModalOpen}
-        {...generalModalProps}
-      />
+      <ModalBase
+        open={finalWordsModalOpen || generalModalOpen || inputModalOpen}
+        handleModalClose={() => {
+          setFinalWordsModalOpen(false);
+          setGeneralModalOpen(false);
+          setInputModalOpen(false);
+        }}
+      >
+        {finalWordsModalOpen ? (
+          <TextOneButtonModalContent {...finalWordsModalProps} />
+        ) : null}
+        {generalModalOpen ? (
+          <TextTwoButtonsModalContent {...generalModalProps} />
+        ) : null}
+        {inputModalOpen ? (
+          <TextInputTwoButtonsModalContent {...inputModalProps} />
+        ) : null}
+      </ModalBase>
       <Grid container align="center" sx={{ mb: 3 }}>
         <Grid item xs={12}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>

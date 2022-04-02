@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useLocation, Outlet, Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
-// USAGE SAMPLE:
+// SAMPLE USAGE:
 // <Route path="/privpage" element={<PrivateRoute />}>
 //   <Route exact path="/privpage" element={<TestPrivatePage />} />
 // </Route>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -11,17 +12,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import customerReviews from "../components/CustomerReviews";
-
-// TODO Currently user is redirected to barber offer page
-// when he click on one of barbers on the list. Then when user clicks
-// back arrow in the browser he is redirected to this page again,
-// but search results are lost and user has to search for barbers again.
-// It could work that search phrase is saved, but one must think over
-// in what cases and how search phrase should be saved.
-
-// IDEA: Add search phrase to the customer route like this:
-// "/customer/?your-search-phrase". This route should be saved in the browser's
-// history. Should work as expected when clicking back arrow in the browser.
 
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
@@ -58,18 +48,17 @@ const searchBarStyle = {
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
-  const [isSearch, setIsSearch] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchParams] = useSearchParams();
+  const [searchPhrase, setSearchPhrase] = useState(null);
   const [pendingSearchPhrase, setPendingSearchPhrase] = useState("");
+  const navigate = useNavigate();
 
-  function handleOnRequestSearch() {
-    setSearchPhrase(pendingSearchPhrase);
-    if (pendingSearchPhrase !== "") {
-      setIsSearch(true);
-    } else {
-      setIsSearch(false);
-    }
-  }
+  useEffect(() => {
+    setSearchPhrase(searchParams.get("search"));
+    setPendingSearchPhrase(
+      searchParams.get("search") ? searchParams.get("search") : ""
+    );
+  }, [searchParams]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -85,11 +74,18 @@ export default function CustomerLandingPage() {
         <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
+            value={pendingSearchPhrase}
             onChange={(searchText) => setPendingSearchPhrase(searchText)}
-            onRequestSearch={handleOnRequestSearch}
+            onRequestSearch={() => {
+              if (pendingSearchPhrase) {
+                navigate(`/customer?search=${pendingSearchPhrase}`);
+              } else {
+                navigate("/customer");
+              }
+            }}
             style={searchBarStyle}
           />
-          {isSearch ? (
+          {searchPhrase && searchPhrase.length > 0 ? (
             <BarberList searchPhrase={searchPhrase} />
           ) : (
             <AppDescription

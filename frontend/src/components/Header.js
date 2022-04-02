@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -7,14 +7,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AuthContext from "../context/AuthContext";
 
-// TODO Improve redirection when hairdresser clicks on back arrow in the browser
-// when being in the django admin login view. Now it sometimes redirects to "/customer"
-// or "/hairdresser/signup", but I'm not sure if hairdresser should be redirected to signup
-// page again.
-
 function Header(props) {
   const { accountType } = props;
   let { logoutUser, user } = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
 
   return (
@@ -46,6 +42,7 @@ function Header(props) {
               size="medium"
               onClick={() => {
                 if (accountType === "BARBER") {
+                  navigate(location.pathname);
                   window.location.replace(
                     "http://localhost:8000/admin/",
                     "_blank"
@@ -55,7 +52,7 @@ function Header(props) {
                 }
               }}
             >
-              Sign in
+              SIGN IN
             </Button>
             <Button
               variant="contained"
@@ -68,13 +65,13 @@ function Header(props) {
                 );
               }}
             >
-              Sign up
+              SIGN UP
             </Button>
           </Stack>
         ) : (
           <Stack direction="row" spacing={1}>
             <Button variant="contained" size="medium" onClick={logoutUser}>
-              Logout
+              LOGOUT
             </Button>
           </Stack>
         )}

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -31,14 +31,15 @@ const defaultFormErrors = {
 export default function SignUpPage(props) {
   const { accountType } = props;
   let { registerUser, user } = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
-  const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
+  const [form, setForm] = useState(null);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
-  const [open, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState(
     "Thank You for registering. An email with account activation link was sent to You."
   );
+  const [open, setModalOpen] = useState(false);
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -312,6 +313,7 @@ export default function SignUpPage(props) {
                     variant="body2"
                     onClick={() => {
                       if (accountType === "BARBER") {
+                        navigate(location.pathname);
                         window.location.replace(
                           "http://localhost:8000/admin/",
                           "_blank"

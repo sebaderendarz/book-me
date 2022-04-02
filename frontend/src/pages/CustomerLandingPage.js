@@ -19,6 +19,10 @@ import customerReviews from "../components/CustomerReviews";
 // It could work that search phrase is saved, but one must think over
 // in what cases and how search phrase should be saved.
 
+// IDEA: Add search phrase to the customer route like this:
+// "/customer/?your-search-phrase". This route should be saved in the browser's
+// history. Should work as expected when clicking back arrow in the browser.
+
 const mainImageWithTextProps = {
   title: "Getting a new haircut easier than ever before...",
   description:

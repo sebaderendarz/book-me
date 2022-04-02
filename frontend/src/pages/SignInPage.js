@@ -15,8 +15,6 @@ import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypogr
 import Footer from "../components/Footer";
 import RedTextTypography from "../components/RedTextTypography";
 
-// TODO Improve styling. Input fields width changes when error helper text is being displayed.
-
 const theme = createTheme();
 
 const defaultFormErrors = {
@@ -168,7 +166,7 @@ export default function SignInPage() {
               noValidate
               ref={(form) => setForm(form)}
               onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
+              sx={{ mt: 3, width: "100%" }}
             >
               <Grid container spacing={2}>
                 <Grid item xs={12}>

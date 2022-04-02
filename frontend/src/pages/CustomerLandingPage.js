@@ -95,7 +95,7 @@ export default function CustomerLandingPage() {
             />
           )}
         </main>
-        <Footer />
+        <Footer accountType={"CUSTOMER"} />
       </Container>
     </ThemeProvider>
   );

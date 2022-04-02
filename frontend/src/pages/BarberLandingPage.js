@@ -55,7 +55,7 @@ export default function BarberLandingPage() {
             reviews={barberReviews}
           />
         </main>
-        <Footer />
+        <Footer accountType={"BARBER"} />
       </Container>
     </ThemeProvider>
   );

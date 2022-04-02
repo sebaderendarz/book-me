@@ -107,7 +107,7 @@ export default function BarberOfferPage() {
             </div>
           ) : null}
         </main>
-        <Footer />
+        <Footer accountType={"CUSTOMER"} />
       </Container>
     </ThemeProvider>
   );

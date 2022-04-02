@@ -331,7 +331,7 @@ export default function SignUpPage(props) {
                 </Grid>
               </Grid>
             </Box>
-            <Footer />
+            <Footer accountType={accountType} />
           </Box>
         </Grid>
       </Grid>

@@ -235,7 +235,7 @@ export default function SignInPage() {
                 </Grid>
               </Grid>
             </Box>
-            <Footer />
+            <Footer accountType={"CUSTOMER"} />
           </Box>
         </Grid>
       </Grid>

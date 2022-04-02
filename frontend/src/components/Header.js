@@ -50,6 +50,7 @@ function Header(props) {
                     "_blank"
                   );
                 } else {
+                  localStorage.setItem("previousLocation", location.pathname);
                   navigate("/customer/signin");
                 }
               }}
@@ -60,6 +61,7 @@ function Header(props) {
               variant="contained"
               size="medium"
               onClick={() => {
+                localStorage.setItem("previousLocation", location.pathname);
                 navigate(
                   accountType === "CUSTOMER"
                     ? "/customer/signup"

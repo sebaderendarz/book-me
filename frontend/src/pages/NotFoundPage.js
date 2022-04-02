@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
-import Footer from "../components/Footer";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
+import Footer from "../components/Footer";
 
 const theme = createTheme();
 

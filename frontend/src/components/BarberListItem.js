@@ -7,9 +7,6 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-// NOTE: When preparing to demo https://source.unsplash.com/random/?hairdresser
-// can be used instead of Stack when thumbnail is null.
-
 export default function BarberListItem(props) {
   const { id, address, barber_name, city, price, thumbnail } = props;
   const navigate = useNavigate();
@@ -23,9 +20,9 @@ export default function BarberListItem(props) {
       onClick={handleClick}
       sx={{
         p: 2,
-        mb: 2,
-        borderRadius: 1,
-        boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
+        mb: 3,
+        borderRadius: 3,
+        boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 20%)",
       }}
     >
       <Grid container spacing={2}>

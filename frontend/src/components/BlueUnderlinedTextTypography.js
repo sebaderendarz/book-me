@@ -1,5 +1,4 @@
 import Typography from "@mui/material/Typography";
-
 import { withStyles } from "@mui/styles";
 
 const BlueUnderlinedTextTypography = withStyles({

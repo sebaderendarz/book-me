@@ -23,16 +23,16 @@ export default function BarberList(props) {
 
   useEffect(() => {
     setPage(0);
-    sendRequest();
+    getFilteredBarbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchPhrase, rowsPerPage]);
 
   useEffect(() => {
-    sendRequest();
+    getFilteredBarbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const sendRequest = () => {
+  const getFilteredBarbers = () => {
     api
       .get(
         `/barber/service_offers/?page_size=${rowsPerPage}&page=${

@@ -1,25 +1,25 @@
+import { useContext, useState } from "react";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
-import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import Fade from "@mui/material/Fade";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import Modal from "@mui/material/Modal";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Navigate, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 import BlueUnderlinedTextTypography from "../components/BlueUnderlinedTextTypography";
 import Footer from "../components/Footer";
 import RedTextTypography from "../components/RedTextTypography";
+import ModalBase from "../components/modals/ModalBase";
+import TextOneButtonModalContent from "../components/modals/TextOneButtonModalContent";
 
+const { REACT_APP_API_BASE_URL } = process.env;
 const theme = createTheme();
 
 const defaultFormErrors = {
@@ -30,30 +30,18 @@ const defaultFormErrors = {
   general: { error: false, errorMessage: "" },
 };
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "white",
-  border: "2px solid #e0e0e0",
-  borderRadius: "10px",
-  boxShadow: 24,
-  p: 4,
-};
-
 export default function SignUpPage(props) {
   const { accountType } = props;
   let { registerUser, user } = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
-  const [form, setForm] = useState(null);
   const [acceptedNewsletter, setAcceptedNewsletter] = useState(false);
+  const [form, setForm] = useState(null);
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
-  const [modalOpen, setModalOpen] = useState(false);
   const [modalText, setModalText] = useState(
     "Thank You for registering. An email with account activation link was sent to You."
   );
+  const [open, setModalOpen] = useState(false);
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -177,42 +165,15 @@ export default function SignUpPage(props) {
   ) : (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
+        <ModalBase open={open} handleModalClose={handleModalClose}>
+          <TextOneButtonModalContent
+            buttonOnClick={handleModalClose}
+            buttonText={"OK"}
+            contentText={modalText}
+            headerText={"Success!"}
+          />
+        </ModalBase>
         <CssBaseline />
-        <Modal
-          aria-labelledby="transition-modal-title"
-          aria-describedby="transition-modal-description"
-          open={modalOpen}
-          onClose={handleModalClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={modalOpen}>
-            <Box sx={modalStyle}>
-              <Typography
-                id="transition-modal-title"
-                variant="h6"
-                component="h2"
-              >
-                Success!
-              </Typography>
-              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                {modalText}
-              </Typography>
-              <Box sx={{ mt: 2 }} textAlign="center">
-                <Button
-                  variant="contained"
-                  size="medium"
-                  onClick={handleModalClose}
-                >
-                  OK
-                </Button>
-              </Box>
-            </Box>
-          </Fade>
-        </Modal>
         <Grid
           item
           xs={false}
@@ -355,8 +316,9 @@ export default function SignUpPage(props) {
                     variant="body2"
                     onClick={() => {
                       if (accountType === "BARBER") {
+                        navigate(location.pathname);
                         window.location.replace(
-                          "http://localhost:8000/admin/",
+                          `${REACT_APP_API_BASE_URL}/admin/`,
                           "_blank"
                         );
                       } else {
@@ -369,7 +331,7 @@ export default function SignUpPage(props) {
                 </Grid>
               </Grid>
             </Box>
-            <Footer />
+            <Footer accountType={accountType} />
           </Box>
         </Grid>
       </Grid>

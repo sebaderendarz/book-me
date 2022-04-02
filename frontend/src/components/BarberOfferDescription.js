@@ -30,9 +30,10 @@ export default function BarberOfferDescription(props) {
     <Box
       sx={{
         p: 2,
+        mt: 5,
         mb: 2,
         borderRadius: 1,
-        boxShadow: "0px 1px 3px 0px rgb(0 0 0 / 20%)",
+        boxShadow: "0px 1px 5px 0px rgb(0 0 0 / 20%)",
       }}
     >
       <Grid container spacing={3}>
@@ -43,6 +44,7 @@ export default function BarberOfferDescription(props) {
                 alt="Barber Image"
                 src={offerDetails.thumbnail}
                 sx={{ width: 128, height: 128 }}
+                variant="rounded"
               />
             ) : (
               <Stack spacing={1} sx={{ width: 128, height: 128 }}>

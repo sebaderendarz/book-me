@@ -1,6 +1,6 @@
 const review1 = `# The best user experience in the industry
 
-_March 10, 2022 by [Olga](/)_
+_March 10, 2022 by [Olga](https://twitter.com/olga)_
 
 Duis sed ipsum pretium, vulputate lectus eu, tristique felis. Nam sit amet mollis felis. 
 Pellentesque in orci elit. Cras imperdiet diam nec **magna sollicitudin**, nec semper mi aliquet. 
@@ -31,7 +31,7 @@ Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at
 
 const review2 = `# Practical usage over imaginary design, that's what drives this app
 
-_February 28, 2022 by [John](/)_
+_February 28, 2022 by [John](https://twitter.com/john)_
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 Aenean eu leo quam. Pellentesque _ornare sem lacinia_ quam venenatis vestibulum.
@@ -43,7 +43,7 @@ Nullam id dolor id nibh ultricies vehicula ut id elit.
 
 const review3 = `# Simplicity is what makes this app offbeat
 
-_February 20, 2022 by [Ron](/)_
+_February 20, 2022 by [Ron](https://twitter.com/ron)_
 
 Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
 Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.

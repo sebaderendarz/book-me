@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-function Copyright() {
+function Copyright(props) {
+  const { accountType } = props;
   const navigate = useNavigate();
 
   return (
@@ -11,7 +12,11 @@ function Copyright() {
       variant="body2"
       color="text.secondary"
       align="center"
-      onClick={() => navigate("/")}
+      onClick={() =>
+        accountType === "BARBER"
+          ? navigate("/hairdresser")
+          : navigate("/customer")
+      }
     >
       Copyright © BookMe Inc. {new Date().getFullYear()}
       {"."}
@@ -19,11 +24,13 @@ function Copyright() {
   );
 }
 
-function Footer() {
+function Footer(props) {
+  const { accountType } = props;
+
   return (
-    <Box component="footer" sx={{ bgcolor: "white", py: 6 }}>
+    <Box component="footer" sx={{ bgcolor: "white", py: 4 }}>
       <Container maxWidth="lg">
-        <Copyright />
+        <Copyright accountType={accountType} />
       </Container>
     </Box>
   );

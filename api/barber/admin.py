@@ -96,15 +96,10 @@ class ServiceOfferAdmin(admin.ModelAdmin):
             return qs.filter(author=request.user)
         return qs
 
-    def image_view(self, obj):  # pylint: disable=R1710
-        if obj is not None and obj.thumbnail:
-            return safestring.mark_safe(
-                '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
-                    url=obj.thumbnail.url,
-                    width=obj.thumbnail.width,
-                    height=obj.thumbnail.height,
-                )
-            )
+    def save_model(self, request, obj, form, change):
+        if obj.author_id is None and not request.user.is_admin:
+            obj.author_id = request.user.id
+        obj.save()
 
     def barber_image(self, obj):  # pylint: disable=R1710
         if obj is not None and obj.thumbnail:
@@ -113,5 +108,15 @@ class ServiceOfferAdmin(admin.ModelAdmin):
                     url=obj.thumbnail.url,
                     width=obj.thumbnail.width / 2.5,
                     height=obj.thumbnail.height / 2.5,
+                )
+            )
+
+    def image_view(self, obj):  # pylint: disable=R1710
+        if obj is not None and obj.thumbnail:
+            return safestring.mark_safe(
+                '<a href={url}><img src="{url}" width={width} height={height} /></a>'.format(
+                    url=obj.thumbnail.url,
+                    width=obj.thumbnail.width,
+                    height=obj.thumbnail.height,
                 )
             )

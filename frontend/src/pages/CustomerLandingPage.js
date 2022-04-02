@@ -1,15 +1,16 @@
-import { useState } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Container from "@mui/material/Container";
-import RedditIcon from "@mui/icons-material/Reddit";
+import CssBaseline from "@mui/material/CssBaseline";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import RedditIcon from "@mui/icons-material/Reddit";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import SearchBar from "../components/SearchBar";
 import AppDescription from "../components/AppDescription";
 import BarberList from "../components/BarberList";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
 import customerReviews from "../components/CustomerReviews";
 
 const mainImageWithTextProps = {
@@ -41,24 +42,23 @@ const searchBarStyle = {
   marginBottom: 80,
   maxWidth: 800,
   height: 60,
-  boxShadow: "0px 0px 3px 0px rgb(0 0 0 / 20%)",
+  boxShadow: "0px 0px 5px 0px rgb(0 0 0 / 20%)",
 };
 
 const theme = createTheme();
 
 export default function CustomerLandingPage() {
-  const [isSearch, setIsSearch] = useState(false);
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchParams] = useSearchParams();
+  const [searchPhrase, setSearchPhrase] = useState(null);
   const [pendingSearchPhrase, setPendingSearchPhrase] = useState("");
+  const navigate = useNavigate();
 
-  function handleOnRequestSearch() {
-    setSearchPhrase(pendingSearchPhrase);
-    if (pendingSearchPhrase !== "") {
-      setIsSearch(true);
-    } else {
-      setIsSearch(false);
-    }
-  }
+  useEffect(() => {
+    setSearchPhrase(searchParams.get("search"));
+    setPendingSearchPhrase(
+      searchParams.get("search") ? searchParams.get("search") : ""
+    );
+  }, [searchParams]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -67,18 +67,25 @@ export default function CustomerLandingPage() {
         maxWidth="lg"
         sx={{
           bgcolor: "white",
-          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          boxShadow: "0px 0px 20px 0px rgb(0 0 0 / 20%)",
           minHeight: "100vh",
         }}
       >
         <Header accountType={"CUSTOMER"} />
         <main>
           <SearchBar
+            value={pendingSearchPhrase}
             onChange={(searchText) => setPendingSearchPhrase(searchText)}
-            onRequestSearch={handleOnRequestSearch}
+            onRequestSearch={() => {
+              if (pendingSearchPhrase) {
+                navigate(`/customer?search=${pendingSearchPhrase}`);
+              } else {
+                navigate("/customer");
+              }
+            }}
             style={searchBarStyle}
           />
-          {isSearch ? (
+          {searchPhrase && searchPhrase.length > 0 ? (
             <BarberList searchPhrase={searchPhrase} />
           ) : (
             <AppDescription
@@ -88,7 +95,7 @@ export default function CustomerLandingPage() {
             />
           )}
         </main>
-        <Footer />
+        <Footer accountType={"CUSTOMER"} />
       </Container>
     </ThemeProvider>
   );

@@ -4,19 +4,17 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import PrivateRoute from "./utils/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
 import BarberLandingPage from "./pages/BarberLandingPage";
 import BarberOfferPage from "./pages/BarberOfferPage";
 import CustomerLandingPage from "./pages/CustomerLandingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import TestPrivatePage from "./pages/TestPrivatePage";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <div className="App" style={{ backgroundColor: "#fdfdfd" }}>
+    <div className="App" style={{ backgroundColor: "#FEFEFE" }}>
       <Router>
         <AuthProvider>
           <Routes>
@@ -36,9 +34,7 @@ function App() {
               path="/hairdresser/service_offer/:offer_id"
             />
             <Route element={<BarberLandingPage />} path="/hairdresser" />
-            <Route path="/privpage" element={<PrivateRoute />}>
-              <Route exact path="/privpage" element={<TestPrivatePage />} />
-            </Route>
+            <Route path="/not_found" element={<NotFoundPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AuthProvider>

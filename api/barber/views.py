@@ -17,8 +17,12 @@ class ServiceOfferViewSet(viewsets.ReadOnlyModelViewSet):
                 {'detail': __('No service offer found with specified id.')},
                 status=status.HTTP_404_NOT_FOUND,
             )
-        offer_serializer = serializers.ServiceOfferSerializer(service_offer)
-        return response.Response(offer_serializer.data, status=status.HTTP_200_OK)
+        # NOTE: 'request' must be passed in the serializer context when you want to get
+        # full image URL instead of the relative one, as it is saved in db.
+        return response.Response(
+            serializers.ServiceOfferSerializer(service_offer, context={'request': request}).data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class ServiceOfferListView(generics.ListAPIView):

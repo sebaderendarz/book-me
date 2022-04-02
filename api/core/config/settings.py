@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 # TODO Make all datetime and date objects timezone specific. It should
 # always be UTC timezone, even when datetime/date is added via django
-# admin panel. tz=pytz.UTC can be useful.
+# admin panel. tz=pytz.UTC can be used.
 
 import os
 

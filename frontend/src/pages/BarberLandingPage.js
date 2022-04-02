@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import RedditIcon from "@mui/icons-material/Reddit";
@@ -42,18 +43,19 @@ export default function BarberLandingPage() {
         maxWidth="lg"
         sx={{
           bgcolor: "white",
-          boxShadow: "0px 0px 2px 0px rgb(0 0 0 / 20%)",
+          boxShadow: "0px 0px 20px 0px rgb(0 0 0 / 20%)",
         }}
       >
         <Header accountType={"BARBER"} />
         <main>
+          <Box sx={{ mt: 7 }}></Box>
           <AppDescription
             mainImage={mainImageWithTextProps}
             sideBar={sidebarProps}
             reviews={barberReviews}
           />
         </main>
-        <Footer />
+        <Footer accountType={"BARBER"} />
       </Container>
     </ThemeProvider>
   );

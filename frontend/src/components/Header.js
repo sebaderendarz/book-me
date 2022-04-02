@@ -1,27 +1,24 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
-// TODO Improve redirection when hairdresser clicks on back arrow in the browser
-// when being in the django admin login view. Now it sometimes redirects to "/customer"
-// or "/hairdresser/signup", but I'm not sure if hairdresser should be redirected to signup
-// page again.
+const { REACT_APP_API_BASE_URL } = process.env;
 
 function Header(props) {
   const { accountType } = props;
   let { logoutUser, user } = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
 
   return (
     <Fragment>
       <Toolbar
-        sx={{ borderBottom: 1, borderColor: "divider", marginBottom: 2 }}
+        sx={{ borderBottom: 1.2, borderColor: "divider", marginBottom: 2 }}
       >
         <Avatar
           alt="BookMe Logo"
@@ -47,8 +44,9 @@ function Header(props) {
               size="medium"
               onClick={() => {
                 if (accountType === "BARBER") {
+                  navigate(location.pathname);
                   window.location.replace(
-                    "http://localhost:8000/admin/",
+                    `${REACT_APP_API_BASE_URL}/admin/`,
                     "_blank"
                   );
                 } else {
@@ -56,7 +54,7 @@ function Header(props) {
                 }
               }}
             >
-              Sign in
+              SIGN IN
             </Button>
             <Button
               variant="contained"
@@ -69,13 +67,13 @@ function Header(props) {
                 );
               }}
             >
-              Sign up
+              SIGN UP
             </Button>
           </Stack>
         ) : (
           <Stack direction="row" spacing={1}>
             <Button variant="contained" size="medium" onClick={logoutUser}>
-              Logout
+              LOGOUT
             </Button>
           </Stack>
         )}

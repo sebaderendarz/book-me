@@ -2,8 +2,8 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
+const { REACT_APP_API_BASE_URL } = process.env;
 const AuthContext = createContext();
-const baseURL = "http://127.0.0.1:8000";
 
 export default AuthContext;
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   let loginUser = async (data) => {
     let result = null;
     await axios
-      .post(`${baseURL}/auth/login/customer/`, data)
+      .post(`${REACT_APP_API_BASE_URL}/auth/login/customer/`, data)
       .then((response) => {
         setAuthTokens(response.data);
         setUser(jwt_decode(response.data.access));
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   let registerUser = async (data) => {
     let result = null;
     await axios
-      .post(`${baseURL}/auth/register/`, data)
+      .post(`${REACT_APP_API_BASE_URL}/auth/register/`, data)
       .then((response) => {
         result = response;
       })

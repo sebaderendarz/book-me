@@ -19,7 +19,10 @@ def get_active_service_orders(service_offer_id: int) -> query.QuerySet:
 
 
 def serialize_service_orders(service_orders: query.QuerySet) -> list:
-    return [service_order['service_time'].isoformat() for service_order in service_orders]
+    return [
+        service_order['service_time'].replace(tzinfo=None).isoformat()
+        for service_order in service_orders
+    ]
 
 
 def get_future_service_unavailabilities(service_offer_id: int) -> query.QuerySet:

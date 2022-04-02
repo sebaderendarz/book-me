@@ -12,12 +12,13 @@ class RegisterUserSerializer(rest_serializers.ModelSerializer):
         fields = ('email', 'password', 'name', 'surname', 'account_type', 'accepted_newsletter')
         write_only_fields = ('password',)
 
-    def validate_account_type(self, value: str) -> None:
+    def validate_account_type(self, value: str) -> str:
         if value not in (
             value_objects.AccountType.BARBER.value,
             value_objects.AccountType.CUSTOMER.value,
         ):
             raise rest_serializers.ValidationError(__(f'"{value}" is not a valid choice.'))
+        return value
 
     def validate_password(self, value: str) -> str:
         validators.PasswordLengthValidator().validate(value)
@@ -41,11 +42,9 @@ class TokenObtainPairAdminSerializer(
     def validate(self, attrs: dict) -> dict:
         data = super().validate(attrs)
         self._validate_if_admin()
-
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-
         return data
 
     def get_token(self, user: models.User) -> tokens.RefreshToken:
@@ -69,11 +68,9 @@ class TokenObtainPairBarberSerializer(
     def validate(self, attrs: dict) -> dict:
         data = super().validate(attrs)
         self._validate_if_barber()
-
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-
         return data
 
     def get_token(self, user: models.User) -> tokens.RefreshToken:
@@ -97,11 +94,9 @@ class TokenObtainPairCustomerSerializer(
     def validate(self, attrs: dict) -> dict:
         data = super().validate(attrs)
         self._validate_if_customer()
-
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-
         return data
 
     def get_token(self, user: models.User) -> tokens.RefreshToken:

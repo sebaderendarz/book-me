@@ -2,59 +2,58 @@ const review1 = `# Amazing experience
 
 _March 1, 2022 by [Olivier](https://twitter.com/olivier)_
 
-Duis sed ipsum pretium, vulputate lectus eu, tristique felis. Nam sit amet mollis felis. 
-Pellentesque in orci elit. Cras imperdiet diam nec **magna sollicitudin**, nec semper mi aliquet. 
-
-Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum.
-Aenean lacinia bibendum nulla sed consectetur.
+I stared using BookMe a few months ago and I still cannot believe that booking hairdresser's
+service can be so easy. Game changer!
 
 ## What makes a difference
 
-Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+Bookme stand out from the competition thanks to its simple, user-friendly interface that makes
+booking a hair appointment quick and easy. With just a few clicks, you can book an appointment
+at the hair salon of your choice.
+
+Plus, you can see real-time availability and book immediately.
+Gone are the days of waiting on the phone or scrambling to find an open appointment!
 
 ### **Design**
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+I really appreciate the way BookMe is designed. Details that caught my attention:
 
-- Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-- Donec id elit non mi porta gravida at eget metus.
+- Custom, calm color palette. Such a composition... It's rare, but great!
+- Styling of components with smooth shadows around them.
 
-Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
+Why you should start using BookMe?
 
-1. Vestibulum id ligula porta felis euismod semper.
-1. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+1. Hairdressers offers are much cheaper than on other platforms.
+2. BookMe offers more features than its competitors.
+3. Have you seen how fast it is growing? In two years everybody will be using BookMe.
 
-Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.
+Don't hesitate any longer. Book a hairdresser's service on BookMe and become the part of rapidly
+growing BookMe family.
 `;
 
 const review2 = `# Simplicity is what makes this app offbeat
 
 _February 23, 2022 by [Matt](https://twitter.com/matt)_
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean eu leo quam. Pellentesque _ornare sem lacinia_ quam venenatis vestibulum.
-Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.
+I really like the way that BookMe makes it easy to find the right hairdresser for me.
+I can search by name, city, address, and the recommendations are always spot on.
 
-Curabitur blandit tempus porttitor. **Nullam quis risus eget urna mollis** ornare vel eu leo.
-Nullam id dolor id nibh ultricies vehicula ut id elit.
+Plus, the app makes it easy to keep track of what I booked. One token and everything is clear.
+I highly recommend it to anyone who loves to feel great about his hair!
 `;
 
 const review3 = `# Keep it up, the newest features are great
 
 _February 14, 2022 by [Tom](https://twitter.com/tom)_
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod.
-Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-ut fermentum massa justo sit amet risus.
+BookMe just released some great new features! I think, new goal is to make it the best online
+booking platform for businesses and individuals alike. With new easy-to-use interface,
+I can now manage my bookings and appointments with greater efficiency and convenience than ever before.
 
-- Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-- Donec id elit non mi porta gravida at eget metus.
-- Nulla vitae elit libero, a pharetra augue.
+- Token to confirm my reservation, oh great!
+- Just 3 clicks and service is booked. I'm stunned.
 
-Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
+Plus, new pricing rules imposed on hairdressers make BookMe even more affordable for customers!
 `;
 
 const customerReviews = [review1, review2, review3];

@@ -13,7 +13,7 @@ import AppDescription from "../components/AppDescription";
 const mainImageWithTextProps = {
   title: "Offer Your service easier than ever before...",
   description:
-    "BookMe is a free booking platform, in which you can easily offer hairdresser's service. A few steps and people around a world can book the visit in your hair salon.",
+    "BookMe is a free booking platform, in which you can easily offer hairdresser's service. A few steps and people around a world can book the visit in your hair salon. Sign in to start the journey.",
   image: "https://source.unsplash.com/random/?hairdresser",
   imageText: "Image not available.",
 };

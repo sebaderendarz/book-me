@@ -61,7 +61,7 @@ export default function SignUpPage(props) {
         email: data.get("email"),
         password: data.get("password"),
         accepted_newsletter: acceptedNewsletter,
-        account_type: "CUSTOMER",
+        account_type: accountType,
       }).then((response) => {
         if (response.status < 300) {
           if (response.data && response.data.detail) {

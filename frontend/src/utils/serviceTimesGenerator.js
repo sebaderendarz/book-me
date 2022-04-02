@@ -13,12 +13,12 @@ const generateInitialTimeboxes = ({ date, openHours }) => {
     timeboxes.push({
       isAvail: false,
       hourMinute: `${hour}:00`,
-      dateTime: `${date}T${hour}:00:00`,
+      dateTime: `${date}T${("0" + hour).slice(-2)}:00:00`,
     });
     timeboxes.push({
       isAvail: false,
       hourMinute: `${hour}:30`,
-      dateTime: `${date}T${hour}:30:00`,
+      dateTime: `${date}T${("0" + hour).slice(-2)}:30:00`,
     });
   }
   return timeboxes;

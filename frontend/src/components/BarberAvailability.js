@@ -234,7 +234,7 @@ export default function BarberAvailability(props) {
     contentText: "Successfully booked hairdresser's service.",
     handleModalClose: () => setFinalWordsModalOpen(false),
     headerText: null,
-    highlightedText: "TOKEN HERE - SD1Q34RD",
+    highlightedText: "TOKEN",
   };
 
   const finalWordsCancelledModalProps = {

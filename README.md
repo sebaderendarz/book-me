@@ -2,8 +2,8 @@
 
 ## Development environment configuration
 
-1. Get repo
-2. Create environment variables file in main directory by typing command: `touch .env`
+1. Get repo.
+2. Create environment variables file in main directory by typing command: `touch .env`.
 3. Populate .env according to `.env-sample` file.
 4. Type `make help` to get the list of available commands with descriptions. Go to `Makefile` file to see more details.
 5. Run one of make commands. All commands that end with `-dev` have its counterpart for staging/QA environment. Simply type `-stg` instead. To start the entire stack for the first time run:

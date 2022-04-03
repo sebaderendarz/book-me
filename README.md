@@ -57,6 +57,10 @@ In general, to configure BookMe in the production environment you should follow 
 
 The final goal is to have nginx configuration that can be used to run BookMe on the server with SSL certificate and other security improvements. This work is still in progress. Go to `frontend/nginx`, `docker-compose.yml` and `.env-sample` to check the current status.
 
+## Code formatting and linting
+
+There are linting tools configured to keep the python code in the same style across the entire BE part. Before merging new changes to the `develop` you should run `make format-api` to automatically format code e.g line lenght. After that you should run `make lint-api` to check if linting is correct and make changes accordingly if linting tools found some inconsistencies.
+
 ## Additional notes
 
 To see ERD diagram of the current database structure go to `resources/database_diagram/erd.png`.

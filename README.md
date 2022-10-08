@@ -12,7 +12,7 @@
 make up-dev
 ```
 
-API should be accessible on `localhost:8000` and frontend on `localhost:3000`. Go to `docker-compose_dev.yml` to check ports mapping for other services e.g `grafana`.
+API should be accessible on `localhost:8000` and frontend on `localhost:3000`. Go to `docker-compose.dev.yml` to check ports mapping for other services e.g `grafana`.
 Database should be created automatically and stored in `persistent_data` folder when `make up-dev` is triggered for the first time.
 
 6. Apply migrations:
@@ -55,7 +55,7 @@ make django-dev cmd='loaddata admin_interface_theme_uswds.json'
 
 In general, to configure BookMe in the production environment you should follow the same steps as described [here](#development-environment-configurationdevelopment-environment-configuration).
 
-The final goal is to have nginx configuration that can be used to run BookMe on the server with SSL certificate and other security improvements. This work is still in progress. Go to `frontend/nginx`, `docker-compose.yml` and `.env-sample` to check the current status.
+The final goal is to have nginx configuration that can be used to run BookMe on the server with SSL certificate and other security improvements. This work is still in progress. Go to `frontend/nginx`, `docker-compose.prod.yml` and `.env-sample` to check the current status.
 
 ## Code formatting and linting
 

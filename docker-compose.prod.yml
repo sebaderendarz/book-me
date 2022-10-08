@@ -51,7 +51,7 @@ services:
     depends_on:
       - db
       - redis
-    command: celery --app tasks worker --loglevel ${CELERY_LOG_LEVEL}
+    command: celery --app tasks worker --loglevel WARNING
     volumes:
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static

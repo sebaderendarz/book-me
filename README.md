@@ -83,3 +83,7 @@ cat DUMP_NAME | sudo psql -h 0.0.0.0 -U <postgres-user> <db-name>
 ```bash
 sudo docker exec <container name> pg_dumpall -U <postgres-user> | gzip > <file name>.sql.gzip
 ```
+
+## Other Notes
+
+1. When searching for a free domain on freenom.com you need to specify a full domain, with country code like `example.tk`. Otherwise you will see that the domain you are insterested in is not available in any country!

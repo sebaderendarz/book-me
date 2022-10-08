@@ -83,7 +83,6 @@ services:
     build:
       context: ./proxy
     depends_on:
-      - api
       - frontend
     env_file:
       - env_vars/.env_proxy

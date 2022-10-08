@@ -1,7 +1,7 @@
 .PHONY: help up-dev pause-dev start-dev stop-dev clean-dev build-dev restart-service-dev reload-service-dev up-stg pause-stg start-stg stop-stg clean-stg build-stg restart-service-stg django-makemigrations django-migrate-dev django-migrate-stg django-dev django-stg django-superuser-dev django-superuser-stg
 
 # docker-compose stacks
-DEV_COMPOSE=--file docker-compose.dev.yml
+DEV_COMPOSE=--file docker-compose.prod.yml --file docker-compose.dev.yml
 STG_COMPOSE=--file docker-compose.prod.yml
 
 # Get SHA and and branch name of git HEAD. Might be useful when running some commands.

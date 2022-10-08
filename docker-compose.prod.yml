@@ -54,7 +54,7 @@ services:
       - REACT_APP_WS_BASE_URL
 
   db:
-    image: postgres:14.1
+    image: postgres:14.5
     restart: always
     volumes:
       - ./persistent_data/pg_data:/var/lib/postgresql/data

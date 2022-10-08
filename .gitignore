@@ -44,6 +44,7 @@ api_rest/poetry.lock
 env_vars/*
 !env_vars/*-sample
 !env_vars/README.md
+env_vars-dev-sample
 persistent_data
 */tmp/*
 frontend/node_modules

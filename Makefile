@@ -73,6 +73,9 @@ build-prod: ## build production services
 restart-service-prod: ## restart production service, usage: `make service=api restart-service-prod`
 	docker-compose $(PROD_COMPOSE) restart $(service)
 
+reload-service-dev: ## reload production service, usage: `make service=api reload-service-prod`
+	docker-compose $(PROD_COMPOSE) up -d --build --force-recreate $(service)
+
 
 # ==========================================================================================================
 # Django development commands

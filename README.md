@@ -23,9 +23,11 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
 12. Run `install_deps.sh` script. You might be prompted to type sudo password a few times.
 13. Configure env vars for each container. Copy/paste the correct `env_vars/*-sample` file to the same directory, remove `-sample` suffix from the file name and specify correct values for variables in the file.
     1. Article explaining CORS configuration in Django [LINK](https://www.stackhawk.com/blog/django-cors-guide/#what-is-cors).
-14. Run `make up-prod`. To see the full list of available commands run `make help`.
-15. Containers should be running now. If there are some problems start investigation from checking docker container logs.
-16. Django based API needs some manual steps to have it ready for the production use:
+    2. The best would be to take a look at values that were specified for these variables on some server running in the past.
+14. Check nginx config files and `run.sh` script located in the `proxy` directory. Adjust domain names and other values accordingly, if needed.
+15. Run `make up-prod`. To see the full list of available commands run `make help`.
+16. Containers should be running now. If there are some problems start investigation from checking docker container logs.
+17. Django based API needs some manual steps to have it ready for the production use:
     1. Apply db migrations by running `make migrate-prod`.
     2. Collect static files needed to make Django Admin Panel working properly by running `make collectstatic-prod`.
     3. By default green Django theme is used, but theme should be changed to USWDS. Add USWDS theme by running `make django-prod cmd='loaddata admin_interface_theme_uswds.json'`.
@@ -38,8 +40,8 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
        1. Logo to the one located in `frontend/public/media/bookme_200_white.png`.
        2. Favicon to the one located in `frontend/public/media/bookme_200_white.png`.
        3. Title to `BookMe`.
-17. Trigger `get_certbot_certificate.sh` script that creates ssl certificate in the cerbot container and saves this certificate in docker volume to make it reusable. After certificate is created you need to reload the proxy container to start using the newly created ssl certificate.
-18. Configure cron job to run `renew_certbot_certificate.sh` script to update the ssl certificate automatically:
+18. Trigger `get_certbot_certificate.sh` script that creates ssl certificate in the cerbot container and saves this certificate in docker volume to make it reusable. After certificate is created you need to reload the proxy container to start using the newly created ssl certificate.
+19. Configure cron job to run `renew_certbot_certificate.sh` script to update the ssl certificate automatically:
     1. Run `crontab -e`.
     2. Add `0 0 * * 2 sh /home/ec2-user/renew_certbot_certificate.sh` to cron configuration to renew the certificate weekly at MON-TUE midnight.
 

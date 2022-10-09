@@ -84,6 +84,27 @@ cat DUMP_NAME | sudo psql -h 0.0.0.0 -U <postgres-user> <db-name>
 sudo docker exec <container name> pg_dumpall -U <postgres-user> | gzip > <file name>.sql.gzip
 ```
 
-## Other Notes
+## Deployment
 
-1. When searching for a free domain on freenom.com you need to specify a full domain, with country code like `example.tk`. Otherwise you will see that the domain you are insterested in is not available in any country!
+Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-deployment-with-https-using-letsencrypt/) -> [YT VERSION](https://www.youtube.com/watch?v=3_ZJWlf25bY). Description here is an extended version of this tutorial adjusted for book-me use case.
+
+1. Buy a free domain on www.freenom.com. Country will be quite unknown like `bookme.tk`, but it does not metter.
+   1. When searching for a free domain you need to specify a full domain, with country code like `example.tk`. Otherwise you will see that the domain you are insterested in is not available in any country.
+2. Add a ssh key pair for ec2 instances - import the public ssh key for your local machine. It is needed to log into ec2 instace via ssh.
+   1. Other solution is to log into ec2 instance only through AWS management console.
+3. Spin up AWS ec2 t2.micro instance with 25GB of disk space.No need of Elastic IP address. You just need Public IPv4 DNS address that is assigned automatically.
+   1. Remember to specify the ssh key pair you just created.
+4. Add CNAME record to the AWS hosted zone. Pass ec2 instance Public IPv4 DNS address as target.
+5. Create a hosted zone in AWS Route 53 for the domain.
+6. Create A record for the hosted zone pointing to the default name (hosted zone name) and targeting the ec2 instance Public IPv4 address.
+   1. You can create CNAME record pointing to the Public IPv4 DNS address, but then you need to specify the subdomain.
+   2. Remember that both Public IPv4 and Public IPv4 DNS addresses change when you shutdown and restart the ec2 instance! In case you don't want such behaviour you should use an instance offered by other cloud provider with a stable public IP address or purchase Elastic IP address in AWS.
+7. Log into ec2 instance `ssh ec2-user@<Public IPv4 DNS>`.
+8. Run `ssh-keygen -t ed25519 -C 'Github BookMe Deploy key'` to generate a new ssh key.
+9. Take the newly created ssh public key and add this key to the remote repo deploy keys. This way you grant access to the remote repo for the ec2 instance.
+10. Run `sudo yum install -y git` to install git.
+11. Pull the app repo from remote. Use ssh based URL.
+12. `chmod +x` scripts in the scipts folder located at the top level directory of the repo.
+13. Run `install_deps.sh` script. You might be prompted to type sudo password a few times.
+14. Configure env vars for each container. Copy/paste the correct `env_vars/*-sample` file to the same directory, remove `-sample` suffix from the file name and specify correct values for variables in the file.
+15. 

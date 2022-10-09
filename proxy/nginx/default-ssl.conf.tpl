@@ -5,7 +5,7 @@ log_format upstream_time '$remote_addr - $remote_user [$time_local] '
 
 server {
     listen 80;
-    server_name api.${DOMAIN} www.api.${DOMAIN};
+    server_name api.bookme.tk www.api.bookme.tk;
 
     access_log /var/log/nginx/access.log upstream_time;
     error_log /var/log/nginx/error.log error;
@@ -21,14 +21,14 @@ server {
 
 server {
     listen      443 ssl;
-    server_name api.${DOMAIN} www.api.${DOMAIN};
+    server_name api.bookme.tk www.api.bookme.tk;
 
     client_max_body_size 10M;
     access_log /var/log/nginx/access.log upstream_time;
     error_log /var/log/nginx/error.log error;
 
-    ssl_certificate     /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/bookme.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/bookme.tk/privkey.pem;
 
     include     /etc/nginx/options-ssl-nginx.conf;
 
@@ -51,6 +51,6 @@ server {
         proxy_connect_timeout 300;
         proxy_send_timeout 300; 
         proxy_set_header Host $http_host;
-        proxy_pass http://${API_HOST}:${API_PORT};
+        proxy_pass http://api:8000;
     }
 }

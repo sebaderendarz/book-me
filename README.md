@@ -10,11 +10,11 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
    1. Other solution is to log into ec2 instance only through AWS management console.
 3. Spin up AWS ec2 t2.micro instance with 25GB of disk space.No need of Elastic IP address. You just need Public IPv4 DNS address that is assigned automatically.
    1. Remember to specify the ssh key pair you just created.
-4. Add CNAME record to the AWS hosted zone. Pass ec2 instance Public IPv4 DNS address as target.
-5. Create a hosted zone in AWS Route 53 for the domain.
-6. Create A record for the hosted zone pointing to the default name (hosted zone name) and targeting the ec2 instance Public IPv4 address.
+4. Create a hosted zone in AWS Route 53 for the domain.
+5. Create hosted zone A records pointing to the default name (hosted zone name) and subdomains like `api.bookme.tk`. All domains should target the ec2 instance Public IPv4 address.
    1. You can create CNAME record pointing to the Public IPv4 DNS address, but then you need to specify the subdomain.
    2. Remember that both Public IPv4 and Public IPv4 DNS addresses change when you shutdown and restart the ec2 instance! In case you don't want such behaviour you should use an instance offered by other cloud provider with a stable public IP address or purchase Elastic IP address in AWS.
+6. Go to Freenom and configure custom domain nameservers for your domain. Take nameservers specified in the AWS hosted zone NS record. [Useful Link](https://medium.com/@kcabading/getting-a-free-domain-for-your-ec2-instance-3ac2955b0a2f). Nameserver is like a phonebook. DNS records are like phone numbers in the phonebook. By changing nameservers to AWS ones you move the management of DNS from Freenom to AWS hosted zone.
 7. Log into ec2 instance `ssh ec2-user@<Public IPv4 DNS>`.
 8. Run `ssh-keygen -t ed25519 -C 'Github BookMe Deploy key'` to generate a new ssh key.
 9. Take the newly created ssh public key and add this key to the remote repo deploy keys. This way you grant access to the remote repo for the ec2 instance.

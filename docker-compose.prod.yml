@@ -30,10 +30,6 @@ services:
     ports:
       - 1337:80
     restart: always
-    volumes:
-      - ./persistent_data/media:/var/lib/media
-      - ./persistent_data/static:/var/lib/static
-      - ./persistent_data/log/nginx:/var/log/nginx/
 
   db:
     env_file:
@@ -94,6 +90,7 @@ services:
       - certbot-web:/vol/www
       - proxy-dhparams:/vol/proxy
       - certbot-certs:/etc/letsencrypt
+      - ./persistent_data/log/nginx:/var/log/nginx
 
   certbot:
     build:

@@ -104,7 +104,6 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
 9. Take the newly created ssh public key and add this key to the remote repo deploy keys. This way you grant access to the remote repo for the ec2 instance.
 10. Run `sudo yum install -y git` to install git.
 11. Pull the app repo from remote. Use ssh based URL.
-12. `chmod +x` scripts in the scipts folder located at the top level directory of the repo.
-13. Run `install_deps.sh` script. You might be prompted to type sudo password a few times.
-14. Configure env vars for each container. Copy/paste the correct `env_vars/*-sample` file to the same directory, remove `-sample` suffix from the file name and specify correct values for variables in the file.
-15. 
+12. Run `install_deps.sh` script. You might be prompted to type sudo password a few times.
+13. Configure env vars for each container. Copy/paste the correct `env_vars/*-sample` file to the same directory, remove `-sample` suffix from the file name and specify correct values for variables in the file.
+14. 

@@ -25,7 +25,10 @@ RUN apt-get update \
         curl \
         build-essential
 
-RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+#  poetry must be installed using its own installer to prevent poetry dependencies from being
+#  overridden by application dependencies
+RUN curl -sSL https://install.python-poetry.org | python3 - --version 1.1.14
+
 
 WORKDIR $PYSETUP_PATH
 # Thanks to poetry.lock copied in the line below dependencies will not be resolved after each

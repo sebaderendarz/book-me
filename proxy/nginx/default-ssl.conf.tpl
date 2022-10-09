@@ -36,20 +36,10 @@ server {
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
-    # location /media {
-    #     autoindex off;
-    #     alias /var/lib/media/;
-    # }
-
-    # location /static {
-    #    autoindex off;
-    #     alias /var/lib/static/;
-    # }
-
     location / {
-        proxy_read_timeout 300;
-        proxy_connect_timeout 300;
-        proxy_send_timeout 300; 
+        proxy_read_timeout 60;
+        proxy_connect_timeout 60;
+        proxy_send_timeout 60; 
         proxy_set_header Host $http_host;
         proxy_pass http://api:8000;
     }

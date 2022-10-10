@@ -27,6 +27,7 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
 14. Check nginx config files and `run.sh` script located in the `proxy` directory. Adjust domain names and other values accordingly, if needed.
 15. Run `make up-prod`. To see the full list of available commands run `make help`.
 16. Containers should be running now. If there are some problems start investigation from checking docker container logs.
+    1. It is possible that `prometheus` and `grafana` are dead because of missing permissions (check container logs). You need to run `sudo chmod og+w persistent_data/grafana/` and `sudo chmod og+w persistent_data/prometheus/`. This is not the best way to solve the issue, but works. Other way would be to e.g create a custom Dockerfile based on default docker image, add a new user and chown mounted volume's path to this user.
 17. Django based API needs some manual steps to have it ready for the production use:
     1. Apply db migrations by running `make migrate-prod`.
     2. Collect static files needed to make Django Admin Panel working properly by running `make collectstatic-prod`.

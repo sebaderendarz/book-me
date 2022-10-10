@@ -93,6 +93,6 @@ server {
         proxy_connect_timeout 60;
         proxy_send_timeout 60; 
         proxy_set_header Host $http_host;
-        proxy_pass http://api:8000;
+        proxy_pass http://grafana:3000;
     }
 }

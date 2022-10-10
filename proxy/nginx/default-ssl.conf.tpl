@@ -5,7 +5,7 @@ log_format upstream_time '$remote_addr - $remote_user [$time_local] '
 
 server {
     listen 80;
-    server_name bookme.tk www.bookme.tk;
+    server_name api.bookme.tk bookme.tk monitoring.bookme.tk;
 
     access_log /var/log/nginx/access.log upstream_time;
     error_log /var/log/nginx/error.log error;
@@ -21,7 +21,33 @@ server {
 
 server {
     listen      443 ssl;
-    server_name bookme.tk www.bookme.tk;
+    server_name api.bookme.tk;
+
+    client_max_body_size 10M;
+    access_log /var/log/nginx/access.log upstream_time;
+    error_log /var/log/nginx/error.log error;
+
+    ssl_certificate     /etc/letsencrypt/live/api.bookme.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.bookme.tk/privkey.pem;
+
+    include     /etc/nginx/options-ssl-nginx.conf;
+
+    ssl_dhparam /vol/proxy/ssl-dhparams.pem;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    location / {
+        proxy_read_timeout 60;
+        proxy_connect_timeout 60;
+        proxy_send_timeout 60; 
+        proxy_set_header Host $http_host;
+        proxy_pass http://api:8000;
+    }
+}
+
+server {
+    listen      443 ssl;
+    server_name bookme.tk;
 
     client_max_body_size 10M;
     access_log /var/log/nginx/access.log upstream_time;
@@ -42,5 +68,31 @@ server {
         proxy_send_timeout 60; 
         proxy_set_header Host $http_host;
         proxy_pass http://api:8000;
+    }
+}
+
+server {
+    listen      443 ssl;
+    server_name monitoring.bookme.tk;
+
+    client_max_body_size 10M;
+    access_log /var/log/nginx/access.log upstream_time;
+    error_log /var/log/nginx/error.log error;
+
+    ssl_certificate     /etc/letsencrypt/live/monitoring.bookme.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/monitoring.bookme.tk/privkey.pem;
+
+    include     /etc/nginx/options-ssl-nginx.conf;
+
+    ssl_dhparam /vol/proxy/ssl-dhparams.pem;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    location / {
+        proxy_read_timeout 60;
+        proxy_connect_timeout 60;
+        proxy_send_timeout 60; 
+        proxy_set_header Host $http_host;
+        proxy_pass http://grafana:3000;
     }
 }

@@ -13,12 +13,15 @@ fi
 # export request_uri=\$request_uri
 
 echo "Checking for fullchain.pem"
-if [ ! -f "/etc/letsencrypt/live/bookme.tk/fullchain.pem" ]; then
-  echo "No SSL cert, enabling HTTP only..."
+if [ ! -f "/etc/letsencrypt/live/api.bookme.tk/fullchain.pem" ||
+     ! -f "/etc/letsencrypt/live/bookme.tk/fullchain.pem" ||
+     ! -f "/etc/letsencrypt/live/monitoring.bookme.tk/fullchain.pem"
+]; then
+  echo "No SSL certs, enabling HTTP only..."
   # envsubst < /etc/nginx/default.conf.tpl > /etc/nginx/conf.d/default.conf
   cp /etc/nginx/default.conf.tpl /etc/nginx/conf.d/default.conf
 else
-  echo "SSL cert exists, enabling HTTPS..."
+  echo "SSL certs exist, enabling HTTPS..."
   # envsubst < /etc/nginx/default-ssl.conf.tpl > /etc/nginx/conf.d/default.conf
   cp /etc/nginx/default-ssl.conf.tpl /etc/nginx/conf.d/default.conf
 fi

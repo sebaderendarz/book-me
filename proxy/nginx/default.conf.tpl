@@ -5,7 +5,7 @@ log_format upstream_time '$remote_addr - $remote_user [$time_local] '
 
 server {
     listen 80;
-    server_name bookme.tk www.bookme.tk;
+    server_name api.bookme.tk bookme.tk monitoring.bookme.tk;
 
     access_log /var/log/nginx/access.log upstream_time;
     error_log /var/log/nginx/error.log error;

@@ -17,4 +17,4 @@ RUN npm ci --silent
 COPY . ./
 
 # build app
-CMD ["npm", "run", "build"]
+RUN npm run build

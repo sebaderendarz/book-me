@@ -41,6 +41,10 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
        2. Favicon to the one located in `frontend/public/media/bookme_200_white.png`.
        3. Title to `BookMe`.
 18. Trigger `get_certbot_certificates.sh` script that creates ssl certificate in the cerbot container and saves this certificate in docker volume to make it reusable. After certificate is created you need to reload the proxy container to start using the newly created ssl certificate.
+    1. There will be separate Let's Encrypt certificates for api, client and monitoring apps. Check scripts and nginx config to get more details
+    2. It is possible to have only one certificate for all domains specified when generating the certificate, but I decided to generate separate ones.
+    3. It is also possible to generate a wildcard SSL certificate that will be handling all subdomains. Such certificate do not use ACME, but DNS challenge. You need to configure DNS record of type TXT etc. More robust, but also more complicated to configure and setup auto-renewal.
+    4. Channel on YT with many good tutorials about server configuration [LINK](https://www.youtube.com/watch?v=VJPfdXN-dSc).
 19. Configure cron job to run `renew_certbot_certificates.sh` script to update the ssl certificate automatically:
     1. Run `crontab -e`.
     2. Add `0 0 * * 2 sh /home/ec2-user/renew_certbot_certificates.sh` to cron configuration to renew the certificate weekly at MON-TUE midnight.

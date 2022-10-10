@@ -36,7 +36,7 @@ services:
     volumes:
       - /app/node_modules # hack to not overwrite node_modules in container
       - ./frontend:/app
-      - ./persistent_data/log/nginx:/var/log/nginx/
+      - ./persistent_data/log/nginx:/var/log/nginx
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static
 
@@ -89,4 +89,4 @@ services:
       - 9090:9090
     volumes:
       - ./persistent_data/prometheus:/data
-      - ./prometheus/:/etc/prometheus/
+      - ./prometheus/:/etc/prometheus

@@ -63,11 +63,15 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     location / {
-        proxy_read_timeout 60;
-        proxy_connect_timeout 60;
-        proxy_send_timeout 60; 
-        proxy_set_header Host $http_host;
-        proxy_pass http://api:8000;
+        root   /vol/html;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+
+    location /50x.html {
+        root   /vol/html;
     }
 }
 

@@ -14,10 +14,10 @@ services:
       - env_vars/.env_api
     restart: always
     volumes:
+      - ./persistent_data/log/api/daphne:/var/log/api/daphne
+      - ./persistent_data/log/api/django:/var/log/api/django
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static
-      - ./persistent_data/log/api/django:/var/log/api/django
-      - ./persistent_data/log/api/daphne:/var/log/api/daphne
 
   frontend:
     build:
@@ -30,6 +30,8 @@ services:
     ports:
       - 1337:80
     restart: always
+    volumes:
+      - client-app:/app/build
 
   db:
     env_file:
@@ -51,9 +53,9 @@ services:
       - env_vars/.env_api
     restart: always
     volumes:
+      - ./persistent_data/log/api/celery:/var/log/api/celery
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static
-      - ./persistent_data/log/api/celery:/var/log/api/celery
 
   redis:
     image: redis:6.2-buster
@@ -72,8 +74,8 @@ services:
       - '--storage.tsdb.path=/data'
     image: prom/prometheus:v2.33.1
     volumes:
-      - ./prometheus/:/etc/prometheus/
       - ./persistent_data/prometheus:/data
+      - ./prometheus/:/etc/prometheus
 
   proxy:
     build:
@@ -85,10 +87,11 @@ services:
       - 443:443
     restart: always
     volumes:
-      - certbot-web:/vol/www
-      - proxy-dhparams:/vol/proxy
-      - certbot-certs:/etc/letsencrypt
       - ./persistent_data/log/nginx:/var/log/nginx
+      - certbot-certs:/etc/letsencrypt
+      - certbot-web:/vol/www
+      - client-app:/vol/html
+      - proxy-dhparams:/vol/proxy
 
   certbot:
     build:
@@ -99,10 +102,11 @@ services:
     env_file:
       - env_vars/.env_certbot
     volumes:
+      - certbot-certs:/etc/letsencrypt
       - certbot-web:/vol/www
-      - certbot-certs:/etc/letsencrypt/
 
 volumes:
   certbot-certs:
   certbot-web:
+  client-app:
   proxy-dhparams:

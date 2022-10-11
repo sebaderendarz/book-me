@@ -27,8 +27,6 @@ services:
       - api
     env_file:
       - env_vars/.env_frontend
-    ports:
-      - 1337:80
     restart: 'no'
     volumes:
       - client-app:/app/build

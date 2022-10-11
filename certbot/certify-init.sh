@@ -12,12 +12,34 @@ until nc -z proxy 80; do
     sleep 5s & wait ${!}
 done
 
-echo "Getting certificate..."
+echo "Getting certificate for api..."
 
 certbot certonly \
     --webroot \
     --webroot-path "/vol/www/" \
-    -d "$DOMAIN" \
+    -d "$API_DOMAIN" \
+    --email $EMAIL \
+    --rsa-key-size 4096 \
+    --agree-tos \
+    --noninteractive
+
+echo "Getting certificate for client app..."
+
+certbot certonly \
+    --webroot \
+    --webroot-path "/vol/www/" \
+    -d "$APP_DOMAIN" \
+    --email $EMAIL \
+    --rsa-key-size 4096 \
+    --agree-tos \
+    --noninteractive
+
+echo "Getting certificate for monitoring app..."
+
+certbot certonly \
+    --webroot \
+    --webroot-path "/vol/www/" \
+    -d "$MONITORING_DOMAIN" \
     --email $EMAIL \
     --rsa-key-size 4096 \
     --agree-tos \

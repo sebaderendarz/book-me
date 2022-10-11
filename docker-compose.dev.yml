@@ -36,7 +36,7 @@ services:
     volumes:
       - /app/node_modules # hack to not overwrite node_modules in container
       - ./frontend:/app
-      - ./persistent_data/log/nginx:/var/log/nginx/
+      - ./persistent_data/log/nginx:/var/log/nginx
       - ./persistent_data/media:/var/lib/media
       - ./persistent_data/static:/var/lib/static
 
@@ -54,7 +54,7 @@ services:
     build: 
       context: ./api
       target: development
-    command: celery --app tasks worker --loglevel ${CELERY_LOG_LEVEL}
+    command: celery --app tasks worker --loglevel INFO
     depends_on:
       - db
       - redis
@@ -72,17 +72,21 @@ services:
     restart: always
 
   grafana:
-    image: grafana/grafana:8.3.6
-    volumes: 
-      - ./persistent_data/grafana:/var/lib/grafana
     depends_on: 
       - prometheus
+    image: grafana/grafana:8.3.6
+    ports:
+      - 4000:3000
+    volumes: 
+      - ./persistent_data/grafana:/var/lib/grafana
 
   prometheus:
-    image: prom/prometheus:v2.33.1
-    volumes:
-      - ./persistent_data/prometheus:/data
-      - ./prometheus/:/etc/prometheus/
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/data'
+    image: prom/prometheus:v2.33.1
+    ports:
+      - 9090:9090
+    volumes:
+      - ./persistent_data/prometheus:/data
+      - ./prometheus/:/etc/prometheus

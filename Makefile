@@ -1,8 +1,8 @@
-.PHONY: help up-dev pause-dev start-dev stop-dev clean-dev build-dev restart-service-dev reload-service-dev up-stg pause-stg start-stg stop-stg clean-stg build-stg restart-service-stg django-makemigrations django-migrate-dev django-migrate-stg django-dev django-stg django-superuser-dev django-superuser-stg
+.PHONY: help up-dev pause-dev start-dev stop-dev clean-dev build-dev restart-service-dev reload-service-dev up-prod pause-prod start-prod stop-prod clean-prod build-prod restart-service-prod django-makemigrations django-migrate-dev django-migrate-prod django-dev django-prod django-superuser-dev django-superuser-prod
 
 # docker-compose stacks
 DEV_COMPOSE=--file docker-compose.dev.yml
-STG_COMPOSE=--file docker-compose.prod.yml
+PROD_COMPOSE=--file docker-compose.prod.yml
 
 # Get SHA and and branch name of git HEAD. Might be useful when running some commands.
 SHA1 := $(shell git rev-parse HEAD)
@@ -49,33 +49,36 @@ lint-api: ## run linters for api
 
 
 # ==========================================================================================================
-# commands for staging, docker-compose production version
+# commands for production environment, docker-compose production version
 # ==========================================================================================================
 
-up-stg: ## create and start services for staging/QA environment (with web server running on: http://localhost:1337)
-	docker-compose $(STG_COMPOSE) up -d --build --remove-orphans
+up-prod: ## create and start services for production environment
+	docker-compose $(PROD_COMPOSE) up -d --build --remove-orphans
 
-pause-stg: ## pause staging/QA services (useful to save CPU)
-	docker-compose $(STG_COMPOSE) pause $(containers)
+pause-prod: ## pause production services (useful to save CPU)
+	docker-compose $(PROD_COMPOSE) pause $(containers)
 
-start-stg: ## start staging/QA services
-	docker-compose $(STG_COMPOSE) start $(containers)
+start-prod: ## start production services
+	docker-compose $(PROD_COMPOSE) start $(containers)
 
-stop-stg: ## stop staging/QA services
-	docker-compose $(STG_COMPOSE) stop $(containers)
+stop-prod: ## stop production services
+	docker-compose $(PROD_COMPOSE) stop $(containers)
 
-clean-stg: ## stop and remove containers and volumes for staging/QA environment
-	docker-compose $(STG_COMPOSE) down --remove-orphans --volumes
+clean-prod: ## stop and remove containers and volumes for production environment
+	docker-compose $(PROD_COMPOSE) down --remove-orphans --volumes
 
-build-stg: ## build staging/QA services
-	docker-compose $(STG_COMPOSE) build --no-cache $(containers)
+build-prod: ## build production services
+	docker-compose $(PROD_COMPOSE) build --no-cache $(containers)
 
-restart-service-stg: ## restart staging/QA service, usage: `make service=api restart-service-stg`
-	docker-compose $(STG_COMPOSE) restart $(service)
+restart-service-prod: ## restart production service, usage: `make service=api restart-service-prod`
+	docker-compose $(PROD_COMPOSE) restart $(service)
+
+reload-service-prod: ## reload production service, usage: `make service=api reload-service-prod`
+	docker-compose $(PROD_COMPOSE) up -d --build --force-recreate $(service)
 
 
 # ==========================================================================================================
-# Django dev commands
+# Django development commands
 # ==========================================================================================================
 
 makemigrations: ## generate migrations for django apps, usage: `make apps='barber customer' django-makemigrations`
@@ -98,20 +101,20 @@ collectstatic-dev: ## collect static files needed to make django admin work prop
 
 
 # ==========================================================================================================
-# Django staging/QA commands
+# Django production commands
 # ==========================================================================================================
 
-django-stg: ## run django management commands via make in staging/QA environment, usage: `make django-stg cmd='migrate barber'`
-	docker-compose $(STG_COMPOSE) exec api python manage.py $(cmd)
+django-prod: ## run django management commands via make in production environment, usage: `make django-prod cmd='migrate barber'`
+	docker-compose $(PROD_COMPOSE) exec api python manage.py $(cmd)
 
-shell-stg: ## get into django shell in staging/QA environment
-	docker-compose $(STG_COMPOSE) exec api python manage.py shell
+shell-prod: ## get into django shell in production environment
+	docker-compose $(PROD_COMPOSE) exec api python manage.py shell
 
-migrate-stg: ## apply migration for django app in staging/QA environment, usage: `make app='barber' django-migrate-stg`
-	docker-compose $(STG_COMPOSE) exec -T api python manage.py migrate $(app)
+migrate-prod: ## apply migration for django app in production environment, usage: `make app='barber' django-migrate-prod`
+	docker-compose $(PROD_COMPOSE) exec -T api python manage.py migrate $(app)
 
-superuser-stg: ## create admin account in staging/QA environment
-	docker-compose $(STG_COMPOSE) exec api python manage.py createsuperuser
+superuser-prod: ## create admin account in production environment
+	docker-compose $(PROD_COMPOSE) exec api python manage.py createsuperuser
 
-collectstatic-stg: ## collect static files needed to make django admin work properly in staging/QA environment
-	docker-compose $(STG_COMPOSE) exec api python manage.py collectstatic
+collectstatic-prod: ## collect static files needed to make django admin work properly in production environment
+	docker-compose $(PROD_COMPOSE) exec api python manage.py collectstatic

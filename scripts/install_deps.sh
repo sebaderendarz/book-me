@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # USE CASE: install dependencies (docker, docker-compose, git) needed to deploy the stack
 
@@ -13,6 +14,3 @@ sudo usermod -aG docker ec2-user
 wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)
 sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-
-# Install Git
-sudo yum install -y git

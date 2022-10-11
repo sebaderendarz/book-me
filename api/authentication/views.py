@@ -3,7 +3,7 @@ import uuid
 from django import urls
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as __
-from rest_framework import permissions, request, response, status, views as rest_views
+from rest_framework import request, response, status, views as rest_views
 from rest_framework_simplejwt import views as jwt_views
 
 from authentication import exceptions, models, serializers, value_objects
@@ -92,7 +92,6 @@ class TokenObtainPairCustomerView(jwt_views.TokenViewBase):
 
 
 class PingView(rest_views.APIView):
-    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request: request.Request) -> response.Response:
         return response.Response({'ping': 'pong'})

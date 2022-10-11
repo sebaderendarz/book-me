@@ -18,3 +18,5 @@ COPY . ./
 
 # build app
 RUN npm run build
+
+CMD ["echo", "'Client app built successfully and saved to /app/build'"]

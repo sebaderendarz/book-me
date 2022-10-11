@@ -40,7 +40,7 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Connection "upgrade";
         proxy_set_header Upgrade $http_upgrade;
-        proxy_pass http://api:8000/websockets;
+        proxy_pass http://api:8000/websockets/;
     }
 
     location / {

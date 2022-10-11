@@ -36,6 +36,13 @@ server {
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
+    location /websockets/ {
+        proxy_http_version: 1.1;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_pass http://api:8000/websockets;
+    }
+
     location / {
         proxy_read_timeout 60;
         proxy_connect_timeout 60;

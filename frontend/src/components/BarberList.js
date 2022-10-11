@@ -22,15 +22,10 @@ export default function BarberList(props) {
   const api = useAxios();
 
   useEffect(() => {
-    setPage(0);
+    setPage(page);
     getFilteredBarbers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchPhrase, rowsPerPage]);
-
-  useEffect(() => {
-    getFilteredBarbers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, searchPhrase, rowsPerPage]);
 
   const getFilteredBarbers = () => {
     api

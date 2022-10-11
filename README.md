@@ -24,6 +24,7 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
 13. Configure env vars for each container. Copy/paste the correct `env_vars/*-sample` file to the same directory, remove `-sample` suffix from the file name and specify correct values for variables in the file.
     1. Article explaining CORS configuration in Django [LINK](https://www.stackhawk.com/blog/django-cors-guide/#what-is-cors).
     2. The best would be to take a look at values that were specified for these variables on some server running in the past.
+    3. Django app is configured to use Sendgrid as a mailing provider. Sendgrid offers free 100 emails/day and you can create custom email templates.
 14. Check nginx config files and `run.sh` script located in the `proxy` directory. Adjust domain names and other values accordingly, if needed.
 15. Run `make up-prod`. To see the full list of available commands run `make help`.
 16. Containers should be running now. If there are some problems start investigation from checking docker container logs.

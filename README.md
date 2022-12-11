@@ -1,5 +1,7 @@
 # **BookMe - hairdresser service booking platform**
 
+App for matching hairdressers with potential clients. Backend in Django + Django Admin. Frontend in React. Monitoring covered by Prometheus + Grafana. Everything containerized and ready to run as a docker-compose stack. Auto renewal of SSL certificates with certbot.
+
 ## Deployment
 
 Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-deployment-with-https-using-letsencrypt/) -> [YT VERSION](https://www.youtube.com/watch?v=3_ZJWlf25bY). Description here is an extended version of this tutorial adjusted for the BookMe use case.

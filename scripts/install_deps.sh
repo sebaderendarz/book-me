@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-# USE CASE: install dependencies (docker, docker-compose, git) needed to deploy the stack
+# USE CASE: Install dependencies (docker, docker-compose, git) needed to deploy the stack.
 
 # Install Docker
 sudo yum update -y

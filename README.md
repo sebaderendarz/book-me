@@ -1,5 +1,7 @@
 # **BookMe - hairdresser service booking platform**
 
+App for matching hairdressers with potential clients. Backend in Django + Django Admin. Frontend in React. Monitoring covered by Prometheus + Grafana. Everything containerized and ready to run as a docker-compose stack. Auto renewal of SSL certificates with certbot.
+
 ## Deployment
 
 Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-deployment-with-https-using-letsencrypt/) -> [YT VERSION](https://www.youtube.com/watch?v=3_ZJWlf25bY). Description here is an extended version of this tutorial adjusted for the BookMe use case.
@@ -49,7 +51,7 @@ Great tutorial [LONDON APP DEV](https://londonappdeveloper.com/django-docker-dep
     4. Channel on YT with many good tutorials about server configuration [LINK](https://www.youtube.com/watch?v=VJPfdXN-dSc).
 19. Configure cron job to run `renew_certbot_certificates.sh` script to update the ssl certificate automatically:
     1. Run `crontab -e`.
-    2. Add `0 0 * * 2 sh /home/ec2-user/renew_certbot_certificates.sh` to cron configuration to renew the certificate weekly at MON-TUE midnight.
+    2. Add `0 0 * * 2 sh /home/ec2-user/book-me/scripts/renew_certbot_certificates.sh` to cron configuration to renew the certificate weekly at MON-TUE midnight.
 
 ## Additional Deployment Steps
 
